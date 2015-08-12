@@ -3,9 +3,7 @@ Import databases
 """
 from os import path
 
-from wp5.load import load_vessel_data
-from wp5.load import load_equipment_data
-from wp5.load import load_port_data
+from wp5.load import load_vessel_data, load_equipment_data, load_port_data
 from wp5.logistics.operations import logOp_init
 from wp5.logistics.phase import logPhase_init
 
