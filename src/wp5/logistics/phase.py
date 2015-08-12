@@ -77,7 +77,7 @@ class op_sequence(object):
 ####
 """
 
-def logPhase_init(logOp, vessels, equipments):
+def logPhase_install_init(logOp, vessels, equipments):
 
     """
     Initialize the logistic phases through LogPhase classes
@@ -96,8 +96,6 @@ def logPhase_init(logOp, vessels, equipments):
                         'D_fixed'    : LogPhase(120, "Installation of bottom fixed devices", {}, {}),
                         'D_floating' : LogPhase(121, "Installation of floating devices", {}, {})
                         }
-
-    logPhase_OM = {'insp' : LogPhase(900, "O&M offshore intervention", {}, {})}
 
     """
     Define the diferent operations sequence for each logistic phase
@@ -253,4 +251,25 @@ def logPhase_init(logOp, vessels, equipments):
                                                        'equipment': (1, equipments['Drill Rig'])})
 
 
-    return logPhase_install, logPhase_OM
+    return logPhase_install, 
+    
+def logPhase_OM_init(logOp, vessels, equipments):
+
+    """
+    Initialize the logistic phases through LogPhase classes
+    """
+
+    logPhase_OM = {'insp' : LogPhase(900, "O&M offshore intervention", {}, {})}
+
+
+    """
+    Define the diferent operations sequence for each logistic phase
+    """
+
+    
+
+    """
+    Define the diferent vessel and equipment combination for each logistic phase
+    """
+    
+    return logPhase_OM

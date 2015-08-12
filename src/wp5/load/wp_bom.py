@@ -27,8 +27,8 @@ def load_WP2_BoM(file_path):
     units = excel.parse('units', header=0, index_col=0)
     position = excel.parse('position', header=0, index_col=0)
 
-    WP2_BoM = {'numUnits': units,
-               'position':  position
+    WP2_BoM = {'NumOFunits': units,
+               'Position':  position
                }
     
     return WP2_BoM
