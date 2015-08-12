@@ -35,10 +35,20 @@ class FeasiblityPhase(LogPhase):
     
     def vessel_feasiblity(self, end_user_inputs, wp2_outputs, wp3_outputs,
                           wp4_outputs, wp6_output, vessels):
-        if LogPhase.id ==
-        
-        deck_loading = max(end_user_inputs['device_length']*end_user_inputs['device_width']/end_user_inputs['device_drymass'],
-                                   max(load))
+        if LogPhase.id == 100 or 101 or 102:                 
+            deck_loading = 0
+        elif LogPhase.id == 110 or 111 or 112:
+            for dev in range(wp2_outpus['NumberOFnits']):
+                for x in range(wp4_outputs['quantity'].ix[0]):
+                    key1 = "diameter foundation " + str(x) + " [m]"
+                    key2 = "length foundation " + str(x) + " [m]"
+                    key3 = "weight foundation " + str(x) + " [kg]"
+                    load_u_f[len(load_u_f):] = [wp4_outputs[key1].ix[0]*wp4_outputs[key2].ix[0]/wp4_outputs[key3].ix[0]]
+                    area_u_f[len(area_u_f):] = [wp4_outputs[key1].ix[0]*wp4_outputs[key2].ix[0]]
+                load_u[len(load_u):] = max(load_u_f[dev*x:(dev+1)*x])
+                area_u[len(area_u):] = sum(area_u_f[dev*x:(dev+1)*x])
+            deck_loading = max(load_u)
+            deck_area = max(area_u)
                              
    
     
@@ -220,22 +230,24 @@ def logPhase_init(logOp, vessels, equipments):
     Define the diferent vessel and equipment combination for each logistic phase
     """
 
-    logPhase_install['F_driven'].set_combination(1, {'vessel': {(1, vessels['Crane Barge']), (2, vessels['Tugboat'])},
-                                                       'equipment': (1, equipments['Hammer'])}
-    logPhase_install['F_driven'].set_combination(2, {'vessel': {(1, vessels['Crane Vessel'])},
-                                                       'equipment': (1, equipments['Hammer'])},
+    logPhase_install['F_driven'].set_combination(1, {'vessel': 
+        {(1, vessels['Crane Barge']), (2, vessels['Tugboat'])},
+                                                       'equipment': 
+                                                           (1, equipments['Hammer'])})
+    logPhase_install['F_driven'].set_combination(2, {'vessel': (1, vessels['Crane Vessel']),
+                                                       'equipment': (1, equipments['Hammer'])})
     logPhase_install['F_driven'].set_combination(3, {'vessel': {(1, vessels['JUP Barge']), (2, vessels['Tugboat'])},
-                                                       'equipment': (1, equipments['Hammer'])}
+                                                       'equipment': (1, equipments['Hammer'])})
     logPhase_install['F_driven'].set_combination(4, {'vessel': (1, vessels['JUP Vessel']),
-                                                       'equipment': (1, equipments['Hammer'])}
+                                                       'equipment': (1, equipments['Hammer'])})
     logPhase_install['F_driven'].set_combination(5, {'vessel': {(1, vessels['Crane Barge']), (2, vessels['Tugboat'])},
-                                                       'equipment': (1, equipments['Drill Rig'])}
+                                                       'equipment': (1, equipments['Drill Rig'])})
     logPhase_install['F_driven'].set_combination(6, {'vessel': (1, vessels['Crane Vessel']),
-                                                       'equipment': (1, equipments['Drill Rig'])}
+                                                       'equipment': (1, equipments['Drill Rig'])})
     logPhase_install['F_driven'].set_combination(7, {'vessel': {(1, vessels['JUP Barge']), (2, vessels['Tugboat'])},
-                                                       'equipment': (1, equipments['Drill Rig'])}
+                                                       'equipment': (1, equipments['Drill Rig'])})
     logPhase_install['F_driven'].set_combination(8, {'vessel': (1, vessels['JUP Vessel']),
-                                                       'equipment': (1, equipments['Drill Rig'])}
+                                                       'equipment': (1, equipments['Drill Rig'])})
 
 #    lg5.ve_combination[01] = {1: {(1, vt2.id), (2, vt1.id)}}
 #    lg5.ve_combination[02] = {1: (1, vt3.id)}
