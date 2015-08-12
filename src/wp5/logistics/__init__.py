@@ -1,23 +1,20 @@
-
-"""
-VesselType.py is a
-
-"""
-
 class VesselType(object):
+    """
+    VesselType.py is a
+
+    """
 
     def __init__(self, id, description, panda):
         self.id = id
         self.description = description
         self.panda = panda
 
-"""
-EquipmentType.py is a
-
-"""
 
 class EquipmentType(object):
+    """
+    EquipmentType.py is a
 
+    """
     def __init__(self, id, description, panda):
         self.id = id
         self.description = description
