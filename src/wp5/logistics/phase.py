@@ -25,33 +25,36 @@ class LogPhase(object):
 
     def set_combination(self, key, ve_combination):
         self.ve_combination[key] = ve_combination
-        
-class FeasiblityPhase(LogPhase):    
-    
-    def __init__(self, id, description, ops_sequence, ve_combination, feasibility):
-        super(FeasiblityPhase, self).__init__(id, description,
-                                                 ops_sequence, ve_combination)
-        self.feasibility = feasibility
-    
-    def vessel_feasiblity(self, end_user_inputs, wp2_outputs, wp3_outputs,
-                          wp4_outputs, wp6_output, vessels):
-        if LogPhase.id == 100 or 101 or 102:                 
+
+    def vessel_feasiblity(self, wp1_BoM, wp2_BoM, wp3_BoM,
+                          wp4_BoM, vessels):
+        if self.id == 100 or 101 or 102:                 
             deck_loading = 0
-        elif LogPhase.id == 110 or 111 or 112:
-            for dev in range(wp2_outpus['NumberOFnits']):
-                for x in range(wp4_outputs['quantity'].ix[0]):
+            deck_area = 0
+        elif self.id == 110 or 111 or 112:
+            for dev in range(wp2_BoM['numUnits'].ix[0]):
+                for x in range(wp4_BoM['quantity'].ix[0]):
                     key1 = "diameter foundation " + str(x) + " [m]"
                     key2 = "length foundation " + str(x) + " [m]"
                     key3 = "weight foundation " + str(x) + " [kg]"
-                    load_u_f[len(load_u_f):] = [wp4_outputs[key1].ix[0]*wp4_outputs[key2].ix[0]/wp4_outputs[key3].ix[0]]
-                    area_u_f[len(area_u_f):] = [wp4_outputs[key1].ix[0]*wp4_outputs[key2].ix[0]]
+                    load_u_f[len(load_u_f):] = [wp4_BoM[key1].ix[0]*wp4_BoM[key2].ix[0]/wp4_BoM[key3].ix[0]]
+                    area_u_f[len(area_u_f):] = [wp4_BoM[key1].ix[0]*wp4_BoM[key2].ix[0]]
                 load_u[len(load_u):] = max(load_u_f[dev*x:(dev+1)*x])
                 area_u[len(area_u):] = sum(area_u_f[dev*x:(dev+1)*x])
             deck_loading = max(load_u)
             deck_area = max(area_u)
-                             
-   
+            
+        return deck_loading, deck_area
+                                 
+        
+#class FeasiblityPhase(LogPhase):    
+#    
+#    def __init__(self, id, description, ops_sequence, ve_combination, feasibility):
+#        super(FeasiblityPhase, self).__init__(id, description,
+#                                                 ops_sequence, ve_combination)
+#        self.feasibility = feasibility
     
+       
 class op_sequence(object):
 
     def __init__(self, id, description, op_sequence):
@@ -249,22 +252,5 @@ def logPhase_init(logOp, vessels, equipments):
     logPhase_install['F_driven'].set_combination(8, {'vessel': (1, vessels['JUP Vessel']),
                                                        'equipment': (1, equipments['Drill Rig'])})
 
-#    lg5.ve_combination[01] = {1: {(1, vt2.id), (2, vt1.id)}}
-#    lg5.ve_combination[02] = {1: (1, vt3.id)}
-#    lg5.ve_combination[03] = {1: {(1, vt4.id), (2, vt1.id)}}
-#    lg5.ve_combination[04] = {1: (1, vt5.id)}
-#    lg5.ve_combination[05] = {1: {(1, vt2.id), (2, vt1.id)}}
-#    lg5.ve_combination[06] = {1: (1, vt3.id)}
-#    lg5.ve_combination[07] = {1: {(1, vt4.id), (2, vt1.id))}
-#    lg5.ve_combination[08] = {1: (1, vt5.id)}
-#
-#    lg6.ve_combination[01] = {1: {(1, vt2.id), (2, vt1.id)}}
-#    lg6.ve_combination[02] = {1: (1, vt3.id)}
-#    lg6.ve_combination[03] = {1: {(1, vt4.id), (2, vt1.id)}}
-#    lg6.ve_combination[04] = {1: (1, vt5.id)}
-#    lg6.ve_combination[05] = {1: {(1, vt2.id), (2, vt1.id)}}
-#    lg6.ve_combination[06] = {1: (1, vt3.id)}
-#    lg6.ve_combination[07] = {1: {(1, vt4.id), (2, vt1.id))}
-#    lg6.ve_combination[08] = {1: (1, vt5.id)}
 
     return logPhase_install, logPhase_OM

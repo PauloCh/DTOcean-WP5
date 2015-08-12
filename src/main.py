@@ -24,11 +24,16 @@ ports = load_port_data(database_file("Ports_Database2_python.xlsx"))
 
 logOp = logOp_init()
 
-logPhase_install = logPhase_init(logOp, vessels, equipments)[0]
-logPhase_OM = logPhase_init(logOp, vessels, equipments)[1]
+logPhase_install, logPhase_OM = logPhase_init(logOp, vessels, equipments)
 
-WP1_BoM = load_WP1_BoM(database_file("WP1_BoM.xlsx"), database_file("VianaCastelo.csv"))
-WP2_BoM = load_WP2_BoM(database_file("WP2_BoM.xlsx"))
-WP3_BoM = load_WP3_BoM(database_file("WP3_BoM.xlsx"))
-WP4_BoM = load_WP4_BoM(database_file("WP4_BoM.csv"))
+
+
+wp1_BoM = load_WP1_BoM(database_file("WP1_BoM.xlsx"), database_file("VianaCastelo.csv"))
+wp2_BoM = load_WP2_BoM(database_file("WP2_BoM.xlsx"))
+wp3_BoM = load_WP3_BoM(database_file("WP3_BoM.xlsx"))
+wp4_BoM = load_WP4_BoM(database_file("WP4_BoM.csv"))
+
+deck_loading, deck_area = logPhase_install['F_driven'].vessel_feasiblity(wp1_BoM, wp2_BoM, wp3_BoM,
+                                               wp4_BoM, vessels)
+
 
