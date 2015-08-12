@@ -22,31 +22,20 @@ vessels = load_vessel_data(database_file("Vessel_Database_python.xlsx"))
 equipments = load_equipment_data(database_file("Equipment_Database_python.xlsx"))
 ports = load_port_data(database_file("Ports_Database2_python.xlsx"))
 
-<<<<<<< Updated upstream
-logOp = logOp_init()
-
-logPhase_install, logPhase_OM = logPhase_init(logOp, vessels, equipments)
-
-
 wp1_BoM = load_WP1_BoM(database_file("WP1_BoM.xlsx"), database_file("VianaCastelo.csv"))
 wp2_BoM = load_WP2_BoM(database_file("WP2_BoM.xlsx"))
 wp3_BoM = load_WP3_BoM(database_file("WP3_BoM.xlsx"))
 wp4_BoM = load_WP4_BoM(database_file("WP4_BoM.csv"))
 
-deck_loading, deck_area = logPhase_install['F_driven'].vessel_feasiblity(wp1_BoM, wp2_BoM, wp3_BoM,
-                                               wp4_BoM, vessels)
-
-
-=======
-WP1_BoM = load_WP1_BoM(database_file("WP1_BoM.xlsx"), database_file("VianaCastelo.csv"))
-WP2_BoM = load_WP2_BoM(database_file("WP2_BoM.xlsx"))
-WP3_BoM = load_WP3_BoM(database_file("WP3_BoM.xlsx"))
-WP4_BoM = load_WP4_BoM(database_file("WP4_BoM.csv"))
->>>>>>> Stashed changes
-
 logOp = logOp_init()
 
 logPhase_install = logPhase_install_init(logOp, vessels, equipments)
 logPhase_OM = logPhase_OM_init(logOp, vessels, equipments)
+
+deck_loading, deck_area = logPhase_install['F_driven'].vessel_feasiblity(wp1_BoM, wp2_BoM, wp3_BoM,
+                                               wp4_BoM, vessels)
+
+
+
 
 
