@@ -3,15 +3,9 @@ Import databases
 """
 from os import path
 
-<<<<<<< Updated upstream
-from wp5.load import load_vessel_data, load_equipment_data, load_port_data
-=======
 import pandas as pd
 
-from wp5.load import load_vessel_data
-from wp5.load import load_equipment_data
-from wp5.load import load_port_data
->>>>>>> Stashed changes
+from wp5.load import load_vessel_data, load_equipment_data, load_port_data
 from wp5.logistics.operations import logOp_init
 from wp5.logistics.phase import logPhase_init
 
