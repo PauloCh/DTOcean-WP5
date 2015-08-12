@@ -19,14 +19,29 @@ class LogPhase(object):
 #        self.cost = {}
 #        self.environmental = environment
 #        self.risk = risk
-        #
-#        def port_feasiblity(self,...):
-#            def term_bearing(self):
-#                LogPhase.feasibility = LogOp()
 
-#    def add_sequence(self):
-#        LogPhase.sequence = LogOp()
+    def set_sequence(self, key, ops_sequence):
+        self.ops_sequence[key] = ops_sequence
 
+    def set_combination(self, key, ve_combination):
+        self.ve_combination[key] = ve_combination
+        
+class FeasiblityPhase(LogPhase):    
+    
+    def __init__(self, id, description, ops_sequence, ve_combination, feasibility):
+        super(FeasiblityPhase, self).__init__(id, description,
+                                                 ops_sequence, ve_combination)
+        self.feasibility = feasibility
+    
+    def vessel_feasiblity(self, end_user_inputs, wp2_outputs, wp3_outputs,
+                          wp4_outputs, wp6_output, vessels):
+        if LogPhase.id ==
+        
+        deck_loading = max(end_user_inputs['device_length']*end_user_inputs['device_width']/end_user_inputs['device_drymass'],
+                                   max(load))
+                             
+   
+    
 class op_sequence(object):
 
     def __init__(self, id, description, op_sequence):
@@ -75,7 +90,7 @@ def logPhase_init(logOp, vessels, equipments):
     Define the diferent operations sequence for each logistic phase
     """
 
-    logPhase_install['F_driven'].ops_sequence['01'] = op_sequence(1,'Drilling',
+    logPhase_install['F_driven'].set_sequence('01', op_sequence(1,'Drilling',
                                                   [logOp["op1"],
                                                    logOp["op2"],
                                                    logOp["op3"],
@@ -86,8 +101,8 @@ def logPhase_init(logOp, vessels, equipments):
                                                    logOp["op6"],
                                                    logOp["op7"],
                                                    logOp["op8"]]
-                                                   )
-    logPhase_install['F_driven'].ops_sequence['02'] = op_sequence(2,'Hammering',
+                                                   ))
+    logPhase_install['F_driven'].set_sequence('02', op_sequence(2,'Hammering',
                                                   [logOp["op1"],
                                                    logOp["op2"],
                                                    logOp["op3"],
@@ -98,8 +113,8 @@ def logPhase_init(logOp, vessels, equipments):
                                                    logOp["op6"],
                                                    logOp["op7"],
                                                    logOp["op8"]]
-                                                   )
-    logPhase_install['F_driven'].ops_sequence['03'] = op_sequence(3,'Vibro-Pilling',
+                                                   ))
+    logPhase_install['F_driven'].set_sequence('03', op_sequence(3,'Vibro-Pilling',
                                                   [logOp["op1"],
                                                    logOp["op2"],
                                                    logOp["op3"],
@@ -110,8 +125,8 @@ def logPhase_init(logOp, vessels, equipments):
                                                    logOp["op6"],
                                                    logOp["op7"],
                                                    logOp["op8"]]
-                                                   )
-    logPhase_install['F_suction'].ops_sequence['01'] = op_sequence(1,'Suction',
+                                                   ))
+    logPhase_install['F_suction'].set_sequence('01', op_sequence(1,'Suction',
                                                   [logOp["op1"],
                                                    logOp["op2"],
                                                    logOp["op3"],
@@ -122,8 +137,8 @@ def logPhase_init(logOp, vessels, equipments):
                                                    logOp["op6"],
                                                    logOp["op7"],
                                                    logOp["op8"]]
-                                                   )
-    logPhase_install['F_gravity'].ops_sequence['01'] = op_sequence(1,'gravity',
+                                                   ))
+    logPhase_install['F_gravity'].set_sequence('01', op_sequence(1,'gravity',
                                                   [logOp["op1"],
                                                    logOp["op2"],
                                                    logOp["op3"],
@@ -134,8 +149,8 @@ def logPhase_init(logOp, vessels, equipments):
                                                    logOp["op6"],
                                                    logOp["op7"],
                                                    logOp["op8"]]
-                                                   )
-    logPhase_install['M_drag'].ops_sequence['01'] = op_sequence(1,'drag',
+                                                   ))
+    logPhase_install['M_drag'].set_sequence('01', op_sequence(1,'drag',
                                                   [logOp["op1"],
                                                    logOp["op2"],
                                                    logOp["op3"],
@@ -145,8 +160,8 @@ def logPhase_init(logOp, vessels, equipments):
                                                    logOp["op6"],
                                                    logOp["op7"],
                                                    logOp["op8"]]
-                                                   )
-    logPhase_install['M_direct'].ops_sequence['01'] = op_sequence(1,'drag',
+                                                   ))
+    logPhase_install['M_direct'].set_sequence('01', op_sequence(1,'drag',
                                                   [logOp["op1"],
                                                    logOp["op2"],
                                                    logOp["op3"],
@@ -156,8 +171,8 @@ def logPhase_init(logOp, vessels, equipments):
                                                    logOp["op6"],
                                                    logOp["op7"],
                                                    logOp["op8"]]
-                                                   )
-    logPhase_install['M_direct'].ops_sequence['02'] = op_sequence(2,'drag',
+                                                   ))
+    logPhase_install['M_direct'].set_sequence('02', op_sequence(2,'drag',
                                                   [logOp["op1"],
                                                    logOp["op2"],
                                                    logOp["op3"],
@@ -167,8 +182,8 @@ def logPhase_init(logOp, vessels, equipments):
                                                    logOp["op6"],
                                                    logOp["op7"],
                                                    logOp["op8"]]
-                                                   )
-    logPhase_install['M_direct'].ops_sequence['03'] = op_sequence(3,'drag',
+                                                   ))
+    logPhase_install['M_direct'].set_sequence('03', op_sequence(3,'drag',
                                                   [logOp["op1"],
                                                    logOp["op2"],
                                                    logOp["op3"],
@@ -178,8 +193,8 @@ def logPhase_init(logOp, vessels, equipments):
                                                    logOp["op6"],
                                                    logOp["op7"],
                                                    logOp["op8"]]
-                                                   )
-    logPhase_install['D_fixed'].ops_sequence['01'] = op_sequence(1,'fixed',
+                                                   ))
+    logPhase_install['D_fixed'].set_sequence('01', op_sequence(1,'fixed',
                                                   [logOp["op1"],
                                                    logOp["op2"],
                                                    logOp["op3"],
@@ -189,8 +204,8 @@ def logPhase_init(logOp, vessels, equipments):
                                                    logOp["op6"],
                                                    logOp["op7"],
                                                    logOp["op8"]]
-                                                   )
-    logPhase_install['D_floating'].ops_sequence['01'] = op_sequence(1,'floating',
+                                                   ))
+    logPhase_install['D_floating'].set_sequence('01', op_sequence(1,'floating',
                                                   [logOp["op1"],
                                                    logOp["op2"],
                                                    logOp["op3"],
@@ -200,26 +215,26 @@ def logPhase_init(logOp, vessels, equipments):
                                                    logOp["op6"],
                                                    logOp["op7"],
                                                    logOp["op8"]]
-                                                   )
+                                                   ))
     """
     Define the diferent vessel and equipment combination for each logistic phase
     """
 
-    logPhase_install['F_driven'].ve_combination[1] = {'vessel': {(1, vessels['Crane Barge']), (2, vessels['Tugboat'])},
+    logPhase_install['F_driven'].set_combination(1, {'vessel': {(1, vessels['Crane Barge']), (2, vessels['Tugboat'])},
                                                        'equipment': (1, equipments['Hammer'])}
-    logPhase_install['F_driven'].ve_combination[2] = {'vessel': {(1, vessels['Crane Vessel'])},
+    logPhase_install['F_driven'].set_combination(2, {'vessel': {(1, vessels['Crane Vessel'])},
                                                        'equipment': (1, equipments['Hammer'])},
-    logPhase_install['F_driven'].ve_combination[3] = {'vessel': {(1, vessels['JUP Barge']), (2, vessels['Tugboat'])},
+    logPhase_install['F_driven'].set_combination(3, {'vessel': {(1, vessels['JUP Barge']), (2, vessels['Tugboat'])},
                                                        'equipment': (1, equipments['Hammer'])}
-    logPhase_install['F_driven'].ve_combination[4] = {'vessel': (1, vessels['JUP Vessel']),
+    logPhase_install['F_driven'].set_combination(4, {'vessel': (1, vessels['JUP Vessel']),
                                                        'equipment': (1, equipments['Hammer'])}
-    logPhase_install['F_driven'].ve_combination[5] = {'vessel': {(1, vessels['Crane Barge']), (2, vessels['Tugboat'])},
+    logPhase_install['F_driven'].set_combination(5, {'vessel': {(1, vessels['Crane Barge']), (2, vessels['Tugboat'])},
                                                        'equipment': (1, equipments['Drill Rig'])}
-    logPhase_install['F_driven'].ve_combination[6] = {'vessel': (1, vessels['Crane Vessel']),
+    logPhase_install['F_driven'].set_combination(6, {'vessel': (1, vessels['Crane Vessel']),
                                                        'equipment': (1, equipments['Drill Rig'])}
-    logPhase_install['F_driven'].ve_combination[7] = {'vessel': {(1, vessels['JUP Barge']), (2, vessels['Tugboat'])},
+    logPhase_install['F_driven'].set_combination(7, {'vessel': {(1, vessels['JUP Barge']), (2, vessels['Tugboat'])},
                                                        'equipment': (1, equipments['Drill Rig'])}
-    logPhase_install['F_driven'].ve_combination[8] = {'vessel': (1, vessels['JUP Vessel']),
+    logPhase_install['F_driven'].set_combination(8, {'vessel': (1, vessels['JUP Vessel']),
                                                        'equipment': (1, equipments['Drill Rig'])}
 
 #    lg5.ve_combination[01] = {1: {(1, vt2.id), (2, vt1.id)}}
