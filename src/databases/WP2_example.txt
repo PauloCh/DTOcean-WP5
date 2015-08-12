@@ -1,2 +1,2 @@
-NumOFunits = 4
+2NumOFunits = 4
 Position = {‘Device0’: (0,0,30), ‘Device1’: (100,0,30), ‘Device2’: (0,100,30), ‘Device3’: (100,100,30)}

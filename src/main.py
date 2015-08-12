@@ -3,7 +3,15 @@ Import databases
 """
 from os import path
 
+<<<<<<< Updated upstream
 from wp5.load import load_vessel_data, load_equipment_data, load_port_data
+=======
+import pandas as pd
+
+from wp5.load import load_vessel_data
+from wp5.load import load_equipment_data
+from wp5.load import load_port_data
+>>>>>>> Stashed changes
 from wp5.logistics.operations import logOp_init
 from wp5.logistics.phase import logPhase_init
 
@@ -23,3 +31,5 @@ logOp = logOp_init()
 
 logPhase_install = logPhase_init(logOp, vessels, equipments)[0]
 logPhase_OM = logPhase_init(logOp, vessels, equipments)[1]
+
+wp4_outputs = pd.read_csv(database_file("pileinstallation.csv"))
