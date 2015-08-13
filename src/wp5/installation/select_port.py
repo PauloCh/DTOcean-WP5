@@ -17,7 +17,7 @@ def install_port(end_user_inputs, wp3_outputs, wp4_outputs, port_data):
     # calculate loading and projeted area of foundations/anchors
     load = []
     area = []
-    if end_user_inputs['device_type'] == "bottom fixed":
+    if end_user_inputs['device']['technology type'].ix[0] == "seabed fixed":
         for x in range(wp4_outputs['quantity'].ix[0]):
             key1 = "diameter foundation " + str(x) + " [m]"
             key2 = "length foundation " + str(x) + " [m]"
@@ -25,22 +25,22 @@ def install_port(end_user_inputs, wp3_outputs, wp4_outputs, port_data):
             load[len(load):] = [wp4_outputs[key1].ix[0]*wp4_outputs[key2].ix[0]/wp4_outputs[key3].ix[0]]
             area[len(area):] = [wp4_outputs[key1].ix[0]*wp4_outputs[key2].ix[0]]
     # terminal load bearing minimum requirement
-    port['Terminal Load Bearing [ton/m2]'] = max(end_user_inputs['device_length']*end_user_inputs['device_width']/end_user_inputs['device_drymass'],
+    port['Terminal Load Bearing [ton/m2]'] = max(end_user_inputs['device']['length [m]'].ix[0]*end_user_inputs['device']['width [m]'].ix[0]/end_user_inputs['device']['drymass [kg]'].ix[0],
                                    max(load))
     port_list = port_data[port_data['Terminal Load Bearing [ton/m2]'] >= port['Terminal Load Bearing [ton/m2]']]
-    port['Terminal area [m2]'] = max(end_user_inputs['device_length']*end_user_inputs['device_width'], sum(area))
+    port['Terminal area [m2]'] = max(end_user_inputs['device']['length [m]'].ix[0]*end_user_inputs['device']['width [m]'].ix[0], sum(area))
     port_list = port_list[port_list['Terminal area [m2]'] >= port['Terminal area [m2]']]
-    
+
     port['Port list satisfying the minimum requirements'] = port_list
-    
+
     # Distance ports-site calculation
     # to be implemented once the transit distance algorithm is available
     # by making use of the grid coordinate position of the site and the ports
-    
+
     # Nearest port selection
     # to be modified by making use of port['Distance port-site'] will be
     # implemented
-    
+
     port['Selected base port for installation'] = port_list.ix[0]
-    
+
     return port

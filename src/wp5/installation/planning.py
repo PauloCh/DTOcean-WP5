@@ -8,11 +8,11 @@ import warnings
 
 
 def install_plan(end_user_inputs, wp3_outputs, wp4_outputs):
-    if wp1_BoM['device_type'] == "bottom fixed":
-        if wp3_BoM['electrical layout'] == "type 1":
-            if wp4_BoM['foundation type'].ix[0] == "shallow foundation":
+    if end_user_inputs['device']['technology type'].ix[0] == "seabed fixed":
+        if wp3_outputs['layout']['Electrical Layout'].ix[0] == "type 1":
+            if wp4_outputs['foundation type'].ix[0] == "shallow foundation":
                 # Explanation of the distionnary install_seq
-#                install_seq = {0: [100, 101, 112], 
+#                install_seq = {0: [100, 101, 112],
 #                               1: [{120: 112}],
 #                               2: [{102: (120,100)}] }
                 install_seq = {0: [100, 101, 102, 112, 120]}
