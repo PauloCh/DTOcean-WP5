@@ -54,10 +54,9 @@ install_seq = planning.install_plan(end_user_inputs, wp3_outputs, wp4_outputs)
 """
 install_port = select_port.install_port(end_user_inputs, wp3_outputs, wp4_outputs, ports)
 
-for x in install_seq:
-    for y in install_seq[x]:
-        log_phase_id = install_seq[x][y]
-# ###### TO-DO-TO-DO-TO-DO-TO-DO-TO-DO-TO-DO !!!
-
-#deck_loading, deck_area = logPhase_install['F_driven'].vessel_feasiblity(wp1_BoM, wp2_BoM, wp3_BoM,
-#                                               wp4_BoM, vessels)
+#for x in install_seq:
+#    for y in install_seq[x]:
+        #        log_phase_id = install_seq[x][y]
+        # ###### TO-DO-TO-DO-TO-DO-TO-DO-TO-DO-TO-DO !!!
+        #deck_loading, deck_area = logPhase_install['F_driven'].vessel_feasiblity(wp1_BoM, wp2_BoM, wp3_BoM,
+        #                                               wp4_BoM, vessels)
