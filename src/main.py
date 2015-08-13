@@ -26,7 +26,16 @@ def database_file(file):
 vessels = load_vessel_data(database_file("Vessel_Database_python.xlsx"))
 equipments = load_equipment_data(database_file("Equipment_Database_python.xlsx"))
 ports = load_port_data(database_file("Ports_Database2_python.xlsx"))
-<<<<<<< HEAD
+
+"""
+### Load inputs from end-user and WP1, WP2, WP3 & WP6
+"""
+wp1_BoM = load_WP1_BoM(database_file("WP1_BoM.xlsx"),
+                       database_file("VianaCastelo.csv"))
+wp2_BoM = load_WP2_BoM(database_file("WP2_BoM.xlsx"))
+wp3_BoM = load_WP3_BoM(database_file("WP3_BoM.xlsx"))
+wp4_BoM = load_WP4_BoM(database_file("WP4_BoM.csv"))
+
 """
 ### Initialise logistic operations and logistic phases
 """
@@ -34,20 +43,9 @@ logOp = logOp_init()
 
 logPhase_install, logPhase_OM = logPhase_init(logOp, vessels, equipments)
 
-"""
-### Load inputs from end-user and WP1, WP2, WP3 & WP6
-"""
-wp1_BoM = load_WP1_BoM(database_file("WP1_BoM.xlsx"),
-                       database_file("VianaCastelo.csv"))
-=======
 
-wp1_BoM = load_WP1_BoM(database_file("WP1_BoM.xlsx"), database_file("VianaCastelo.csv"))
->>>>>>> origin/master
-wp2_BoM = load_WP2_BoM(database_file("WP2_BoM.xlsx"))
-wp3_BoM = load_WP3_BoM(database_file("WP3_BoM.xlsx"))
-wp4_BoM = load_WP4_BoM(database_file("WP4_BoM.csv"))
 
-<<<<<<< HEAD
+
 
 """
 ### Determine the adequate installation logistic phase sequence
