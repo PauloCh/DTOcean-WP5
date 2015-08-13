@@ -26,6 +26,7 @@ def database_file(file):
 vessels = load_vessel_data(database_file("Vessel_Database_python.xlsx"))
 equipments = load_equipment_data(database_file("Equipment_Database_python.xlsx"))
 ports = load_port_data(database_file("Ports_Database2_python.xlsx"))
+<<<<<<< HEAD
 """
 ### Initialise logistic operations and logistic phases
 """
@@ -38,10 +39,15 @@ logPhase_install, logPhase_OM = logPhase_init(logOp, vessels, equipments)
 """
 wp1_BoM = load_WP1_BoM(database_file("WP1_BoM.xlsx"),
                        database_file("VianaCastelo.csv"))
+=======
+
+wp1_BoM = load_WP1_BoM(database_file("WP1_BoM.xlsx"), database_file("VianaCastelo.csv"))
+>>>>>>> origin/master
 wp2_BoM = load_WP2_BoM(database_file("WP2_BoM.xlsx"))
 wp3_BoM = load_WP3_BoM(database_file("WP3_BoM.xlsx"))
 wp4_BoM = load_WP4_BoM(database_file("WP4_BoM.csv"))
 
+<<<<<<< HEAD
 
 """
 ### Determine the adequate installation logistic phase sequence
@@ -57,7 +63,20 @@ for x in install_seq:
     for y in install_seq[x]:
         log_phase_id = install_seq[x][y]
 # ###### TO-DO-TO-DO-TO-DO-TO-DO-TO-DO-TO-DO !!!
+=======
+logOp = logOp_init()
+
+logPhase_install = logPhase_install_init(logOp, vessels, equipments)
+logPhase_OM = logPhase_OM_init(logOp, vessels, equipments)
+
+>>>>>>> origin/master
 deck_loading, deck_area = logPhase_install['F_driven'].vessel_feasiblity(wp1_BoM, wp2_BoM, wp3_BoM,
                                                wp4_BoM, vessels)
 
 
+<<<<<<< HEAD
+=======
+
+
+
+>>>>>>> origin/master
