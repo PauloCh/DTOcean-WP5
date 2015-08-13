@@ -61,20 +61,10 @@ for x in install_seq:
     for y in install_seq[x]:
         log_phase_id = install_seq[x][y]
 # ###### TO-DO-TO-DO-TO-DO-TO-DO-TO-DO-TO-DO !!!
-=======
 logOp = logOp_init()
 
 logPhase_install = logPhase_install_init(logOp, vessels, equipments)
 logPhase_OM = logPhase_OM_init(logOp, vessels, equipments)
 
->>>>>>> origin/master
 deck_loading, deck_area = logPhase_install['F_driven'].vessel_feasiblity(wp1_BoM, wp2_BoM, wp3_BoM,
                                                wp4_BoM, vessels)
-
-
-<<<<<<< HEAD
-=======
-
-
-
->>>>>>> origin/master
