@@ -103,6 +103,18 @@ def logPhase_init(logOp, vessels, equipments):
     Define the diferent operations sequence for each logistic phase
     """
 
+    logPhase_install['F_driven'].op_sequence['01'] =  op_sequence(1,'Drilling',
+                                                  [logOp["op1"],
+                                                   logOp["op2"],
+                                                   logOp["op3"],
+                                                   logOp["op4"],
+                                                   logOp["op5"],
+                                                   logOp["op_F1"],
+                                                   logOp["op_F7"],
+                                                   logOp["op6"],
+                                                   logOp["op7"],
+                                                   logOp["op8"]]
+                                                   ))
     logPhase_install['F_driven'].set_sequence('01', op_sequence(1,'Drilling',
                                                   [logOp["op1"],
                                                    logOp["op2"],

@@ -6,14 +6,41 @@ Created on Fri Aug 07 16:40:21 2015
 """
 import warnings
 
+
 def install_port(end_user_inputs, wp3_outputs, wp4_outputs, port_data):
-    # terminal bearing minimum requirement
-    port = {"term_bearing_req": max(device_length*device_width/device_drymass,
-                                    device_length*device_width/device_drymass)}
-    port_list = port_data[port_data['termnal bearing'] == port["term_bearing_req"]]
+    # initialisation
+    port = {'Terminal Load Bearing [ton/m2]': 0,
+            'Terminal area [m2]': 0,
+            'Port list satisfying the minimum requirements': 0,
+            'Distance port-site': 0,
+            'Selected base port for installation': 0}
+    # calculate loading and projeted area of foundations/anchors
+    load = []
+    area = []
+    if end_user_inputs['device_type'] == "bottom fixed":
+        for x in range(wp4_outputs['quantity'].ix[0]):
+            key1 = "diameter foundation " + str(x) + " [m]"
+            key2 = "length foundation " + str(x) + " [m]"
+            key3 = "weight foundation " + str(x) + " [kg]"
+            load[len(load):] = [wp4_outputs[key1].ix[0]*wp4_outputs[key2].ix[0]/wp4_outputs[key3].ix[0]]
+            area[len(area):] = [wp4_outputs[key1].ix[0]*wp4_outputs[key2].ix[0]]
+    # terminal load bearing minimum requirement
+    port['Terminal Load Bearing [ton/m2]'] = max(end_user_inputs['device_length']*end_user_inputs['device_width']/end_user_inputs['device_drymass'],
+                                   max(load))
+    port_list = port_data[port_data['Terminal Load Bearing [ton/m2]'] >= port['Terminal Load Bearing [ton/m2]']]
+    port['Terminal area [m2]'] = max(end_user_inputs['device_length']*end_user_inputs['device_width'], sum(area))
+    port_list = port_list[port_list['Terminal area [m2]'] >= port['Terminal area [m2]']]
     
-    port{"terminal_area_req": max()}
-    port_list = port_data[port_data['termnal area'] == port["term_area_req"]]
+    port['Port list satisfying the minimum requirements'] = port_list
     
-    port = {"short_list": port_list}
+    # Distance ports-site calculation
+    # to be implemented once the transit distance algorithm is available
+    # by making use of the grid coordinate position of the site and the ports
+    
+    # Nearest port selection
+    # to be modified by making use of port['Distance port-site'] will be
+    # implemented
+    
+    port['Selected base port for installation'] = port_list.ix[0]
+    
     return port
