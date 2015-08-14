@@ -22,7 +22,7 @@ def select_e (install, log_phase):
                         
                         for req in range(len(req_e[e_key_req][nr_eq])/3):
                             e_para = req_e[e_key_req][nr_eq][0]
-                            e_meth =req_e[e_key_req][nr_eq][1]
+                            e_meth = req_e[e_key_req][nr_eq][1]
                             e_val = req_e[e_key_req][nr_eq][2]                           
 
                             if e_meth == 'sup':
@@ -32,7 +32,7 @@ def select_e (install, log_phase):
 
                         
 def select_v (install, log_phase):
-    pass
+    ves = 0
 #    req_v = install['requirement'][1]
 #    for typ in range(len(req_v)):
 #        v_key_req = req_v.keys()[typ]
@@ -53,4 +53,4 @@ def select_v (install, log_phase):
 #                            if v_meth == 'sup':
 #                                pd = log_phase.op_ve[seq].ve_combination[combi]['vessel'][nr_eq][1].panda
 #                                ves = pd[pd[v_para] >= v_val]  
-    return 
+    return ves
