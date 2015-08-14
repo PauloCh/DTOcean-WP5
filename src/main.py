@@ -52,7 +52,7 @@ install_plan = planning.install_plan(user_inputs, wp3_outputs, wp4_outputs)
 
 # DUMMY-TO BE ERASED, install plan is constrained to F_drive because
 # we just have the F_driven characterized for now
-install_plan = {0: 'F_driven'}
+install_plan = {0: ['F_driven']}
 ###
 """
 ### Determine the adequate installation logistic phase sequence

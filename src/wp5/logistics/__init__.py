@@ -4,9 +4,8 @@ class VesselType(object):
 
     """
 
-    def __init__(self, id, description, panda):
+    def __init__(self, id, panda):
         self.id = id
-        self.description = description
         self.panda = panda
 
 
@@ -15,8 +14,7 @@ class EquipmentType(object):
     EquipmentType.py is a
 
     """
-    def __init__(self, id, description, panda):
+    def __init__(self, id, panda):
         self.id = id
-        self.description = description
         self.panda = panda
 
