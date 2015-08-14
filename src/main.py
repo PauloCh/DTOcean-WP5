@@ -48,12 +48,12 @@ logPhase_OM = logPhase_OM_init(logOp, vessels, equipments)
 """
 ### Determine the adequate installation logistic phase sequence
 """
-install_plan = planning.install_plan(end_user_inputs, wp3_outputs, wp4_outputs)
+install_plan = planning.install_plan(user_inputs, wp3_outputs, wp4_outputs)
 
 """
 ### Determine the adequate installation logistic phase sequence
 """
-install_port = select_port.install_port(end_user_inputs, wp3_outputs, wp4_outputs, ports)
+install_port = select_port.install_port(user_inputs, wp3_outputs, wp4_outputs, ports)
 
 install = {'phase': logPhase_install,
            'plan': install_plan,
