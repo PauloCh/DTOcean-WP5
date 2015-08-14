@@ -11,7 +11,7 @@ from wp5.load.wp_bom import load_WP3_BoM, load_WP4_BoM
 from wp5.logistics.operations import logOp_init
 from wp5.logistics.phase import logPhase_install_init, logPhase_OM_init
 from wp5.installation import planning, select_port
-from wp5.feasibility import glob_feas
+from wp5.feasibility.glob import glob_feas
 
 # # Set directory paths for loading inputs (@Tecanalia)
 mod_path = path.dirname(path.realpath(__file__))
@@ -79,8 +79,8 @@ if install['status'] == "pending":
             log_phase = install['phase'][log_phase_id]
             # determine feasiblity functions
             install['requirement'] = glob_feas(log_phase, log_phase_id,
-                                              user_inputs, wp2_outputs,
-                                              wp3_outputs, wp4_outputs)
+                                               user_inputs, wp2_outputs,
+                                               wp3_outputs, wp4_outputs)
 #            # selection of the maritime infrastructure
 #            install['selec'] = select_ve(install, log_phase_id,
 #                                         vessels, equipments)

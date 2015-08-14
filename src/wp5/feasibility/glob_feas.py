@@ -4,7 +4,9 @@ Created on Fri Aug 14 09:25:21 2015
 
 @author: BTeillant
 """
-from wp5.feasibility import wp1_feas, wp4_feas
+from wp5.feasibility.wp1 import wp1_feas
+from wp5.feasibility.wp4 import wp4_feas
+from wp5.feasibility.wp3 import wp3_feas
 # wp3_feas, wp4_feas
 
 def glob_feas(log_phase, log_phase_id, user_inputs, wp2_outputs, wp3_outputs, wp4_outputs):
