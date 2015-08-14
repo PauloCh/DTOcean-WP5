@@ -5,7 +5,7 @@ Created on Fri Aug 14 11:51:31 2015
 @author: BTeillant
 """
 
-def wp4_feas(install, log_phase_id, wp2_outputs, wp4_outputs):
+def wp4_feas(log_phase, log_phase_id, wp2_outputs, wp4_outputs):
 
     if log_phase_id == 'F_driven':
        # Equipment feasiblity
@@ -41,8 +41,4 @@ def wp4_feas(install, log_phase_id, wp2_outputs, wp4_outputs):
         # TO-DO
     elif log_phase_id == 'F_gravity':
         # TO-DO
-    
-    feasibility = {'equipment': [],
-                   'vessel': {'Crane Barge': ['Deck loading [m2/ton]','Sup', deck_loading],
-                              ]}}
     return feasibility

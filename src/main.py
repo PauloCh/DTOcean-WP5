@@ -78,9 +78,9 @@ if install['status'] == "pending":
             log_phase_id = install['plan'][x][y]
             log_phase = install['phase'][log_phase_id]
             # determine feasiblity functions
-#            install['requirement'] = glob_feas(install, log_phase_id,
-#                                              user_inputs, wp2_outputs,
-#                                              wp3_outputs, wp4_outputs)
+            install['requirement'] = glob_feas(log_phase, log_phase_id,
+                                              user_inputs, wp2_outputs,
+                                              wp3_outputs, wp4_outputs)
 #            # selection of the maritime infrastructure
 #            install['selec'] = select_ve(install, log_phase_id,
 #                                         vessels, equipments)
