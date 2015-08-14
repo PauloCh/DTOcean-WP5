@@ -82,12 +82,14 @@ if install['status'] == "pending":
                                                user_inputs, wp2_outputs,
                                                wp3_outputs, wp4_outputs)
 #            # selection of the maritime infrastructure
-#            install['selec'] = select_ve(install, log_phase_id,
+#            install['select'] = select_ve(install, log_phase_id,
 #                                         vessels, equipments)
 #            # matching requirements for combinations of port/vessel(s)/equipment
-#            install['selec'] = match(install, log_phase_id, ports,
+#            install['select'] = match(install, log_phase_id, ports,
 #                                     vessels, equipments)
-
+#            # schedule assessment of the different operation sequence
+#            install['schedule'] = schedule(install, log_phase_id, ports,
+#                                           vessels, equipments)
             ###### TO-DO-TO-DO-TO-DO-TO-DO-TO-DO-TO-DO !!!
 
 
