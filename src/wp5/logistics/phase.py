@@ -70,12 +70,12 @@ def logPhase_install_init(logOp, vessels, equipments):
     2nd Level - Define the diferent operations sequence and corresponding v&e combination for each Phase
     """
 
-    logPhase_install['F_driven'].op_ve[1] = DefPhase(1, 'Drilling')
-    logPhase_install['F_driven'].op_ve[2] = DefPhase(2, 'Hammering')
-    logPhase_install['F_driven'].op_ve[3] = DefPhase(3, 'Vibro Pilling')
+    logPhase_install['F_driven'].op_ve[0] = DefPhase(1, 'Drilling')
+    logPhase_install['F_driven'].op_ve[1] = DefPhase(2, 'Hammering')
+    logPhase_install['F_driven'].op_ve[2] = DefPhase(3, 'Vibro Pilling')
 
 
-    logPhase_install['F_driven'].op_ve[1].op_sequence = [logOp["op1"],
+    logPhase_install['F_driven'].op_ve[0].op_sequence = [logOp["op1"],
                                                                     logOp["op2"],
                                                                     logOp["op3"],
                                                                     logOp["op4"],
@@ -86,7 +86,7 @@ def logPhase_install_init(logOp, vessels, equipments):
                                                                     logOp["op7"],
                                                                     logOp["op8"]]
 
-    logPhase_install['F_driven'].op_ve[2].op_sequence = [logOp["op1"],
+    logPhase_install['F_driven'].op_ve[1].op_sequence = [logOp["op1"],
                                                                     logOp["op2"],
                                                                     logOp["op3"],
                                                                     logOp["op4"],
@@ -97,7 +97,7 @@ def logPhase_install_init(logOp, vessels, equipments):
                                                                     logOp["op7"],
                                                                     logOp["op8"]]
 
-    logPhase_install['F_driven'].op_ve[3].op_sequence = [logOp["op1"],
+    logPhase_install['F_driven'].op_ve[2].op_sequence = [logOp["op1"],
                                                                     logOp["op2"],
                                                                     logOp["op3"],
                                                                     logOp["op4"],
@@ -108,36 +108,36 @@ def logPhase_install_init(logOp, vessels, equipments):
                                                                     logOp["op7"],
                                                                     logOp["op8"]]
 
-    logPhase_install['F_driven'].op_ve[1].ve_combination[1] = {'vessel': {(1, vessels['Crane Barge']), (2, vessels['Tugboat'])},
-                                                               'equipment': (1, equipments['Drill Rig'])
+    logPhase_install['F_driven'].op_ve[0].ve_combination[0] = {'vessel': [(1, vessels['Crane Barge']), (2, vessels['Tugboat'])],
+                                                               'equipment': [(1, equipments['Drill Rig'])]
                                                                }
 
-    logPhase_install['F_driven'].op_ve[1].ve_combination[2] = {'vessel': (1, vessels['Crane Vessel']),
-                                                               'equipment': (1, equipments['Drill Rig'])
+    logPhase_install['F_driven'].op_ve[0].ve_combination[1] = {'vessel': [(1, vessels['Crane Vessel'])],
+                                                               'equipment': [(1, equipments['Drill Rig'])]
                                                                }
 
-    logPhase_install['F_driven'].op_ve[1].ve_combination[3] = {'vessel': {(1, vessels['JUP Barge']), (2, vessels['Tugboat'])},
-                                                               'equipment': (1, equipments['Drill Rig'])
+    logPhase_install['F_driven'].op_ve[0].ve_combination[2] = {'vessel': [(1, vessels['JUP Barge']), (2, vessels['Tugboat'])],
+                                                               'equipment': [(1, equipments['Drill Rig'])]
                                                                }
 
-    logPhase_install['F_driven'].op_ve[1].ve_combination[4] = {'vessel': (1, vessels['JUP Vessel']),
-                                                               'equipment': (1, equipments['Drill Rig'])
+    logPhase_install['F_driven'].op_ve[0].ve_combination[3] = {'vessel': [(1, vessels['JUP Vessel'])],
+                                                               'equipment': [(1, equipments['Drill Rig'])]
                                                                }
 
-    logPhase_install['F_driven'].op_ve[2].ve_combination[1] = {'vessel': {(1, vessels['Crane Barge']), (2, vessels['Tugboat'])},
-                                                               'equipment': (1, equipments['Hammer'])
+    logPhase_install['F_driven'].op_ve[1].ve_combination[0] = {'vessel': [(1, vessels['Crane Barge']), (2, vessels['Tugboat'])],
+                                                               'equipment': [(1, equipments['Hammer'])]
                                                                }
 
-    logPhase_install['F_driven'].op_ve[2].ve_combination[2] = {'vessel': (1, vessels['Crane Vessel']),
-                                                               'equipment': (1, equipments['Hammer'])
+    logPhase_install['F_driven'].op_ve[1].ve_combination[1] = {'vessel': [(1, vessels['Crane Vessel'])],
+                                                               'equipment': [(1, equipments['Hammer'])]
                                                                }
 
-    logPhase_install['F_driven'].op_ve[2].ve_combination[3] = {'vessel': {(1, vessels['JUP Barge']), (2, vessels['Tugboat'])},
-                                                               'equipment': (1, equipments['Hammer'])
+    logPhase_install['F_driven'].op_ve[1].ve_combination[2] = {'vessel': [(1, vessels['JUP Barge']), (2, vessels['Tugboat'])],
+                                                               'equipment': [(1, equipments['Hammer'])]
                                                                }
 
-    logPhase_install['F_driven'].op_ve[2].ve_combination[4] = {'vessel': (1, vessels['JUP Vessel']),
-                                                               'equipment': (1, equipments['Hammer'])
+    logPhase_install['F_driven'].op_ve[1].ve_combination[3] = {'vessel': [(1, vessels['JUP Vessel'])],
+                                                               'equipment': [(1, equipments['Hammer'])]
                                                                }
 
 
