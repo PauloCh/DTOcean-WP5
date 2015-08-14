@@ -39,7 +39,7 @@ wp4_outputs = load_WP4_BoM(database_file("WP4_BoM.csv"))
 
 """
 ### Initialise logistic operations and logistic phases
-"""  
+"""
 logOp = logOp_init()
 
 logPhase_install = logPhase_install_init(logOp, vessels, equipments)
@@ -50,6 +50,10 @@ logPhase_OM = logPhase_OM_init(logOp, vessels, equipments)
 """
 install_plan = planning.install_plan(user_inputs, wp3_outputs, wp4_outputs)
 
+# DUMMY-TO BE ERASED, install plan is constrained to F_drive because
+# we just have the F_driven characterized for now
+install_plan = {0: 'F_driven'}
+###
 """
 ### Determine the adequate installation logistic phase sequence
 """
@@ -66,14 +70,14 @@ install = {'phase': logPhase_install,
            'envir': {},
            'status': "pending"}
 
-#if install['status'] == "pending":
-#
-#    for x in install['plan']: # loop over the number of layers of the installation plan
-#        for y in install['plan'][x]: # loop over the number of logistic phases per layer
-#            # extract the LogPhase ID to be evaluated from the installation plan
-#            log_phase_id = install['plan'][x][y]
-#            log_phase = install['logPhase_install']
-#            # determine feasiblity functions
+if install['status'] == "pending":
+
+    for x in range(len(install['plan'])): # loop over the number of layers of the installation plan
+        for y in range(len(install['plan'][x])): # loop over the number of logistic phases per layer
+            # extract the LogPhase ID to be evaluated from the installation plan
+            log_phase_id = install['plan'][x][y]
+            log_phase = install['phase'][log_phase_id]
+            # determine feasiblity functions
 #            install['requirement'] = glob_feas(install, log_phase_id,
 #                                              user_inputs, wp2_outputs,
 #                                              wp3_outputs, wp4_outputs)
@@ -83,17 +87,16 @@ install = {'phase': logPhase_install,
 #            # matching requirements for combinations of port/vessel(s)/equipment
 #            install['selec'] = match(install, log_phase_id, ports,
 #                                     vessels, equipments)
-#            
-#            ###### TO-DO-TO-DO-TO-DO-TO-DO-TO-DO-TO-DO !!!
-#                    
-#
-#else:
-#    om_log = {'phase': logPhase_install,
-#              'port': install_port,
-#              'requirement': {},
-#              'select': {},
-#              'schedule': {},
-#              'cost': {},
+
+            ###### TO-DO-TO-DO-TO-DO-TO-DO-TO-DO-TO-DO !!!
+
+
+else:
+    om_log = {'phase': logPhase_install,
+              'port': install_port,
+              'requirement': {},
+              'select': {},
+              'schedule': {},
+              'cost': {},
 #              'risk': {},
-#              'envir': {}}
-    
+              'envir': {}}
