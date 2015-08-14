@@ -84,15 +84,10 @@ if install['status'] == "pending":
 
 #            # selection of the maritime infrastructure
             install['select'][0] = select_e(install, log_phase)
-#            install['select'][1] = select_v(install, log_phase)
-
-            # selection of the maritime infrastructure
-
-            # install['selec'] = select_ve(install, log_phase_id)
+            install['select'][1] = select_v(install, log_phase)
 
 #            # matching requirements for combinations of port/vessel(s)/equipment
-#            install['select'] = match(install, log_phase_id, ports,
-#                                     vessels, equipments)
+            install['select'] = match(install, log_phase)
 #            # schedule assessment of the different operation sequence
 #            install['schedule'] = schedule(install, log_phase_id, ports,
 #                                           vessels, equipments)
