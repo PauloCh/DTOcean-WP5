@@ -29,19 +29,28 @@ def wp4_feas(log_phase, log_phase_id, wp2_outputs, wp4_outputs):
             diam_u[len(diam_u):] = [max(diam_u_f[dev*x:(dev+1)*x])]
         deck_loading = max(load_u)
         deck_area = max(area_u)
-#        sleeve_diam = max(diam_u)
-        sleeve_diam = 0
-        feasibility = {'equipment': {'Hammer': ['Sleeve diameter', 'sup', sleeve_diam]},
-                       'vessel': {'Crane Barge': [['Deck loading', 'sup', deck_loading],
+        sleeve_diam = max(diam_u)
+
+#        feasibility = {'equipment': {'Hammer': ['Sleeve diameter', 'sup', sleeve_diam]},
+#                       'vessel': {'Crane Barge': [['Deck loading', 'sup', deck_loading],
+#                                                  ['Deck area', 'sup', deck_area]],
+#                                  'Crane Vessel': [['Deck loading', 'sup', deck_loading],
+#                                                   ['Deck area', 'sup', deck_area]],
+#                                  'JUP barge': [['Deck loading', 'sup', deck_loading],
+#                                                ['Deck area', 'sup', deck_area]],
+#                                  'JUP vessel': [['Deck loading', 'sup', deck_loading],
+#                                                 ['Deck area', 'sup', deck_area]]}}
+        feas_e= {'Hammer': ['Sleeve diameter', 'sup', sleeve_diam]}
+        feas_v = {'Crane Barge': [['Deck loading', 'sup', deck_loading],
                                                   ['Deck area', 'sup', deck_area]],
                                   'Crane Vessel': [['Deck loading', 'sup', deck_loading],
                                                    ['Deck area', 'sup', deck_area]],
                                   'JUP barge': [['Deck loading', 'sup', deck_loading],
                                                 ['Deck area', 'sup', deck_area]],
                                   'JUP vessel': [['Deck loading', 'sup', deck_loading],
-                                                 ['Deck area', 'sup', deck_area]]}}
+                                                 ['Deck area', 'sup', deck_area]]}
     elif log_phase_id == 'F_suction':        
         pass
     elif log_phase_id == 'F_gravity':
         pass
-    return feasibility
+    return feas_e, feas_v

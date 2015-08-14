@@ -59,8 +59,7 @@ install_plan = {0: ['F_driven']}
 """
 install_port = select_port.install_port(user_inputs, wp3_outputs, wp4_outputs, ports)
 
-install = {'phase': logPhase_install,
-           'plan': install_plan,
+install = {'plan': install_plan,
            'port': install_port,
            'requirement': {},
            'select': {},
@@ -76,14 +75,13 @@ if install['status'] == "pending":
         for y in range(len(install['plan'][x])): # loop over the number of logistic phases per layer
             # extract the LogPhase ID to be evaluated from the installation plan
             log_phase_id = install['plan'][x][y]
-            log_phase = install['phase'][log_phase_id]
+            log_phase = logPhase_install[log_phase_id]
             # determine feasiblity functions
             install['requirement'] = glob_feas(log_phase, log_phase_id,
                                                user_inputs, wp2_outputs,
                                                wp3_outputs, wp4_outputs)
             # selection of the maritime infrastructure
-            install['selec'] = select_ve(install, log_phase_id,
-                                         vessels, equipments)
+            install['selec'] = select_ve(install, log_phase_id)
 #            # matching requirements for combinations of port/vessel(s)/equipment
 #            install['selec'] = match(install, log_phase_id, ports,
 #                                     vessels, equipments)
@@ -92,7 +90,7 @@ if install['status'] == "pending":
 
 
 else:
-    om_log = {'phase': logPhase_install,
+    om_log = {'phase': logPhase_om,
               'port': install_port,
               'requirement': {},
               'select': {},
