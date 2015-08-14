@@ -81,9 +81,15 @@ if install['status'] == "pending":
             install['requirement'] = glob_feas(log_phase, log_phase_id,
                                                user_inputs, wp2_outputs,
                                                wp3_outputs, wp4_outputs)
+<<<<<<< HEAD
 #            # selection of the maritime infrastructure
 #            install['select'] = select_ve(install, log_phase_id,
 #                                         vessels, equipments)
+=======
+            # selection of the maritime infrastructure
+            install['selec'] = select_ve(install, log_phase_id,
+                                         vessels, equipments)
+>>>>>>> origin/master
 #            # matching requirements for combinations of port/vessel(s)/equipment
 #            install['select'] = match(install, log_phase_id, ports,
 #                                     vessels, equipments)
