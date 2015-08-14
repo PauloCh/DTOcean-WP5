@@ -41,14 +41,14 @@ def wp4_feas(log_phase, log_phase_id, wp2_outputs, wp4_outputs):
 #                                  'JUP vessel': [['Deck loading', 'sup', deck_loading],
 #                                                 ['Deck area', 'sup', deck_area]]}}
         feas_e= {'Hammer': [['Sleeve diameter [m]', 'sup', sleeve_diam]]}
-        feas_v = {'Crane Barge': [['Deck loading', 'sup', deck_loading],
-                                                  ['Deck area', 'sup', deck_area]],
-                                  'Crane Vessel': [['Deck loading', 'sup', deck_loading],
-                                                   ['Deck area', 'sup', deck_area]],
-                                  'JUP barge': [['Deck loading', 'sup', deck_loading],
-                                                ['Deck area', 'sup', deck_area]],
-                                  'JUP vessel': [['Deck loading', 'sup', deck_loading],
-                                                 ['Deck area', 'sup', deck_area]]}
+        feas_v = {'Crane Barge': [['Deck loading [ton/m2]', 'sup', deck_loading],
+                                  ['Deck Space [m]', 'sup', deck_area]],
+                  'Crane Vessel': [['Deck loading [ton/m2]', 'sup', deck_loading],
+                                   ['Deck Space [m]', 'sup', deck_area]],
+                  'Jack-up barge': [['Deck loading [ton/m2]', 'sup', deck_loading],
+                                ['Deck Space [m]', 'sup', deck_area]],
+                  'Jack-up vessel': [['Deck loading [ton/m2]', 'sup', deck_loading],
+                                 ['Deck Space [m]', 'sup', deck_area]]}
     elif log_phase_id == 'F_suction':        
         pass
     elif log_phase_id == 'F_gravity':
