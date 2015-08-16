@@ -33,14 +33,14 @@ def wp4_feas(log_phase, log_phase_id, wp2_outputs, wp4_outputs):
 
         feas_e = {'Hammer': [['Sleeve diameter [m]', 'sup', sleeve_diam]]}
         feas_v = {'Crane Barge': [['Deck loading [ton/m2]', 'sup', deck_loading],
-                                  ['Deck space [m]', 'sup', deck_area]],
+                                  ['Deck space [m2]', 'sup', deck_area]],
                   'Crane Vessel': [['Deck loading [ton/m2]', 'sup', deck_loading],
-                                   ['Deck space [m]', 'sup', deck_area]],
-                  'Jack-up barge': [['Deck loading [ton/m2]', 'sup', deck_loading],
-                                ['Deck space [m]', 'sup', deck_area]],
-                  'Jack-up vessel': [['Deck loading [ton/m2]', 'sup', deck_loading],
-                                 ['Deck space [m]', 'sup', deck_area]]}
-    elif log_phase_id == 'F_suction':        
+                                   ['Deck space [m2]', 'sup', deck_area]],
+                  'JUP Barge': [['Deck loading [ton/m2]', 'sup', deck_loading],
+                                ['Deck space [m2]', 'sup', deck_area]],
+                  'JUP Vessel': [['Deck loading [ton/m2]', 'sup', deck_loading],
+                                 ['Deck space [m2]', 'sup', deck_area]]}
+    elif log_phase_id == 'F_suction':
         pass
     elif log_phase_id == 'F_gravity':
         pass

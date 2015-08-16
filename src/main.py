@@ -66,7 +66,7 @@ install = {'plan': install_plan,
            'requirement': {},
            'eq_select': {},
            'ves_select': {},
-           'combi_selec': {},
+           'combi_select': {},
            'schedule': {},
            'cost': {},
            'risk': {},
@@ -86,9 +86,11 @@ if install['status'] == "pending":
                                                wp3_outputs, wp4_outputs)
 
 #            # selection of the maritime infrastructure
-            install['eq_select'] = select_e(install, log_phase)
-            install['ves_select'] = select_v(install, log_phase)
+            install['eq_select'] = select_e(install, log_phase)[0]
+            log_phase = select_v(install, log_phase)[1]
 
+            install['ves_select'] = select_v(install, log_phase)[0]
+            log_phase = select_v(install, log_phase)[1]
 #            # matching requirements for combinations of port/vessel(s)/equipment
             install['combi_select'] = compatibility(install, log_phase)
 #            # schedule assessment of the different operation sequence
