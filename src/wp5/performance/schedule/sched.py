@@ -7,22 +7,27 @@ Created on Sun Aug 16 11:53:24 2015
 
 def sched(install, log_phase):
     for seq in range(len(log_phase.op_ve)):
-            for op in range(len(log_phase.op_ve[seq].op_sequence)):
-                log_op = log_phase.op_ve[seq].op_sequence
-                if log_op[op].description == "Transportation from port to site":
-                    coordinates = 'none'
-                    map_land = 'none'
-                    dist_p2s = distance(coordinates, map_land) # [km]
-                    sailing_speed = 20.0 # [km/h]
-                    log_op[op].time = dist_p2s/sailing_speed
+        for op in range(len(log_phase.op_ve[seq].op_sequence)):
+            op_dur_prep = []
+            op_dur_sea = []
+            log_op = log_phase.op_ve[seq].op_sequence
+            if log_op[op].description == "Transportation from port to site":
+                coordinates = 'none'
+                map_land = 'none'
+                dist_p2s = distance(coordinates, map_land) # [km]
+                sailing_speed = 20.0 # [km/h]
+                log_op[op].time = dist_p2s/sailing_speed
+            elif log_op[op].description == "Mobilisation":
+                pass
+            
+            op_dur[len(op_dur):] = log_op[op].time
                     
-                    
-    def distance(coordinates, map_land)
+    def distance(coordinates, map_land):
         '''
         distance returns the calculated distance between two points
         TO BE PROVIDED BY UEDIN (WP3)
         '''
-        return 20.0s
+        return 20.0
     def indices(a, func):
         '''
         indices returns the indices of a vector "a" that satisfy the 
