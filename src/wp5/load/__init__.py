@@ -21,13 +21,13 @@ def load_vessel_data(file_path):
     vessels = {'Tugboat': VesselType("Tug boat", pd_vessel[pd_vessel['Vessel type'] == 'Tug']),
                'Crane Barge': VesselType("Crane barge", pd_vessel[pd_vessel['Vessel type'] == 'Crane Barge']),
                'Crane Vessel': VesselType("Crane vessel", pd_vessel[pd_vessel['Vessel type'] == 'Crane Vessel']),
-               'JUP Barge': VesselType("Jack-up barge", pd_vessel[pd_vessel['Vessel type'] == 'Jack-up barge']),
-               'JUP Vessel': VesselType("Jack-up vessel", pd_vessel[pd_vessel['Vessel type'] == 'Jack-up vessel']),
-               'Anchor Handling': VesselType("Anchor Handling (AHTS or AHT)", pd_vessel[pd_vessel['Vessel type'] == 'AHTS']),
+               'JUP Barge': VesselType("JUP Barge", pd_vessel[pd_vessel['Vessel type'] == 'Jack-up barge']),
+               'JUP Vessel': VesselType("JUP Vessel", pd_vessel[pd_vessel['Vessel type'] == 'Jack-up vessel']),
+               'Anchor Handling': VesselType("AHTS", pd_vessel[pd_vessel['Vessel type'] == 'AHTS']),
                'Multicat': VesselType("Multicat", pd_vessel[pd_vessel['Vessel type'] == 'Multicat']),
-               'CLV': VesselType("Cable Laying Vessel", pd_vessel[pd_vessel['Vessel type'] == 'CLV']),
-               'CLB': VesselType("Cable Laying Barge", pd_vessel[pd_vessel['Vessel type'] == 'CLB']),
-               'CTV': VesselType("Crew Transfer Vessel", pd_vessel[pd_vessel['Vessel type'] == 'CTV'])
+               'CLV': VesselType("CLV", pd_vessel[pd_vessel['Vessel type'] == 'CLV']),
+               'CLB': VesselType("CLB", pd_vessel[pd_vessel['Vessel type'] == 'CLB']),
+               'CTV': VesselType("CTV", pd_vessel[pd_vessel['Vessel type'] == 'CTV'])
                }
 
     return vessels
