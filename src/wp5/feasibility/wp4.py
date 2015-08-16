@@ -33,7 +33,7 @@ def wp4_feas(log_phase, log_phase_id, wp2_outputs, wp4_outputs):
 
         feas_e = {'Hammer': [['Sleeve diameter [m]', 'sup', sleeve_diam]]}
         feas_v = {'Crane Barge': [['Deck loading [ton/m2]', 'sup', deck_loading],
-                                  ['Deck space [m2]', 'sup', deck_area]],
+                                  ['Deck space [m2]', 'sup', 2000]],
                   'Crane Vessel': [['Deck loading [ton/m2]', 'sup', deck_loading],
                                    ['Deck space [m2]', 'sup', deck_area]],
                   'JUP Barge': [['Deck loading [ton/m2]', 'sup', deck_loading],

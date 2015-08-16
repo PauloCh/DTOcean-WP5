@@ -87,7 +87,7 @@ if install['status'] == "pending":
 
 #            # selection of the maritime infrastructure
             install['eq_select'] = select_e(install, log_phase)[0]
-            log_phase = select_v(install, log_phase)[1]
+            log_phase = select_e(install, log_phase)[1]
 
             install['ves_select'] = select_v(install, log_phase)[0]
             log_phase = select_v(install, log_phase)[1]

@@ -87,26 +87,26 @@ def logPhase_install_init(logOp, vessels, equipments):
                                                                     logOp["op8"]]
 
     logPhase_install['F_driven'].op_ve[1].op_sequence = [logOp["op1"],
-                                                                    logOp["op2"],
-                                                                    logOp["op3"],
-                                                                    logOp["op4"],
-                                                                    logOp["op5"],
-                                                                    logOp["op_F2"],
-                                                                    logOp["op_F7"],
-                                                                    logOp["op6"],
-                                                                    logOp["op7"],
-                                                                    logOp["op8"]]
+                                                         logOp["op2"],
+                                                         logOp["op3"],
+                                                         logOp["op4"],
+                                                         logOp["op5"],
+                                                         logOp["op_F2"],
+                                                         logOp["op_F7"],
+                                                         logOp["op6"],
+                                                         logOp["op7"],
+                                                         logOp["op8"]]
 
     logPhase_install['F_driven'].op_ve[2].op_sequence = [logOp["op1"],
-                                                                    logOp["op2"],
-                                                                    logOp["op3"],
-                                                                    logOp["op4"],
-                                                                    logOp["op5"],
-                                                                    logOp["op_F3"],
-                                                                    logOp["op_F7"],
-                                                                    logOp["op6"],
-                                                                    logOp["op7"],
-                                                                    logOp["op8"]]
+                                                         logOp["op2"],
+                                                         logOp["op3"],
+                                                         logOp["op4"],
+                                                         logOp["op5"],
+                                                         logOp["op_F3"],
+                                                         logOp["op_F7"],
+                                                         logOp["op6"],
+                                                         logOp["op7"],
+                                                         logOp["op8"]]
 
     logPhase_install['F_driven'].op_ve[0].ve_combination[0] = {'vessel': [(1, vessels['Crane Barge']), (2, vessels['Tugboat'])],
                                                                'equipment': [(1, equipments['Drill Rig'])]
