@@ -36,6 +36,8 @@ def select_e (install, log_phase):
 def select_v (install, log_phase):
 
     req_v = install['requirement'][1]
+#    ves = dict.fromkeys(req_v.keys()) #Initialize an empty dic with the name of the vessels to be evaluated
+
     for typ in range(len(req_v)):
         v_key_req = req_v.keys()[typ]
 
