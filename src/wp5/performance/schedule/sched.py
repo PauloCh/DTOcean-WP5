@@ -76,7 +76,7 @@ def sched(install, log_phase, user_inputs, wp2_outputs, wp3_outputs,
         return  ww
         
     for seq in range(len(log_phase.op_ve)):
-        for sol in :
+        for sol in range(len(log_phase.op_ve[seq].sol)):
             for op in range(len(log_phase.op_ve[seq].op_sequence[sol])):
                 op_dur_prep = []
                 op_dur_sea = []
@@ -152,3 +152,5 @@ def sched(install, log_phase, user_inputs, wp2_outputs, wp3_outputs,
             index_ww_dur = indices(weather_wind['duration'], lambda x: x >= dur_total_sea)
             index_ww = index_ww_start or index_ww_dur
             waiting_time = weather_wind['start'][index_ww[0]] - starting_time
+            
+    return waiting_time
