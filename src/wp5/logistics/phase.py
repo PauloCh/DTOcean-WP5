@@ -38,7 +38,7 @@ class VE_solutions(object):
         self.cost = {}
 
 """
-#### Definition of the logistic pahase by invocaking the class LogPhase #######
+#### Definition of the logistic pahase by invoking the class LogPhase #######
 # Invocation of the full list of logistic phases covered in WP5
 # Explanation of the key ID numbering system implemented:
 # 1st digit:  1 = Installation;
