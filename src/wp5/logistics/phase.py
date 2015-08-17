@@ -4,7 +4,6 @@ phase.py is the file governing the definition of the logistic phases
 
 """
 
-
 class LogPhase(object):
 
     def __init__(self, id, description):
@@ -20,7 +19,6 @@ class LogPhase(object):
 #        self.environmental = environment
 #        self.risk = risk
 
-
 class DefPhase(object):
 
     def __init__(self, id, description):
@@ -28,7 +26,16 @@ class DefPhase(object):
         self.description = description
         self.op_sequence = {}
         self.ve_combination = {}
+        self.sol = {}
 
+class VE_solutions(object):
+
+    def __init__(self, id):
+        self.id = id
+        self.sol_ves = {}
+        self.sol_eq = {}
+        self.schedule = {}
+        self.cost = {}
 
 """
 #### Definition of the logistic pahase by invocaking the class LogPhase #######
@@ -76,15 +83,15 @@ def logPhase_install_init(logOp, vessels, equipments):
 
 
     logPhase_install['F_driven'].op_ve[0].op_sequence = [logOp["op1"],
-                                                                    logOp["op2"],
-                                                                    logOp["op3"],
-                                                                    logOp["op4"],
-                                                                    logOp["op5"],
-                                                                    logOp["op_F1"],
-                                                                    logOp["op_F7"],
-                                                                    logOp["op6"],
-                                                                    logOp["op7"],
-                                                                    logOp["op8"]]
+                                                         logOp["op2"],
+                                                         logOp["op3"],
+                                                         logOp["op4"],
+                                                         logOp["op5"],
+                                                         logOp["op_F1"],
+                                                         logOp["op_F7"],
+                                                         logOp["op6"],
+                                                         logOp["op7"],
+                                                         logOp["op8"]]
 
     logPhase_install['F_driven'].op_ve[1].op_sequence = [logOp["op1"],
                                                          logOp["op2"],
@@ -139,7 +146,6 @@ def logPhase_install_init(logOp, vessels, equipments):
     logPhase_install['F_driven'].op_ve[1].ve_combination[3] = {'vessel': [(1, vessels['JUP Vessel'])],
                                                                'equipment': [(1, equipments['Hammer'])]
                                                                }
-
 
     return logPhase_install
 

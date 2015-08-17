@@ -13,7 +13,7 @@ from wp5.logistics.phase import logPhase_install_init, logPhase_OM_init
 from wp5.installation import planning, select_port
 from wp5.feasibility.glob import glob_feas
 from wp5.selection.select_ve import select_e, select_v
-from wp5.selection.match import compatibility
+from wp5.selection.match import compatibility_ve
 
 # # Set directory paths for loading inputs (@Tecanalia)
 mod_path = path.dirname(path.realpath(__file__))
@@ -65,7 +65,7 @@ install = {'plan': install_plan,
            'port': install_port,
            'requirement': {},
            'eq_select': {},
-           'ves_select': {},
+           've_select': {},
            'combi_select': {},
            'schedule': {},
            'cost': {},
@@ -86,13 +86,13 @@ if install['status'] == "pending":
                                                wp3_outputs, wp4_outputs)
 
 #            # selection of the maritime infrastructure
-            install['eq_select'] = select_e(install, log_phase)[0]
-            log_phase = select_e(install, log_phase)[1]
+            install['eq_select'], log_phase = select_e(install, log_phase)
+            install['ve_select'], log_phase = select_v(install, log_phase)
 
-            install['ves_select'] = select_v(install, log_phase)[0]
-            log_phase = select_v(install, log_phase)[1]
 #            # matching requirements for combinations of port/vessel(s)/equipment
-            install['combi_select'] = compatibility(install, log_phase)
+#            install['combi_select'] = compatibility_vp(install, log_phase)
+            log_phase = compatibility_ve(install, log_phase)
+
 #            # schedule assessment of the different operation sequence
 #            install['schedule'] = schedule(install, log_phase_id, ports,
 #                                           vessels, equipments)
