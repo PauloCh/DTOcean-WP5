@@ -5,23 +5,9 @@ Created on Sun Aug 16 11:53:24 2015
 @author: BTeillant
 """
 
-def sched(install, log_phase):
-    for seq in range(len(log_phase.op_ve)):
-        for op in range(len(log_phase.op_ve[seq].op_sequence)):
-            op_dur_prep = []
-            op_dur_sea = []
-            log_op = log_phase.op_ve[seq].op_sequence
-            if log_op[op].description == "Transportation from port to site":
-                coordinates = 'none'
-                map_land = 'none'
-                dist_p2s = distance(coordinates, map_land) # [km]
-                sailing_speed = 20.0 # [km/h]
-                log_op[op].time = dist_p2s/sailing_speed
-            elif log_op[op].description == "Mobilisation":
-                pass
-            
-            op_dur[len(op_dur):] = log_op[op].time
-                    
+def sched(install, log_phase, user_inputs, wp2_outputs, wp3_outputs, 
+          wp4_outputs):
+    
     def distance(coordinates, map_land):
         '''
         distance returns the calculated distance between two points
@@ -39,7 +25,7 @@ def sched(install, log_phase):
         differences returns a vector containing the difference 
         '''
         return [j-i for i, j in zip(a[:-1], a[1:])] 
-        
+    
     def weatherWindow(user_inputs, olc):
         '''
         this functions returns the starting times and the durations of all weather
@@ -48,10 +34,11 @@ def sched(install, log_phase):
         '''
         # Initialisation
         met_ocean = user_inputs['metocean']
-        
+        ww = {'start': 0,
+              'duraiton': 0}
         # Operational limit conditions (consdiered static over the entire duration of the marine operation fro the moment)
         timeStep = met_ocean.hour.ix[1]-met_ocean.hour.ix[0]
-        resourceDataPointNb = len(met_ocean.waveHs)
+        # resourceDataPointNb = len(met_ocean.waveHs)
         # Build the binary weather windows: 1=authorized access, 0=denied access
         Hs_bin = map(float, met_ocean.waveHs > olc['maxHs'])
         Ws_bin = map(float, met_ocean.windSpeed > olc['maxWs'])
@@ -60,7 +47,7 @@ def sched(install, log_phase):
 
         ## Determine the durations and the starting times of the weather windows
         # Look for all indexes permitting access
-        WW_authorized = indices(WW_bin,lambda x: x==1)
+        WW_authorized = indices(WW_bin, lambda x: x == 1)
         if not WW_authorized:
             print'Not a single permitting weather window was found with the criteria specified for one vessel with these met-ocean data!'
         else:
@@ -87,17 +74,81 @@ def sched(install, log_phase):
             duration = numpy.array(WW_findConsecutive1)
             ww['duration'] = duration * timeStep
         return  ww
-    durations = 
-    olc['maxHs'] = min(log_sol['vesselSol'].ix['Max. Hs'],log_sol['equipmentSol'].ix[17]) # [1.5, 1.5, 1.5, 1.5, 1.5]
-    olc['maxWs'] = min(log_sol['vesselSol'].ix['Max. Us'],log_sol['equipmentSol'].ix[20]) #
-    ww = {'start': 'none',
-         'duration': 'one'}
-    weather_wind = weatherWindow(metOcean, owl, ww)
+        
+    for seq in range(len(log_phase.op_ve)):
+        for sol in :
+            for op in range(len(log_phase.op_ve[seq].op_sequence[sol])):
+                op_dur_prep = []
+                op_dur_sea = []
+                olc_sea_Hs = []
+                olc_sea_Tp = []
+                olc_sea_Ws = []
+                olc_sea_Cs = []
+                olc = {'maxHs': 0,
+                       'maxTp': 0,
+                       'maxWs': 0, 
+                       'maxCs': 0}
+                log_op = log_phase.op_ve[seq].op_sequence
+                if log_op[op].description == "Transportation from port to site":
+                    coordinates = 'none'
+                    map_land = 'none'
+                    dist_p2s = distance(coordinates, map_land)  # [km]
+                    sailing_speed = 20.0  # [km/h]
+                    # sailing_speed = 20.0  # [km/h]
+                    log_op[op].time = dist_p2s/sailing_speed  # [h]
+                    op_dur_sea[len(op_dur_sea):] = [log_op[op].time]
+                    olc_sea_Hs[len(olc_sea_Hs):] = [1.5]
+                    # olc_sea_Hs[len(olc_sea_Hs):] =  log_phase.op_ve[seq].ve_combination[combi].solution[2]
+                elif log_op[op].description == "Mobilisation":
+                    log_op[op].time = 48
+                    op_dur_prep[len(op_dur_prep):] = [log_op[op].time]
+                elif log_op[op].description == "Assembly at port":
+                    log_op[op].time = 0
+                    op_dur_prep[len(op_dur_prep):] = [log_op[op].time]
+                elif log_op[op].description == "Vessel preparation and loading":
+                    log_op[op].time = 24
+                    op_dur_prep[len(op_dur_prep):] = [log_op[op].time]
+                elif log_op[op].description == "Seafloor and equipment preparation on-site":
+                    log_op[op].time = 0.5
+                    op_dur_sea[len(op_dur_sea):] = [log_op[op].time]
+                elif log_op[op].description == "Driven pile foundation seafloor penetration through drilling rig + positioning":
+                    log_op[op].time = 3
+                    op_dur_sea[len(op_dur_sea):] = [log_op[op].time]
+                    olc_sea_Ws[op] = 20 # [m/s]
+                elif log_op[op].description == "Driven pile foundation seafloor penetration through hammering + positioning":
+                    log_op[op].time = 5
+                    op_dur_sea[len(op_dur_sea):] = [log_op[op].time]
+                elif log_op[op].description == "Driven pile foundation seafloor penetration through vibro-driving + positioning":
+                    log_op[op].time = 6
+                    op_dur_sea[len(op_dur_sea):] = [log_op[op].time]
+                elif log_op[op].description == "Transportation from site to port":
+                    coordinates = 'none'
+                    map_land = 'none'
+                    dist_p2s = distance(coordinates, map_land)  # [km]
+                    sailing_speed = 20.0  # [km/h]
+                    log_op[op].time = dist_p2s/sailing_speed  # [h]
+                    op_dur_sea[len(op_dur_sea):] = [log_op[op].time]
+            if olc_sea_Hs:
+                olc['maxHs'] = min(olc_sea_Hs) # 
+            if olc_sea_Tp:
+                olc['maxTp'] = min(olc_sea_Tp) #
+            if olc_sea_Ws:
+                olc['maxWs'] = min(olc_sea_Ws) #
+            if olc_sea_Cs:
+                olc['maxCs'] = min(olc_sea_Cs) # 
+            
+            weather_wind = weatherWindow(user_inputs, olc)
     #durations.pop(0)
-    duration_total = sum(durations) - durations[0]
-    starting_time = 0
-    index_ww_start = indices(weather_wind['start'], lambda x: x>starting_time)
-                             #and weatherWind['duration']>=duration_total)/
-    index_ww_dur = indices(weather_wind['duration'], lambda x: x>=duration_total)
-    index_ww = index_ww_start or index_ww_dur
-    waiting_time = weather_wind['start'][index_ww[0]] - starting_time
+            dur_total_sea = sum(op_dur_sea)
+            if x == 0:
+                start_proj = user_inputs['device']['Project starting time [-]'].ix[0]
+                
+                starting_time = start_proj + sum(op_dur_prep)
+            elif x > 0:
+                last_end_time = max(install['schedule'][end_time])
+                starting_time = last_end_time + sum(op_dur_prep)
+            index_ww_start = indices(weather_wind['start'], lambda x: x > starting_time)
+                                     #and weatherWind['duration']>=duration_total)/
+            index_ww_dur = indices(weather_wind['duration'], lambda x: x >= dur_total_sea)
+            index_ww = index_ww_start or index_ww_dur
+            waiting_time = weather_wind['start'][index_ww[0]] - starting_time

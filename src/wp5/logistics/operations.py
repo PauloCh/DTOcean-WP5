@@ -36,7 +36,7 @@ class LogOp(object):
 
 def logOp_init():
 
-    logOp = {"op1": LogOp(10, "Mobilisation", [0, 0, 0, 0], 48 0),
+    logOp = {"op1": LogOp(10, "Mobilisation", [0, 0, 0, 0], 48, 0),
              "op2": LogOp(11, "Assembly at port", [0, 0, 0, 0], 1, 0),
              "op3": LogOp(13, "Vessel preparation and loading", [0, 0, 0, 0], 1, 0),
              "op4": LogOp(14, "Transportation from port to site", [0, 0, 0, 0], 1, 0),
