@@ -1,5 +1,6 @@
 from ..logistics.phase import VE_solutions
 
+
 def compatibility_ve(install, log_phase):
 
     log_phase.op_ve[1].sol[0] = VE_solutions(0)
@@ -25,8 +26,8 @@ def compatibility_ve(install, log_phase):
 #    for seq in log_phase.op_ve.keys():
 #        for combi in log_phase.op_ve[seq].ve_combination.keys():
 #
-##            log_phase.op_ve[seq].ve_combination[combi]['vessel']
-##            log_phase.op_ve[seq].ve_combination[combi]['equipment']
+#            log_phase.op_ve[seq].ve_combination[combi]['vessel']
+#            log_phase.op_ve[seq].ve_combination[combi]['equipment']
 #
 #            for nr_ves in range(len(log_phase.op_ve[seq].ve_combination[combi]['vessel'])):
 #                pd_ves = log_phase.op_ve[seq].ve_combination[combi]['vessel'][nr_ves][1].panda
@@ -40,17 +41,17 @@ def compatibility_ve(install, log_phase):
 #                pd_eq = log_phase.op_ve[seq].ve_combination[combi]['equipment'][nr_eq][1].panda
 #                pd_eq_index = pd_eq.index
 #
-##                for ves in len(pd_index):
+#                for ves in len(pd_index):
+#
+#                    sol[0] =
+#
+#                    log_phase.op_ve[seq].ve_combination[combi].sol[ves] = VE_solutions(ves)
 ##
-##                    sol[0] =
-##
-##                    log_phase.op_ve[seq].ve_combination[combi].sol[ves] = VE_solutions(ves)
-##
-##                    log_phase.op_ve[seq].ve_combination[combi].sol[ves].sol_ve[ = pd.ix[pd_index[ves]]
-##
-##                    sol[0] = {'sol_ve': 0: panda
-##                                        1: panda
-##                              'sol_eq': 0: panda}
+#                    log_phase.op_ve[seq].ve_combination[combi].sol[ves].sol_ve[ = pd.ix[pd_index[ves]]
+#
+#                    sol[0] = {'sol_ve': 0: panda
+#                                        1: panda
+#                              'sol_eq': 0: panda}
 ##
 #                pass
 
