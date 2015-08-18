@@ -22,6 +22,25 @@ def compatibility_ve(install, log_phase):
     log_phase.op_ve[1].sol[1].sol_ves[1] = pd_ves1.ix[pd_ves1_index[1]]
     log_phase.op_ve[1].sol[1].sol_eq[0] = pd_eq.ix[pd_eq_index[0]]
 
+    return log_phase
+
+def compatibility_ve_om(install, log_phase):
+
+    log_phase.op_ve[0].sol[0] = VE_solutions(0)
+    log_phase.op_ve[0].sol[1] = VE_solutions(1)
+
+    pd_ves0 = log_phase.op_ve[0].ve_combination[0]['vessel'][0][1].panda
+    pd_ves0_index = pd_ves0.index
+
+    pd_ves1 = log_phase.op_ve[0].ve_combination[1]['vessel'][0][1].panda
+    pd_ves1_index = pd_ves1.index
+
+    log_phase.op_ve[0].sol[0].sol_ves[0] = pd_ves0.ix[pd_ves0_index[0]]
+
+    log_phase.op_ve[0].sol[1].sol_ves[0] = pd_ves1.ix[pd_ves1_index[1]]
+
+    return log_phase
+
 #    for seq in log_phase.op_ve.keys():
 #        for combi in log_phase.op_ve[seq].ve_combination.keys():
 #
@@ -54,7 +73,7 @@ def compatibility_ve(install, log_phase):
 ##
 #                pass
 
-    return log_phase
+
 
 #    def compatibility_ve (install, log_phase):
 #

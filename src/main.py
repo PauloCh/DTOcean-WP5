@@ -8,9 +8,11 @@ from wp5.logistics.operations import logOp_init
 from wp5.logistics.phase import logPhase_install_init, logPhase_OM_init
 from wp5.installation import planning, select_port
 from wp5.feasibility.glob import glob_feas
+from wp5.feasibility.wp6 import wp6_feas
 from wp5.selection.select_ve import select_e, select_v
-from wp5.selection.compatibility import compatibility_ve
+from wp5.selection.match import compatibility_ve, compatibility_ve_om
 from wp5.performance.schedule.schedule import sched
+from wp5.performance.schedule.schedule_om import sched_om
 
 # # Set directory paths for loading inputs (@Tecanalia)
 mod_path = path.dirname(path.realpath(__file__))
@@ -98,15 +100,40 @@ if install['status'] == "pending":
             install['schedule'] = sched(x, install, log_phase, user_inputs, wp2_outputs, wp3_outputs, wp4_outputs)
             # TO DO
 
-        else:
-            om_log = {'phase': logPhase_OM,
-                      'port': install_port,
-                      'requirement': {},
-                      'select': {},
-                      'schedule': {},
-                      'cost': {},
-                      # 'risk': {},
-                      'envir': {}}
+"""
+### Determine the adequate installation logistic phase sequence
+"""
+OM_port = select_port.OM_port(wp6_outputs, ports)
+
+om = {'phase': logPhase_OM,
+      'port': OM_port,
+      'requirement': {},
+      'select': {},
+      'schedule': {},
+      'cost': {},
+      # 'risk': {},
+      'envir': {}
+      }
+
+# extract the LogPhase ID to be evaluated from the installation plan
+log_phase_id = 'insp'
+log_phase = logPhase_OM[log_phase_id]
+
+# determine feasiblity functions
+om['requirement'] = wp6_feas(log_phase, log_phase_id, wp6_outputs)
+
+# selection of the maritime infrastructure
+om['eq_select'], log_phase = select_e(om, log_phase)
+om['ve_select'], log_phase = select_v(om, log_phase)
+
+# matching requirements for combinations of port/vessel(s)/equipment
+log_phase = compatibility_ve_om(om, log_phase)
+#log_phase = compatibility_ve(install, log_phase)
+#
+## schedule assessment of the different operation sequence
+install['schedule'] = sched_om(om, log_phase, user_inputs, wp6_outputs)
+## TO DO
+
 
 
 #if __name__ == "__main__":
