@@ -9,6 +9,7 @@ from wp5.feasibility.wp4 import wp4_feas
 from wp5.feasibility.wp3 import wp3_feas
 # wp3_feas, wp4_feas
 
+
 def glob_feas(log_phase, log_phase_id, user_inputs, wp2_outputs, wp3_outputs, wp4_outputs):
     if any(log_phase_id in s for s in ['E_export', 'E_array', 'E_cp']):
         feasibility = wp3_feas(log_phase, log_phase_id, wp3_outputs)
