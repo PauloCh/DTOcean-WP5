@@ -13,6 +13,7 @@ from wp5.selection.select_ve import select_e, select_v
 from wp5.selection.match import compatibility_ve, compatibility_ve_om
 from wp5.performance.schedule.schedule import sched
 from wp5.performance.schedule.schedule_om import sched_om
+from wp5.performance.economic.eco import cost
 
 # # Set directory paths for loading inputs (@Tecanalia)
 mod_path = path.dirname(path.realpath(__file__))
@@ -98,6 +99,9 @@ if install['status'] == "pending":
 
             # schedule assessment of the different operation sequence
             install['schedule'] = sched(x, install, log_phase, user_inputs, wp2_outputs, wp3_outputs, wp4_outputs)
+
+            # cost assessment of the different operation sequenc
+            install['cost'] = cost(install, log_phase)
             # TO DO
 
 """
@@ -131,11 +135,14 @@ log_phase = compatibility_ve_om(om, log_phase)
 #log_phase = compatibility_ve(install, log_phase)
 #
 ## schedule assessment of the different operation sequence
-install['schedule'] = sched_om(om, log_phase, user_inputs, wp6_outputs)
+log_phase = sched_om(om, log_phase, user_inputs, wp6_outputs)
+
+# cost assessment of the different operation sequenc
+install['cost'] = cost(om, log_phase)
 ## TO DO
 
 
 
 #if __name__ == "__main__":
 #    run()
-    
+
