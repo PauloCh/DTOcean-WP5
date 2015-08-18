@@ -95,7 +95,7 @@ def sched(x, install, log_phase, user_inputs, wp2_outputs, wp3_outputs,
                     coordinates = 'none'
                     map_land = 'none'
                     dist_p2s = distance(coordinates, map_land)  # [km]
-                    sailing_speed = 20.0  # [km/h]
+                    sailing_speed = log_phase.op_ve[seq].sol[sol].sol_ves[0]['Transit speed [m/s]'] # [km/h]
                     # sailing_speed = 20.0  # [km/h]
                     log_op[op].time = dist_p2s/sailing_speed  # [h]
                     op_dur_sea[len(op_dur_sea):] = [log_op[op].time]
@@ -127,7 +127,7 @@ def sched(x, install, log_phase, user_inputs, wp2_outputs, wp3_outputs,
                     coordinates = 'none'
                     map_land = 'none'
                     dist_p2s = distance(coordinates, map_land)  # [km]
-                    sailing_speed = 20.0  # [km/h]
+                    sailing_speed = log_phase.op_ve[seq].sol[sol].sol_ves[0]['Transit speed [m/s]']  # [km/h]
                     log_op[op].time = dist_p2s/sailing_speed  # [h]
                     op_dur_sea[len(op_dur_sea):] = [log_op[op].time]
 
