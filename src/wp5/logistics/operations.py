@@ -67,7 +67,10 @@ def logOp_init():
              "op_M9": LogOp(48, "Direct-embedment anchor seafloor penetration through mechanical-embedment + mooring lines deployment", [0, 0, 0, 0], 0, 0),
 
              "op_D1": LogOp(50, "On-site posisitioning and connection of bottom-fixed device", [0, 0, 0, 0], 0, 0),
-             "op_D2": LogOp(51, "On-site posisitioning and connection of floating device", [0, 0, 0, 0], 0, 0)
+             "op_D2": LogOp(51, "On-site posisitioning and connection of floating device", [0, 0, 0, 0], 0, 0),
+
+             "op_OM1": LogOp(50, "Inspection Maintenance Onsite", [0, 0, 0, 0], 0, 0)
+
              }
 
     return logOp

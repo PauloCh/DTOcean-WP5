@@ -3,6 +3,7 @@ from os import path
 from wp5.load import load_vessel_data, load_equipment_data, load_port_data
 from wp5.load.wp_bom import load_WP1_BoM, load_WP2_BoM
 from wp5.load.wp_bom import load_WP3_BoM, load_WP4_BoM
+from wp5.load.wp_bom import load_WP6_BoM
 from wp5.logistics.operations import logOp_init
 from wp5.logistics.phase import logPhase_install_init, logPhase_OM_init
 from wp5.installation import planning, select_port
@@ -36,6 +37,8 @@ user_inputs = load_WP1_BoM(database_file("WP1_BoM.xlsx"),
 wp2_outputs = load_WP2_BoM(database_file("WP2_BoM.xlsx"))
 wp3_outputs = load_WP3_BoM(database_file("WP3_BoM.xlsx"))
 wp4_outputs = load_WP4_BoM(database_file("WP4_BoM.csv"))
+wp6_outputs = load_WP6_BoM(database_file("WP6_BoM.xlsx"))
+
 
 """
 ### Initialise logistic operations and logistic phases

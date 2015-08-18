@@ -51,3 +51,13 @@ def load_WP4_BoM(file_path):
     WP4_BoM = pd.read_csv(file_path)
 
     return WP4_BoM
+
+def load_WP6_BoM(file_path):
+    excel = pd.ExcelFile(file_path)
+    # Collect data from a particular tab
+    wp6inputs = excel.parse('Sheet1', header=0, index_col=0)
+
+    WP6_BoM = {'LogPhase1': wp6inputs,
+               }
+
+    return WP6_BoM
