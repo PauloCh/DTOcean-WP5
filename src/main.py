@@ -92,7 +92,7 @@ if install['status'] == "pending":
 
 #            # matching requirements for combinations of port/vessel(s)/equipment
 #            install['combi_select'] = compatibility_vp(install, log_phase)
-            log_phase = compatibility_ve(install, log_phase)
+             log_phase = compatibility_ve(install, log_phase)
 
 #            # schedule assessment of the different operation sequence
 #           install['schedule'] = sched(install, log_phase, user_inputs,
