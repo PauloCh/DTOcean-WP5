@@ -75,6 +75,7 @@ def sched_om(om, log_phase, user_inputs, wp6_outputs):
         return  ww
 
     for seq in range(len(log_phase.op_ve)):
+#
         for sol in range(len(log_phase.op_ve[seq].sol)):
             op_dur_prep = []
             op_dur_sea = []
@@ -86,21 +87,20 @@ def sched_om(om, log_phase, user_inputs, wp6_outputs):
                    'maxTp': 0,
                    'maxWs': 0,
                    'maxCs': 0}
+
             for op in range(len(log_phase.op_ve[seq].op_sequence)):
                 log_op = log_phase.op_ve[seq].op_sequence
                 if log_op[op].description == "Transportation from port to site":
                     coordinates = 'none'
                     map_land = 'none'
                     dist_p2s = distance(coordinates, map_land)  # [km]
-                    sailing_speed = 20.0  # [km/h]
+                    sailing_speed = 3.6*log_phase.op_ve[seq].sol[sol].sol_ves[0]['Transit speed [m/s]'] # [km/h]
                     # sailing_speed = 20.0  # [km/h]
                     log_op[op].time = dist_p2s/sailing_speed  # [h]
                     op_dur_sea[len(op_dur_sea):] = [log_op[op].time]
-                    olc_sea_Hs[len(olc_sea_Hs):] = [1.5]
-
                     # olc_sea_Hs[len(olc_sea_Hs):] =  log_phase.op_ve[seq].ve_combination[combi].solution[2]
                 elif log_op[op].description == "Mobilisation":
-                    log_op[op].time = 48
+                    log_op[op].time = 24
                     op_dur_prep[len(op_dur_prep):] = [log_op[op].time]
                 elif log_op[op].description == "Assembly at port":
                     log_op[op].time = 0
@@ -108,26 +108,23 @@ def sched_om(om, log_phase, user_inputs, wp6_outputs):
                 elif log_op[op].description == "Vessel preparation and loading":
                     log_op[op].time = 24
                     op_dur_prep[len(op_dur_prep):] = [log_op[op].time]
-                elif log_op[op].description == "Seafloor and equipment preparation on-site":
-                    log_op[op].time = 0.5
+                elif log_op[op].description == "Inspection Maintenance Onsite":
+                    log_op[op].time = wp6_outputs['LogPhase1']['T_OnSite [h]'].ix[0]
                     op_dur_sea[len(op_dur_sea):] = [log_op[op].time]
-                elif log_op[op].description == "Driven pile foundation seafloor penetration through drilling rig + positioning":
-                    log_op[op].time = 3
-                    op_dur_sea[len(op_dur_sea):] = [log_op[op].time]
-                    olc_sea_Ws[op] = 20 # [m/s]
-                elif log_op[op].description == "Driven pile foundation seafloor penetration through hammering + positioning":
-                    log_op[op].time = 5
-                    op_dur_sea[len(op_dur_sea):] = [log_op[op].time]
-                elif log_op[op].description == "Driven pile foundation seafloor penetration through vibro-driving + positioning":
-                    log_op[op].time = 6
-                    op_dur_sea[len(op_dur_sea):] = [log_op[op].time]
+                    olc_sea_Hs[len(olc_sea_Hs):] = [wp6_outputs['LogPhase1']['Hs_Max [m]'].ix[0]]
+                    olc_sea_Ws[len(olc_sea_Ws):] = [wp6_outputs['LogPhase1']['Vw_Max [m/s]'].ix[0]]
+
                 elif log_op[op].description == "Transportation from site to port":
                     coordinates = 'none'
                     map_land = 'none'
                     dist_p2s = distance(coordinates, map_land)  # [km]
-                    sailing_speed = 20.0  # [km/h]
+                    sailing_speed = 3.6*log_phase.op_ve[seq].sol[sol].sol_ves[0]['Transit speed [m/s]']  # [km/h]
                     log_op[op].time = dist_p2s/sailing_speed  # [h]
                     op_dur_sea[len(op_dur_sea):] = [log_op[op].time]
+                else:
+                    log_op[op].time = 1
+                    op_dur_prep[len(op_dur_prep):] = [log_op[op].time]
+
             if olc_sea_Hs:
                 olc['maxHs'] = min(olc_sea_Hs) #
             if olc_sea_Tp:
@@ -138,7 +135,7 @@ def sched_om(om, log_phase, user_inputs, wp6_outputs):
                 olc['maxCs'] = min(olc_sea_Cs) #
 
             weather_wind = weatherWindow(user_inputs, olc)
-    #durations.pop(0)
+
             dur_total_sea = sum(op_dur_sea)
 
             starting_time = wp6_outputs['LogPhase1']['T_start'].ix[0]
@@ -148,5 +145,11 @@ def sched_om(om, log_phase, user_inputs, wp6_outputs):
             index_ww_dur = indices(weather_wind['duration'], lambda x: x >= dur_total_sea)
             index_ww = index_ww_start or index_ww_dur
             waiting_time = weather_wind['start'][index_ww[0]] - starting_time
+            log_phase.op_ve[seq].sol[sol].schedule= {'olc': olc,
+                                                     'log_op_dur_all': op_dur_prep + op_dur_sea,
+                                                     'preparation': sum(op_dur_prep),
+                                                     'sea time': dur_total_sea,
+                                                     'weather windows': weather_wind,
+                                                     'waiting time': waiting_time}
 
-    return waiting_time
+    return log_phase
