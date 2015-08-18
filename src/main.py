@@ -9,7 +9,7 @@ from wp5.installation import planning, select_port
 from wp5.feasibility.glob import glob_feas
 from wp5.selection.select_ve import select_e, select_v
 from wp5.selection.compatibility import compatibility_ve
-from wp5.performance.schedule import sched
+from wp5.performance.schedule.schedule import sched
 
 # # Set directory paths for loading inputs (@Tecanalia)
 mod_path = path.dirname(path.realpath(__file__))
@@ -92,7 +92,7 @@ def run():
                 log_phase = compatibility_ve(install, log_phase)
 
                 # schedule assessment of the different operation sequence
-                install['schedule'] = sched(install, log_phase, user_inputs, wp2_outputs, wp3_outputs, wp4_outputs)
+                install['schedule'] = sched(x, install, log_phase, user_inputs, wp2_outputs, wp3_outputs, wp4_outputs)
                 # TO DO
 
             else:
