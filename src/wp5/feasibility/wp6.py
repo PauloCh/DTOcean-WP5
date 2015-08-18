@@ -10,17 +10,17 @@ def wp6_feas(log_phase, log_phase_id, wp6_outputs):
         indiv_mass_SP = wp6_outputs['LogPhase1']['Indiv_Mass_SP [t]'].ix[0]
 
         # Feasibility functions
-        deck_area = lenght_SP*width_SP
-        deck_loading = total_mass_SP/area_SP
-        lifting_req = indiv_mass_SP
+        SP_area = float(lenght_SP)*float(width_SP)
+        SP_loading = float(total_mass_SP)/float(SP_area)
+        lifting_req = float(indiv_mass_SP)
 
         feas_e = {}
-        feas_v = {'CTV': [['Deck loading [ton/m2]', 'sup', deck_loading],
-                          ['Deck space [m2]', 'sup', deck_area],
+        feas_v = {'CTV': [['Deck loading [ton/m2]', 'sup', SP_loading],
+                          ['Deck space [m2]', 'sup', SP_area],
                           ['Crane weight [t]', 'sup', lifting_req]],
 
-                  'Multicat': [['Deck loading [ton/m2]', 'sup', deck_loading],
-                               ['Deck space [m2]', 'sup', deck_area],
+                  'Multicat': [['Deck loading [ton/m2]', 'sup', SP_loading],
+                               ['Deck space [m2]', 'sup', SP_area],
                                ['Crane weight [t]', 'sup', lifting_req]]
                     }
 

@@ -165,12 +165,12 @@ def logPhase_OM_init(logOp, vessels, equipments):
 
 
     logPhase_OM['insp'].op_ve[0].op_sequence = [logOp["op1"],
-                                                     logOp["op2"],
-                                                     logOp["op3"],
-                                                     logOp["op4"],
-                                                     logOp["op_OM1"],
-                                                     logOp["op7"],
-                                                     logOp["op8"]]
+                                                logOp["op2"],
+                                                logOp["op3"],
+                                                logOp["op4"],
+                                                logOp["op_OM1"],
+                                                logOp["op7"],
+                                                logOp["op8"]]
 
     logPhase_OM['insp'].op_ve[0].ve_combination[0] = {'vessel': [(1, vessels['CTV'])],
                                                       'equipment': [(0, 0, 0)]

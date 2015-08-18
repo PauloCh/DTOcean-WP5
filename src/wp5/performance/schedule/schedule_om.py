@@ -4,11 +4,9 @@ Created on Sun Aug 16 11:53:24 2015
 
 @author: BTeillant
 """
+import numpy
 
-
-def sched(install, log_phase, user_inputs, wp2_outputs, wp3_outputs,
-          wp4_outputs):
-
+def sched_om(om, log_phase, user_inputs, wp6_outputs):
     def distance(coordinates, map_land):
         '''
         distance returns the calculated distance between two points
@@ -78,17 +76,17 @@ def sched(install, log_phase, user_inputs, wp2_outputs, wp3_outputs,
 
     for seq in range(len(log_phase.op_ve)):
         for sol in range(len(log_phase.op_ve[seq].sol)):
-            for op in range(len(log_phase.op_ve[seq].op_sequence[sol])):
-                op_dur_prep = []
-                op_dur_sea = []
-                olc_sea_Hs = []
-                olc_sea_Tp = []
-                olc_sea_Ws = []
-                olc_sea_Cs = []
-                olc = {'maxHs': 0,
-                       'maxTp': 0,
-                       'maxWs': 0,
-                       'maxCs': 0}
+            op_dur_prep = []
+            op_dur_sea = []
+            olc_sea_Hs = []
+            olc_sea_Tp = []
+            olc_sea_Ws = []
+            olc_sea_Cs = []
+            olc = {'maxHs': 0,
+                   'maxTp': 0,
+                   'maxWs': 0,
+                   'maxCs': 0}
+            for op in range(len(log_phase.op_ve[seq].op_sequence)):
                 log_op = log_phase.op_ve[seq].op_sequence
                 if log_op[op].description == "Transportation from port to site":
                     coordinates = 'none'
@@ -99,6 +97,7 @@ def sched(install, log_phase, user_inputs, wp2_outputs, wp3_outputs,
                     log_op[op].time = dist_p2s/sailing_speed  # [h]
                     op_dur_sea[len(op_dur_sea):] = [log_op[op].time]
                     olc_sea_Hs[len(olc_sea_Hs):] = [1.5]
+
                     # olc_sea_Hs[len(olc_sea_Hs):] =  log_phase.op_ve[seq].ve_combination[combi].solution[2]
                 elif log_op[op].description == "Mobilisation":
                     log_op[op].time = 48
@@ -141,13 +140,9 @@ def sched(install, log_phase, user_inputs, wp2_outputs, wp3_outputs,
             weather_wind = weatherWindow(user_inputs, olc)
     #durations.pop(0)
             dur_total_sea = sum(op_dur_sea)
-            if x == 0:
-                start_proj = user_inputs['device']['Project starting time [-]'].ix[0]
 
-                starting_time = start_proj + sum(op_dur_prep)
-            elif x > 0:
-                last_end_time = max(install['schedule'][end_time])
-                starting_time = last_end_time + sum(op_dur_prep)
+            starting_time = wp6_outputs['LogPhase1']['T_start'].ix[0]
+
             index_ww_start = indices(weather_wind['start'], lambda x: x > starting_time)
                                      #and weatherWind['duration']>=duration_total)/
             index_ww_dur = indices(weather_wind['duration'], lambda x: x >= dur_total_sea)
