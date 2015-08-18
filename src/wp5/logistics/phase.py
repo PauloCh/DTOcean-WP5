@@ -153,9 +153,31 @@ def logPhase_install_init(logOp, vessels, equipments):
 def logPhase_OM_init(logOp, vessels, equipments):
 
     """
-    Initialize the logistic phases through LogPhase classes
+    1st Level - Initialize the logistic phases through LogPhase classes
+    """
+    logPhase_OM = {'insp': LogPhase(900, "O&M top-side maintenance")}
+
+    """
+    2nd Level - Define the diferent operations sequence and corresponding v&e combination for each Phase
     """
 
-    logPhase_OM = {'insp': LogPhase(900, "O&M offshore intervention")}
+    logPhase_OM['insp'].op_ve[0] = DefPhase(1, 'inps')
+
+
+    logPhase_OM['insp'].op_ve[0].op_sequence = [logOp["op1"],
+                                                     logOp["op2"],
+                                                     logOp["op3"],
+                                                     logOp["op4"],
+                                                     logOp["op_OM1"],
+                                                     logOp["op7"],
+                                                     logOp["op8"]]
+
+    logPhase_OM['insp'].op_ve[0].ve_combination[0] = {'vessel': [(1, vessels['CTV'])],
+                                                      'equipment': [(0, 0, 0)]
+                                                      }
+
+    logPhase_OM['insp'].op_ve[0].ve_combination[1] = {'vessel': [(1, vessels['Multicat'])],
+                                                      'equipment': [(0, 0, 0)]
+                                                      }
 
     return logPhase_OM
