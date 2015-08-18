@@ -76,18 +76,20 @@ def sched(x, install, log_phase, user_inputs, wp2_outputs, wp3_outputs,
         return  ww
         
     for seq in range(len(log_phase.op_ve)):
+#        
         for sol in range(len(log_phase.op_ve[seq].sol)):
+            op_dur_prep = []
+            op_dur_sea = []
+            olc_sea_Hs = []
+            olc_sea_Tp = []
+            olc_sea_Ws = []
+            olc_sea_Cs = []
+            olc = {'maxHs': 0,
+                   'maxTp': 0,
+                   'maxWs': 0, 
+                   'maxCs': 0}
+
             for op in range(len(log_phase.op_ve[seq].op_sequence)):
-                op_dur_prep = []
-                op_dur_sea = []
-                olc_sea_Hs = []
-                olc_sea_Tp = []
-                olc_sea_Ws = []
-                olc_sea_Cs = []
-                olc = {'maxHs': 0,
-                       'maxTp': 0,
-                       'maxWs': 0, 
-                       'maxCs': 0}
                 log_op = log_phase.op_ve[seq].op_sequence
                 if log_op[op].description == "Transportation from port to site":
                     coordinates = 'none'
@@ -128,6 +130,7 @@ def sched(x, install, log_phase, user_inputs, wp2_outputs, wp3_outputs,
                     sailing_speed = 20.0  # [km/h]
                     log_op[op].time = dist_p2s/sailing_speed  # [h]
                     op_dur_sea[len(op_dur_sea):] = [log_op[op].time]
+
             if olc_sea_Hs:
                 olc['maxHs'] = min(olc_sea_Hs) # 
             if olc_sea_Tp:
@@ -138,12 +141,12 @@ def sched(x, install, log_phase, user_inputs, wp2_outputs, wp3_outputs,
                 olc['maxCs'] = min(olc_sea_Cs) # 
             
             weather_wind = weatherWindow(user_inputs, olc)
-    #durations.pop(0)
+
             dur_total_sea = sum(op_dur_sea)
-            if x == 0:
+            if x == 0:  #  find layer of installation plan
                 start_proj = user_inputs['device']['Project starting date [-]'].ix[0]
                 starting_time = start_proj + sum(op_dur_prep)
-            elif x > 0:  #  to be implemented (not functional)
+            elif x > 0:  #  to be implemented (dummy not functional at the moment)
                 last_end_time = max(install['schedule'][end_time])
                 starting_time = last_end_time + sum(op_dur_prep)
                 
@@ -152,5 +155,11 @@ def sched(x, install, log_phase, user_inputs, wp2_outputs, wp3_outputs,
             index_ww_dur = indices(weather_wind['duration'], lambda x: x >= dur_total_sea)
             index_ww = index_ww_start or index_ww_dur
             waiting_time = weather_wind['start'][index_ww[0]] - starting_time
+            log_phase.op_ve[seq].sol[sol].schedule= {'olc': olc,
+                                                     'log_op_dur_all': op_dur_prep + op_dur_sea,
+                                                     'preparation': sum(op_dur_prep),
+                                                     'sea time': dur_total_sea,
+                                                     'weather windows': weather_wind,
+                                                     'waiting time': waiting_time}
             
-    return waiting_time
+    return log_phase
