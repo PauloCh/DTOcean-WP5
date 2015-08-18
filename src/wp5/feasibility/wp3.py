@@ -8,7 +8,6 @@ Created on Fri Aug 14 15:07:47 2015
 
 def wp3_feas(log_phase, log_phase_id, user_inputs):
     # TO-DO
-    pass
     feasibility = {'equipment': [],
                    'vessel': []}
     return feasibility
