@@ -9,8 +9,9 @@ from wp5.logistics.phase import logPhase_install_init, logPhase_OM_init
 from wp5.installation import planning, select_port
 from wp5.feasibility.glob import glob_feas
 from wp5.selection.select_ve import select_e, select_v
-from wp5.selection.compatibility import compatibility_ve
+from wp5.selection.match import compatibility_ve, compatibility_ve_om
 from wp5.performance.schedule.schedule import sched
+from wp5.performance.schedule.schedule_om import sched_om
 from wp5.performance.economic.eco import cost
 
 # # Set directory paths for loading inputs (@Tecanalia)
@@ -39,7 +40,6 @@ wp2_outputs = load_WP2_BoM(database_file("WP2_BoM.xlsx"))
 wp3_outputs = load_WP3_BoM(database_file("WP3_BoM.xlsx"))
 wp4_outputs = load_WP4_BoM(database_file("WP4_BoM.csv"))
 wp6_outputs = load_WP6_BoM(database_file("WP6_BoM.xlsx"))
-
 
 """
 ### Initialise logistic operations and logistic phases
@@ -93,26 +93,16 @@ if install['status'] == "pending":
 
             # matching requirements for combinations of port/vessel(s)/equipment
             # install['combi_select'] = compatibility_vp(install, log_phase)
-            log_phase = compatibility_ve(install, log_phase)
+            install['combi_select'], log_phase = compatibility_ve(install, log_phase)
 
             # schedule assessment of the different operation sequence
-            install['schedule'] = sched(x, install, log_phase, user_inputs, wp2_outputs, wp3_outputs, wp4_outputs)
-            
-            # cost assessment of the different operation sequenc
-            install['cost'] = cost(install, log_phase)
-            
-            # TO DO -> risk and enviromental impact functions 
-        else:
-            om_log = {'phase': logPhase_OM,
-                      'port': install_port,
-                      'requirement': {},
-                      'select': {},
-                      'schedule': {},
-                      'cost': {},
-                      # 'risk': {},
-                      'envir': {}}
+            install['schedule'], log_phase = sched(x, install, log_phase, user_inputs, wp2_outputs, wp3_outputs, wp4_outputs)
 
+            # cost assessment of the different operation sequenc
+            install['cost'], log_phase  = cost(install, log_phase)
+
+            # TO DO -> risk and enviromental impact functions
 
 #if __name__ == "__main__":
 #    run()
-    
+

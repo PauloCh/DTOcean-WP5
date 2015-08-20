@@ -7,7 +7,7 @@ Created on Tue Aug 18 18:45:03 2015
 import numpy
 def cost(install, log_phase):
     for seq in range(len(log_phase.op_ve)):
-#        
+#
         for sol in range(len(log_phase.op_ve[seq].sol)):
             sched = log_phase.op_ve[seq].sol[sol].schedule
             dur_sea_wait = sched['sea time'] + sched['waiting time']
@@ -17,5 +17,9 @@ def cost(install, log_phase):
             log_phase.op_ve[seq].sol[sol].cost = {'vessel': vessel_cost*dur_sea_wait,
                                                   'equipment': 0,
                                                   'port cost': 0}
-                                                  
-    return log_phase
+
+    sol = {}
+    sol[0] = log_phase.op_ve[1].sol[0].cost
+    sol[1] = log_phase.op_ve[1].sol[1].cost
+
+    return sol, log_phase

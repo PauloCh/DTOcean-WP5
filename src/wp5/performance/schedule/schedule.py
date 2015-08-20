@@ -6,7 +6,7 @@ Created on Sun Aug 16 11:53:24 2015
 """
 import numpy
 
-def sched(x, install, log_phase, user_inputs, wp2_outputs, wp3_outputs, 
+def sched(x, install, log_phase, user_inputs, wp2_outputs, wp3_outputs,
           wp4_outputs):
     def distance(coordinates, map_land):
         '''
@@ -16,16 +16,16 @@ def sched(x, install, log_phase, user_inputs, wp2_outputs, wp3_outputs,
         return 20.0
     def indices(a, func):
         '''
-        indices returns the indices of a vector "a" that satisfy the 
+        indices returns the indices of a vector "a" that satisfy the
         conditional function "func"
         '''
         return [i for (i, val) in enumerate(a) if func(val)]
     def differences(a):
         '''
-        differences returns a vector containing the difference 
+        differences returns a vector containing the difference
         '''
-        return [j-i for i, j in zip(a[:-1], a[1:])] 
-    
+        return [j-i for i, j in zip(a[:-1], a[1:])]
+
     def weatherWindow(user_inputs, olc):
         '''
         this functions returns the starting times and the durations of all weather
@@ -74,9 +74,9 @@ def sched(x, install, log_phase, user_inputs, wp2_outputs, wp3_outputs,
             duration = numpy.array(WW_findConsecutive1)
             ww['duration'] = duration * timeStep
         return  ww
-        
+
     for seq in range(len(log_phase.op_ve)):
-#        
+#
         for sol in range(len(log_phase.op_ve[seq].sol)):
             op_dur_prep = []
             op_dur_sea = []
@@ -86,7 +86,7 @@ def sched(x, install, log_phase, user_inputs, wp2_outputs, wp3_outputs,
             olc_sea_Cs = []
             olc = {'maxHs': 0,
                    'maxTp': 0,
-                   'maxWs': 0, 
+                   'maxWs': 0,
                    'maxCs': 0}
 
             for op in range(len(log_phase.op_ve[seq].op_sequence)):
@@ -132,14 +132,14 @@ def sched(x, install, log_phase, user_inputs, wp2_outputs, wp3_outputs,
                     op_dur_sea[len(op_dur_sea):] = [log_op[op].time]
 
             if olc_sea_Hs:
-                olc['maxHs'] = min(olc_sea_Hs) # 
+                olc['maxHs'] = min(olc_sea_Hs) #
             if olc_sea_Tp:
                 olc['maxTp'] = min(olc_sea_Tp) #
             if olc_sea_Ws:
                 olc['maxWs'] = min(olc_sea_Ws) #
             if olc_sea_Cs:
-                olc['maxCs'] = min(olc_sea_Cs) # 
-            
+                olc['maxCs'] = min(olc_sea_Cs) #
+
             weather_wind = weatherWindow(user_inputs, olc)
 
             dur_total_sea = sum(op_dur_sea)
@@ -149,7 +149,7 @@ def sched(x, install, log_phase, user_inputs, wp2_outputs, wp3_outputs,
             elif x > 0:  #  to be implemented (dummy not functional at the moment)
                 last_end_time = max(install['schedule'][end_time])
                 starting_time = last_end_time + sum(op_dur_prep)
-                
+
             index_ww_start = indices(weather_wind['start'], lambda x: x > starting_time)
                                      #and weatherWind['duration']>=duration_total)/
             index_ww_dur = indices(weather_wind['duration'], lambda x: x >= dur_total_sea)
@@ -161,5 +161,9 @@ def sched(x, install, log_phase, user_inputs, wp2_outputs, wp3_outputs,
                                                      'sea time': dur_total_sea,
                                                      'weather windows': weather_wind,
                                                      'waiting time': waiting_time}
-            
-    return log_phase
+
+    sol = {}
+    sol[0] = log_phase.op_ve[1].sol[0].schedule
+    sol[1] = log_phase.op_ve[1].sol[1].schedule
+
+    return sol, log_phase
