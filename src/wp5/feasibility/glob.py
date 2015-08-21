@@ -1,8 +1,8 @@
 """
-@author: WavEC Offshore Renewables 
+@author: WavEC Offshore Renewables
 email: boris.teillant@wavec.org; paulo@wavec.org
 
-glob.py contains a function that calls the appropriate sub-functions to 
+glob.py contains a function that calls the appropriate sub-functions to
 determine the logistic requirement associated with one logistic phase
 
 
@@ -24,7 +24,7 @@ wp4_outputs : DataFrame
 Returns
 -------
 feasibility : typle
- tuple containing all logistic requirements associated with every vessel 
+ tuple containing all logistic requirements associated with every vessel
  and equipment type of the logistic phase under consideration
 
 Examples

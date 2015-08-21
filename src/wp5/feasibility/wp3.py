@@ -1,9 +1,9 @@
 """
-@author: WavEC Offshore Renewables 
+@author: WavEC Offshore Renewables
 email: boris.teillant@wavec.org; paulo@wavec.org
 
-wp3.py is a function which determines the logistic requirement associated with 
-one logistic phase dealing with the installation of the electrical 
+wp3.py is a function which determines the logistic requirement associated with
+one logistic phase dealing with the installation of the electrical
 infrastructure
 
 
@@ -19,10 +19,10 @@ wp3_outputs : dict
 Returns
 -------
 feas_e : dict
- dictionnary containing all logistic requirements associated with every 
+ dictionnary containing all logistic requirements associated with every
  equipment type of the logistic phase under consideration
 feas_v : dict
- dictionnary containing all logistic requirements associated with every 
+ dictionnary containing all logistic requirements associated with every
  vessel type of the logistic phase under consideration
 
 Examples

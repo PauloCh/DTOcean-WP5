@@ -15,6 +15,7 @@ not been implemented, this module should suffer major changes for the beta versi
 
 from ..logistics.phase import VE_solutions
 
+
 def compatibility_ve(install, log_phase):
     """This function is currently limited to the selection of the first two
     feasible solutions for the installation logistic phase in analisys.
@@ -54,6 +55,7 @@ def compatibility_ve(install, log_phase):
 
     return sol, log_phase
 
+
 def compatibility_ve_om(install, log_phase):
     """This function is currently limited to the selection of the first two
     feasible solutions for the O&M logistic phase in analisys.
@@ -89,8 +91,8 @@ def compatibility_ve_om(install, log_phase):
 #    for seq in log_phase.op_ve.keys():
 #        for combi in log_phase.op_ve[seq].ve_combination.keys():
 #
-##            log_phase.op_ve[seq].ve_combination[combi]['vessel']
-##            log_phase.op_ve[seq].ve_combination[combi]['equipment']
+# log_phase.op_ve[seq].ve_combination[combi]['vessel']
+           # log_phase.op_ve[seq].ve_combination[combi]['equipment']
 #
 #            for nr_ves in range(len(log_phase.op_ve[seq].ve_combination[combi]['vessel'])):
 #                pd_ves = log_phase.op_ve[seq].ve_combination[combi]['vessel'][nr_ves][1].panda

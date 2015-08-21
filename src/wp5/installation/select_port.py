@@ -5,6 +5,7 @@ Created on Fri Aug 07 16:40:21 2015
 @author: BTeillant
 """
 
+
 def install_port(user_inputs, wp3_outputs, wp4_outputs, port_data):
     # initialisation
     port = {'Terminal Load Bearing [ton/m2]': 0,
@@ -61,8 +62,8 @@ def OM_port(wp6_outputs, port_data):
     indiv_mass_SP = wp6_outputs['LogPhase1']['Indiv_Mass_SP [t]'].ix[0]
 
     # Feasibility functions
-    SP_area = float(lenght_SP)*float(width_SP)
-    SP_loading = float(total_mass_SP)/float(SP_area)
+    SP_area = float(lenght_SP) * float(width_SP)
+    SP_loading = float(total_mass_SP) / float(SP_area)
 
     # terminal load bearing minimum requirement
     port_list = port_data[port_data['Terminal area [m2]'] >= SP_area]

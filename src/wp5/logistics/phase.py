@@ -4,6 +4,7 @@ phase.py is the file governing the definition of the logistic phases
 
 """
 
+
 class LogPhase(object):
 
     def __init__(self, id, description):
@@ -19,6 +20,7 @@ class LogPhase(object):
 #        self.environmental = environment
 #        self.risk = risk
 
+
 class DefPhase(object):
 
     def __init__(self, id, description):
@@ -27,6 +29,7 @@ class DefPhase(object):
         self.op_sequence = {}
         self.ve_combination = {}
         self.sol = {}
+
 
 class VE_solutions(object):
 
@@ -80,7 +83,6 @@ def logPhase_install_init(logOp, vessels, equipments):
     logPhase_install['F_driven'].op_ve[0] = DefPhase(1, 'Drilling')
     logPhase_install['F_driven'].op_ve[1] = DefPhase(2, 'Hammering')
     logPhase_install['F_driven'].op_ve[2] = DefPhase(3, 'Vibro Pilling')
-
 
     logPhase_install['F_driven'].op_ve[0].op_sequence = [logOp["op1"],
                                                          logOp["op2"],
@@ -162,7 +164,6 @@ def logPhase_OM_init(logOp, vessels, equipments):
     """
 
     logPhase_OM['insp'].op_ve[0] = DefPhase(1, 'inps')
-
 
     logPhase_OM['insp'].op_ve[0].op_sequence = [logOp["op1"],
                                                 logOp["op2"],
