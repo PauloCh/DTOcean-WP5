@@ -1,17 +1,17 @@
 """
-@author: WavEC Offshore Renewables 
+@author: WavEC Offshore Renewables
 email: boris.teillant@wavec.org; paulo@wavec.org
 
 main.py is the main file of the WP5 module within the suite of design tools
 developped under the EU FP7 DTOcean project. main.py provides an estimation of
-the predicted performance of feasible maritime infrastructure solutions 
-that can carry out marine operations pertaining to the installation of 
+the predicted performance of feasible maritime infrastructure solutions
+that can carry out marine operations pertaining to the installation of
 wave and tidal energy arrays.
 
 main.py can be described in five core sub-modules:
 0- Loading input data
 1- Initialising the logistic classes
-2- Defning the installation plan
+2- Defining the installation plan
 3- Selecting the installation port
 4- Performing the assessment of all logistic phases, divided into five steps:
     (i) characterizartion of logistic requirements
@@ -53,7 +53,7 @@ install_plan : dict
 install_port : dict
  dictionnary containing the results of the port selection
 install : dict
- dictionnary compiling all key results obtained from the assessment of the 
+ dictionnary compiling all key results obtained from the assessment of the
  logistic phases for installation
 log_phase : Class
  Class of the logistic phase under consideration for assessment
@@ -69,7 +69,7 @@ See also: ...
                     http://www.dtocean.eu
 
                    WavEC Offshore Renewables
-                    http://www.wavsec.org/en
+                    http://www.wavec.org/en
 
 
 """
@@ -138,7 +138,7 @@ install_plan = {0: ['F_driven']}
 """
 install_port = select_port.install_port(user_inputs, wp3_outputs, wp4_outputs, ports)
 """
-### Incremental assessment of all logistic phase forming the the installaiton 
+### Incremental assessment of all logistic phase forming the the installation
 process
 """
 install = {'plan': install_plan,

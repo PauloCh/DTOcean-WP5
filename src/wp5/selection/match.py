@@ -16,15 +16,16 @@ not been implemented, this module should suffer major changes for the beta versi
 from ..logistics.phase import VE_solutions
 
 def compatibility_ve(install, log_phase):
-    """This functions
+    """This function is currently limited to the selection of the first two
+    feasible solutions for the installation logistic phase in analisys.
 
-    :param install (dict): among other data contains the feasibility requirements
-    of equipments
-    :param log_phase (class): contains data regarding the vessel and equipment
-    combinations specific of each operation sequence of the logistic phase
-    :return eq (dict): A dict of panda dataframes with all the feasibile equipments
+    :param install (dict): not used
+    :param log_phase (class):  Class of the logistic phase under consideration
+    for assessment, this function specifically calls the ve_combination object
+    comprised of dataframes containing only the feasible vessels and feasible equipments
+    :return sol (dict): A dict of panda dataframes with unique feasible solutions
     :return log_phase (class): An updated version of the log_phase argument containing
-    only the feasible equipments within each vessel and equipment combinations dataframes
+    unique feasible solutions
     """
 
     log_phase.op_ve[1].sol[0] = VE_solutions(0)
@@ -54,6 +55,17 @@ def compatibility_ve(install, log_phase):
     return sol, log_phase
 
 def compatibility_ve_om(install, log_phase):
+    """This function is currently limited to the selection of the first two
+    feasible solutions for the O&M logistic phase in analisys.
+
+    :param install (dict): not used
+    :param log_phase (class):  Class of the logistic phase under consideration
+    for assessment, this function specifically calls the ve_combination object
+    comprised of dataframes containing only the feasible vessels and feasible equipments
+    :return sol (dict): A dict of panda dataframes with unique feasible solutions
+    :return log_phase (class): An updated version of the log_phase argument containing
+    unique feasible solutions
+    """
 
     log_phase.op_ve[0].sol[0] = VE_solutions(0)
     log_phase.op_ve[0].sol[1] = VE_solutions(1)

@@ -74,7 +74,7 @@ def load_WP4_BoM(file_path):
     """Imports WP4 data set into panda dataframes.
 
     :param file_path (str): the folder path of the WP4 database
-    :returns: A panda dataframes
+    :returns: A panda dataframe
     """
     # Transform the .csv database into panda type
     WP4_BoM = pd.read_csv(file_path)
