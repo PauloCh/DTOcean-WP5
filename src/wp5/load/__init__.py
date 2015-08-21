@@ -20,8 +20,15 @@ def load_vessel_data(file_path):
     """Imports vessel database into panda tables and creates a class for each
     vessel type found in the database
 
-    :param file_path (str): the folder path of the vessel database
-    :returns: A dict of panda dataframes
+    Parameters
+    ----------
+    file_path : string
+     the folder path of the vessel database
+
+    Returns
+    -------
+    vessels : dict
+     dictionnary containing all classes defining the different vessel types
     """
     # Transform vessel database .xls into panda type
     excel = pd.ExcelFile(file_path)
@@ -49,9 +56,17 @@ def load_equipment_data(file_path):
     """Imports equipment database into panda tables and creates a class for
     each equipment type found in the database
 
-    :param file_path (str): the folder path of the equipment database
-    :returns: A dict of panda dataframes
+    Parameters
+    ----------
+    file_path : string
+     the folder path of the equipment database
+
+    Returns
+    -------
+    vessels : dict
+     dictionnary containing all classes defining the different equipment types
     """
+
     # Transform Equipment database .xls into panda type
     excel = pd.ExcelFile(file_path)
     # Collect data from a particular tab
@@ -66,10 +81,17 @@ def load_equipment_data(file_path):
 
 
 def load_port_data(file_path):
-    """Imports port database into panda tables
+    """Imports port database into a panda table
 
-    :param file_path (str): the folder path of the ports database
-    :returns: A dict of panda dataframes
+    Parameters
+    ----------
+    file_path : string
+     the folder path of the port database
+
+    Returns
+    -------
+    vessels : dict
+     dictionnary containing a panda table with all ports
     """
     # Transform vessel database .xls into panda type
     excel = pd.ExcelFile(file_path)

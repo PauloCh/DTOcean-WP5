@@ -12,14 +12,31 @@ database source and WP5 package, so it becomes simple to shift from
 the temporary .xlsx and .csv files to the final SQL solution.
 """
 
+wp2_outputs : dict
+ dictionnary containing all required inputs to WP5 coming from WP2
+wp3_outputs : dict
+ dictionnary containing all required inputs to WP5 coming from WP3
+wp4_outputs : DataFrame
+ Panda table containing all required inputs to WP5 coming from WP4
+wp6_outputs : dict
+ dictionnary containing all required inputs to WP5 coming from WP6
+
 import pandas as pd
 
 def load_WP1_BoM(file_path_device, file_path_metocean):
     """Imports WP1 data set into panda dataframes.
 
-    :param file_path_device (str): the folder path of the device database
-    :param file_path_metocean (str): the folder path of the metocean database
-    :returns: A dict of panda dataframes
+    Parameters
+    ----------
+    file_path_device : string
+     the folder path of the device database
+    file_path_metocean : string
+     the folder path of the metocean database
+
+    Returns
+    -------
+    WP1_BoM : dict
+     dictionnary containing all required inputs to WP5 coming from WP1/end-user
     """
     # Transform the .xls database into panda type
     excel = pd.ExcelFile(file_path_device)
@@ -37,8 +54,15 @@ def load_WP1_BoM(file_path_device, file_path_metocean):
 def load_WP2_BoM(file_path):
     """Imports WP2 data set into panda dataframes.
 
-    :param file_path (str): the folder path of the WP2 database
-    :returns: A dict of panda dataframes
+    Parameters
+    ----------
+    file_path : string
+     the folder path of the WP2 database
+
+    Returns
+    -------
+    WP2_BoM : dict
+     dictionnary containing all required inputs to WP5 coming from WP2
     """
     # Transform the .xls database into panda type
     excel = pd.ExcelFile(file_path)
@@ -56,8 +80,15 @@ def load_WP2_BoM(file_path):
 def load_WP3_BoM(file_path):
     """Imports WP3 data set into panda dataframes.
 
-    :param file_path (str): the folder path of the WP3 database
-    :returns: A dict of panda dataframes
+    Parameters
+    ----------
+    file_path : string
+     the folder path of the WP3 database
+
+    Returns
+    -------
+    WP3_BoM : dict
+     dictionnary containing all required inputs to WP5 coming from WP3
     """
     # Transform the .xls database into panda type
     excel = pd.ExcelFile(file_path)
@@ -73,8 +104,15 @@ def load_WP3_BoM(file_path):
 def load_WP4_BoM(file_path):
     """Imports WP4 data set into panda dataframes.
 
-    :param file_path (str): the folder path of the WP4 database
-    :returns: A panda dataframe
+    Parameters
+    ----------
+    file_path : string
+     the folder path of the WP4 database
+
+    Returns
+    -------
+    WP4_BoM : Dataframe
+     Dataframe containing all required inputs to WP5 coming from WP4
     """
     # Transform the .csv database into panda type
     WP4_BoM = pd.read_csv(file_path)
@@ -85,8 +123,15 @@ def load_WP4_BoM(file_path):
 def load_WP6_BoM(file_path):
     """Imports WP6 data set into panda dataframes.
 
-    :param file_path (str): the folder path of the WP6 database
-    :returns: A dict of panda dataframes
+    Parameters
+    ----------
+    file_path : string
+     the folder path of the WP6 database
+
+    Returns
+    -------
+    WP6_BoM : Dataframe
+     Dataframe containing all required inputs to WP5 coming from WP6
     """
     # Transform the .xls database into panda type
     excel = pd.ExcelFile(file_path)

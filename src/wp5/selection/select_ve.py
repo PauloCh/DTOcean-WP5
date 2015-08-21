@@ -18,14 +18,23 @@ def select_e (install, log_phase):
     is erasing the unfeasible equipments from the panda dataframes included in
     the ve_combination objects.
 
-    :param install (dict): among other data contains the feasibility requirements
-    of equipments
-    :param log_phase (class): contains data regarding the vessel and equipment
-    combinations specific of each operation sequence of the logistic phase
-    :return eq (dict): A dict of panda dataframes with all the feasibile equipments
-    :return log_phase (class): An updated version of the log_phase argument containing
-    only the feasible equipments within each vessel and equipment combinations dataframes
+    Parameters
+    ----------
+    install : dict
+     among other data contains the feasibility requirements of equipments
+    log_phase : class
+     contains data regarding the vessel and equipment combinations specific of
+     each operation sequence of the logistic phase
+
+    Returns
+    -------
+    eq : dict
+     A dict of panda dataframes with all the feasibile equipments
+    log_phase : class
+     An updated version of the log_phase argument containing only the feasible
+     equipments within each vessel and equipment combinations dataframes
     """
+
     req_e = install['requirement'][0]
     #Initialize an empty dic with the name of the equip to be evaluated
     eq = dict.fromkeys(req_e.keys())
@@ -65,15 +74,23 @@ def select_v (install, log_phase):
     """This functions selects the vessels that satisfy the minimum requirements
     calculated in the feasibility functions. The current method to do this is
     erasing the unfeasible vessels from the panda dataframes included in the
-    ve_combination objects.
+    ve_combination objects
 
-    :param install (dict): among other data contains the feasibility requirements
-    of vessels
-    :param log_phase (class): contains data regarding the vessel and equipment
-    combinations specific of each operation sequence of the logistic phase
-    :return ves (dict): A dict of panda dataframes with the selected feasibile vessels
-    :return log_phase (class): An updated version of the log_phase argument containing
-    only the feasible vessels within each vessel and equipment combinations dataframes
+    Parameters
+    ----------
+    install : dict
+     among other data contains the feasibility requirements of vessels
+    log_phase : class
+     contains data regarding the vessel and equipment combinations specific of
+     each operation sequence of the logistic phase
+
+    Returns
+    -------
+    eq : dict
+     A dict of panda dataframes with all the feasibile vessels
+    log_phase : class
+     An updated version of the log_phase argument containing only the feasible
+     vessels within each vessel and equipment combinations dataframes
     """
 
     req_v = install['requirement'][1]
