@@ -13,7 +13,8 @@ main.py can be described in five core sub-modules:
 1- Initialising the logistic classes
 2- Defining the installation plan
 3- Selecting the installation port
-4- Performing the assessment of all logistic phases, divided into five steps:
+4- Performing the assessment of all logistic phases sequencially, following
+   six steps:
     (i) characterizartion of logistic requirements
     (ii) selection of the maritime infrastructure
     (iii) schedule assessment of the logistic phase
