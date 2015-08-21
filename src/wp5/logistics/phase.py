@@ -1,7 +1,22 @@
-
+# -*- coding: utf-8 -*-
 """
-phase.py is the file governing the definition of the logistic phases
+@author: WavEC Offshore Renewables
+email: boris.teillant@wavec.org; paulo@wavec.org
 
+This module governs the definition of the logistic phases,
+Invocation of the full list of logistic phases covered in WP5
+ Explanation of the key ID numbering system implemented:
+# 1st digit:  1 = Installation;
+#             9 = O&M
+# 2nd digit: 0 = Electrical infrastructure;
+#            1 = Moorings and foundations;
+#            2 = Wave and Tidal devices;
+# 3rd digit: component/sub-system type - differ depending on the logistic phase
+# 4th digit: method (level 1) - differ depending on the logistic phase
+# 5th digit: sub-method (level 2) - differ depending on the logistic phase
+
+
+BETA VERSION NOTES:
 """
 
 
@@ -58,9 +73,9 @@ class VE_solutions(object):
 
 def logPhase_install_init(logOp, vessels, equipments):
 
-    """
-    1st Level - Initialize the logistic phases through LogPhase classes
-    """
+
+    # 1st Level - Initialize the logistic phases through LogPhase classes
+
     logPhase_install = {'E_export': LogPhase(100, "Installation of static subsea export power cables"),
                         'E_array': LogPhase(101, "Installation of static subsea inter-array power cables"),
                         'E_cp': LogPhase(102, "Installation of offshore electrical collection point"),
@@ -76,9 +91,9 @@ def logPhase_install_init(logOp, vessels, equipments):
                         'D_floating': LogPhase(121, "Installation of floating devices")
                         }
 
-    """
-    2nd Level - Define the diferent operations sequence and corresponding v&e combination for each Phase
-    """
+
+    # 2nd Level - Define the diferent operations sequence and corresponding V&E combination for each Phase
+
 
     logPhase_install['F_driven'].op_ve[0] = DefPhase(1, 'Drilling')
     logPhase_install['F_driven'].op_ve[1] = DefPhase(2, 'Hammering')
