@@ -95,8 +95,7 @@ mod_path = path.dirname(path.realpath(__file__))
 
 
 def database_file(file):
-    """
-    shortcut function to load files from the database folder
+    """shortcut function to load files from the database folder
     """
     fpath = path.join('databases', '{0}'.format(file))
     db_path = path.join(mod_path, fpath)

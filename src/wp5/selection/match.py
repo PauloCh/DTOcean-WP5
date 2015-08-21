@@ -1,6 +1,31 @@
+# -*- coding: utf-8 -*-
+"""
+@author: WavEC Offshore Renewables
+email: boris.teillant@wavec.org; paulo@wavec.org
+
+This module is the second and last part of the selection step in the WP5 methodology.
+It contains functions to make the compatibility check between the characteristics
+of port/vessel, port/equipment and vessel/equipment, returning only the feasible
+and compatible solutions of vessels and equipments to perform the operations
+sequence of the logistic phase.
+
+BETA VERSION DETAILS: up to date, the functionalities explained previously have
+not been implemented, this module should suffer major changes for the beta version
+"""
+
 from ..logistics.phase import VE_solutions
 
 def compatibility_ve(install, log_phase):
+    """This functions
+
+    :param install (dict): among other data contains the feasibility requirements
+    of equipments
+    :param log_phase (class): contains data regarding the vessel and equipment
+    combinations specific of each operation sequence of the logistic phase
+    :return eq (dict): A dict of panda dataframes with all the feasibile equipments
+    :return log_phase (class): An updated version of the log_phase argument containing
+    only the feasible equipments within each vessel and equipment combinations dataframes
+    """
 
     log_phase.op_ve[1].sol[0] = VE_solutions(0)
     log_phase.op_ve[1].sol[1] = VE_solutions(1)

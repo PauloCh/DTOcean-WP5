@@ -1,23 +1,35 @@
+# -*- coding: utf-8 -*-
+"""
+@author: WavEC Offshore Renewables
+email: boris.teillant@wavec.org; paulo@wavec.org
+
+This module imports the WP5 databases required to run WP5 package.  All data
+imported is translated to panda dataframes.
+
+BETA VERSION NOTES: the module also aims to provide a buffer between the database
+source and WP5 package, so it becomes simple to shift from the temporary .xlsx
+and .csv files to the final SQL solution.
+"""
+
 import pandas as pd
 
 from ..logistics import VesselType
 from ..logistics import EquipmentType
 
-"""
-### Set of functions to load data from database folder into panda tables
-"""
-
-
-# # Imports data from vessels
 def load_vessel_data(file_path):
+    """Imports vessel database into panda tables and creates a class for each
+    vessel type found in the database
+
+    :param file_path (str): the folder path of the vessel database
+    :returns: A dict of panda dataframes
+    """
     # Transform vessel database .xls into panda type
     excel = pd.ExcelFile(file_path)
     # Collect data from a particular tab
     pd_vessel = excel.parse('Python_Format', header=0, index_col=0)
-
-    """
-    ### Define vessel types by invoking VesselType class
-    """
+    # Splits the pd_vessel object with the full dataset, into smaller panda
+    # objects with specific vessel types. Each vessel object is initiated with
+    # the vessel class: VesselType
     vessels = {'Tugboat': VesselType("Tugboat", pd_vessel[pd_vessel['Vessel type'] == 'Tugboat']),
                'Crane Barge': VesselType("Crane Barge", pd_vessel[pd_vessel['Vessel type'] == 'Crane Barge']),
                'Crane Vessel': VesselType("Crane Vessel", pd_vessel[pd_vessel['Vessel type'] == 'Crane Vessel']),
@@ -34,15 +46,18 @@ def load_vessel_data(file_path):
 
 
 def load_equipment_data(file_path):
+    """Imports equipment database into panda tables and creates a class for
+    each equipment type found in the database
+
+    :param file_path (str): the folder path of the equipment database
+    :returns: A dict of panda dataframes
+    """
     # Transform Equipment database .xls into panda type
     excel = pd.ExcelFile(file_path)
     # Collect data from a particular tab
     hammer = excel.parse('hammer', header=0, index_col=0)
     drillingRig = excel.parse('drill rig', header=0, index_col=0)
-
-    """
-    ### Define equipment types by invoking EquipmentType class
-    """
+    # Define equipment types by invoking EquipmentType class
     equipments = {'Hammer': EquipmentType("Hammer", hammer),
                   'Drill Rig': EquipmentType("Drill Rig", drillingRig)
                   }
@@ -51,6 +66,11 @@ def load_equipment_data(file_path):
 
 
 def load_port_data(file_path):
+    """Imports port database into panda tables
+
+    :param file_path (str): the folder path of the ports database
+    :returns: A dict of panda dataframes
+    """
     # Transform vessel database .xls into panda type
     excel = pd.ExcelFile(file_path)
     # Collect data from a particular tab
