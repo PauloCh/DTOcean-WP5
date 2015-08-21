@@ -1,8 +1,46 @@
-# -*- coding: utf-8 -*-
 """
-Created on Fri Aug 14 09:25:21 2015
+@author: WavEC Offshore Renewables 
+email: boris.teillant@wavec.org; paulo@wavec.org
 
-@author: BTeillant
+glob.py contains a function that calls the appropriate sub-functions to 
+determine the logistic requirement associated with one logistic phase
+
+
+Parameters
+----------
+log_phase : Class
+ Class of the logistic phase under consideration for assessment
+log_phase_id : str
+ string describing the ID of the logistic phase under consideration
+user_inputs : dict
+ dictionnary containing all required inputs to WP5 coming from WP1/end-user
+wp2_outputs : dict
+ dictionnary containing all required inputs to WP5 coming from WP2
+wp3_outputs : dict
+ dictionnary containing all required inputs to WP5 coming from WP3
+wp4_outputs : DataFrame
+ Panda table containing all required inputs to WP5 coming from WP4
+
+Returns
+-------
+feasibility : typle
+ tuple containing all logistic requirements associated with every vessel 
+ and equipment type of the logistic phase under consideration
+
+Examples
+--------
+>>> WP5()
+
+
+See also: ...
+
+                       DTOcean project
+                    http://www.dtocean.eu
+
+                   WavEC Offshore Renewables
+                    http://www.wavsec.org/en
+
+
 """
 from wp5.feasibility.wp1 import wp1_feas
 from wp5.feasibility.wp4 import wp4_feas

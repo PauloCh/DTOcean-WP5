@@ -1,3 +1,79 @@
+"""
+@author: WavEC Offshore Renewables 
+email: boris.teillant@wavec.org; paulo@wavec.org
+
+main.py is the main file of the WP5 module within the suite of design tools
+developped under the EU FP7 DTOcean project. main.py provides an estimation of
+the predicted performance of feasible maritime infrastructure solutions 
+that can carry out marine operations pertaining to the installation of 
+wave and tidal energy arrays.
+
+main.py can be described in five core sub-modules:
+0- Loading input data
+1- Initialising the logistic classes
+2- Defning the installation plan
+3- Selecting the installation port
+4- Performing the assessment of all logistic phases, divided into five steps:
+    (i) characterizartion of logistic requirements
+    (ii) selection of the maritime infrastructure
+    (iii) schedule assessment of the logistic phase
+    (iv) cost assessment of the logistic phase
+    (v) risk assessment of the logistic phase
+    (vi) environmental impact assessment of the logistic phase
+
+Parameters
+----------
+vessels : DataFrame
+ Panda table containing the vessel database
+equipments : DataFrame
+ Panda table containing the equipment database
+ports : DataFrame
+ Panda table containing the ports database
+user_inputs : dict
+ dictionnary containing all required inputs to WP5 coming from WP1/end-user
+wp2_outputs : dict
+ dictionnary containing all required inputs to WP5 coming from WP2
+wp3_outputs : dict
+ dictionnary containing all required inputs to WP5 coming from WP3
+wp4_outputs : DataFrame
+ Panda table containing all required inputs to WP5 coming from WP4
+wp6_outputs : dict
+ dictionnary containing all required inputs to WP5 coming from WP6
+
+Returns
+-------
+logOp : dict
+ dictionnary containing all classes defining the individual logistic operations
+logPhase_install : dict
+ dictionnary containing all classes defining the logistic phases for installation
+logPhase_OM : dict
+ dictionnary containing all classes defining the logistic phases for O&M
+install_plan : dict
+ dictionnary containing the plan of the logistic phases for installation
+install_port : dict
+ dictionnary containing the results of the port selection
+install : dict
+ dictionnary compiling all key results obtained from the assessment of the 
+ logistic phases for installation
+log_phase : Class
+ Class of the logistic phase under consideration for assessment
+
+Examples
+--------
+>>> WP5()
+
+
+See also: ...
+
+                       DTOcean project
+                    http://www.dtocean.eu
+
+                   WavEC Offshore Renewables
+                    http://www.wavsec.org/en
+
+
+"""
+
 from os import path
 
 from wp5.load import load_vessel_data, load_equipment_data, load_port_data
@@ -28,7 +104,7 @@ def database_file(file):
 
 #def run():
 """
-Main function to run work package 5
+### Loading required inputs and database into panda dataframes
 """
 vessels = load_vessel_data(database_file("Vessel_Database_python.xlsx"))
 equipments = load_equipment_data(database_file("Equipment_Database_python.xlsx"))
@@ -50,7 +126,7 @@ logPhase_install = logPhase_install_init(logOp, vessels, equipments)
 logPhase_OM = logPhase_OM_init(logOp, vessels, equipments)
 
 """
-### Determine the adequate installation logistic phase sequence
+### Determine the adequate installation logistic phase plan
 """
 install_plan = planning.install_plan(user_inputs, wp3_outputs, wp4_outputs)
 
@@ -59,10 +135,13 @@ install_plan = planning.install_plan(user_inputs, wp3_outputs, wp4_outputs)
 install_plan = {0: ['F_driven']}
 ###
 """
-### Determine the adequate installation logistic phase sequence
+### Select the most appropriate base installation port
 """
 install_port = select_port.install_port(user_inputs, wp3_outputs, wp4_outputs, ports)
-
+"""
+### Incremental assessment of all logistic phase forming the the installaiton 
+process
+"""
 install = {'plan': install_plan,
            'port': install_port,
            'requirement': {},
@@ -82,7 +161,7 @@ if install['status'] == "pending":
             # extract the LogPhase ID to be evaluated from the installation plan
             log_phase_id = install['plan'][x][y]
             log_phase = logPhase_install[log_phase_id]
-            # determine feasiblity functions
+            # characterize the logistic requirements
             install['requirement'] = glob_feas(log_phase, log_phase_id,
                                                user_inputs, wp2_outputs,
                                                wp3_outputs, wp4_outputs)

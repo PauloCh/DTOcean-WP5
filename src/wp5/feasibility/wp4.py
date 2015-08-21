@@ -1,8 +1,46 @@
-# -*- coding: utf-8 -*-
 """
-Created on Fri Aug 14 11:51:31 2015
+@author: WavEC Offshore Renewables 
+email: boris.teillant@wavec.org; paulo@wavec.org
 
-@author: BTeillant
+wp1.py is a function which determines the logistic requirement associated with 
+one logistic phase dealing with the installation of moorings and
+foundation systems
+
+
+Parameters
+----------
+log_phase : Class
+ Class of the logistic phase under consideration for assessment
+log_phase_id : str
+ string describing the ID of the logistic phase under consideration
+wp2_outputs : dict
+ dictionnary containing all required inputs to WP5 coming from WP2
+wp4_outputs : DataFrame
+ Panda table containing all required inputs to WP5 coming from WP4
+
+Returns
+-------
+feas_e : dict
+ dictionnary containing all logistic requirements associated with every 
+ equipment type of the logistic phase under consideration
+feas_v : dict
+ dictionnary containing all logistic requirements associated with every 
+ vessel type of the logistic phase under consideration
+
+Examples
+--------
+>>> WP5()
+
+
+See also: ...
+
+                       DTOcean project
+                    http://www.dtocean.eu
+
+                   WavEC Offshore Renewables
+                    http://www.wavsec.org/en
+
+
 """
 
 
