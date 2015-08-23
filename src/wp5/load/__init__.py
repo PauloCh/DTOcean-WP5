@@ -17,8 +17,8 @@ from ..logistics import VesselType
 from ..logistics import EquipmentType
 
 def load_vessel_data(file_path):
-    """Imports vessel database into panda tables and creates a class for each
-    vessel type found in the database
+    """Imports vessel database into panda dataframe and creates a class for each
+    vessel type
 
     Parameters
     ----------
@@ -53,8 +53,8 @@ def load_vessel_data(file_path):
 
 
 def load_equipment_data(file_path):
-    """Imports equipment database into panda tables and creates a class for
-    each equipment type found in the database
+    """Imports equipment database into panda dataframes and creates a class for
+    each equipment type
 
     Parameters
     ----------
@@ -91,7 +91,7 @@ def load_port_data(file_path):
     Returns
     -------
     vessels : dict
-     dictionnary containing a panda table with all ports
+     dictionnary containing a panda dataframe with all ports
     """
     # Transform vessel database .xls into panda type
     excel = pd.ExcelFile(file_path)

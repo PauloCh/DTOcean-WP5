@@ -1,51 +1,43 @@
+# -*- coding: utf-8 -*-
 """
 @author: WavEC Offshore Renewables
 email: boris.teillant@wavec.org; paulo@wavec.org
 
-wp1.py is a function which determines the logistic requirement associated with
-one logistic phase dealing with the installation of moorings and
-foundation systems
+This module is part of the characterization step in the WP5 methodology. It 
+contains feasibility functions to compute the minimum logistic requirements to 
+carry out the different logistic phases. This particular modules includes the
+function related to the installation of moorings and foundations.
 
-
-Parameters
-----------
-log_phase : Class
- Class of the logistic phase under consideration for assessment
-log_phase_id : str
- string describing the ID of the logistic phase under consideration
-wp2_outputs : dict
- dictionnary containing all required inputs to WP5 coming from WP2
-wp4_outputs : DataFrame
- Panda table containing all required inputs to WP5 coming from WP4
-
-Returns
--------
-feas_e : dict
- dictionnary containing all logistic requirements associated with every
- equipment type of the logistic phase under consideration
-feas_v : dict
- dictionnary containing all logistic requirements associated with every
- vessel type of the logistic phase under consideration
-
-Examples
---------
->>> WP5()
-
-
-See also: ...
-
-                       DTOcean project
-                    http://www.dtocean.eu
-
-                   WavEC Offshore Renewables
-                    http://www.wavsec.org/en
-
-
+BETA VERSION NOTES: The current version is limited to an installation strategy
+consisting of installation of 1 set of foundations at the time. This will be 
+futher developed in the beta version due to October.
 """
 
-
 def wp4_feas(log_phase, log_phase_id, wp2_outputs, wp4_outputs):
-
+    """ wp4_feas is a function which determines the logistic requirement 
+    associated with one logistic phase dealing with the installation of 
+    moorings and foundation systems
+    
+    Parameters
+    ----------
+    log_phase : Class
+     Class of the logistic phase under consideration for assessment
+    log_phase_id : str
+     string describing the ID of the logistic phase under consideration
+    wp2_outputs : dict
+     dictionnary containing all required inputs to WP5 coming from WP2
+    wp4_outputs : DataFrame
+     Panda table containing all required inputs to WP5 coming from WP4
+    
+    Returns
+    -------
+    feas_e : dict
+     dictionnary containing all logistic requirements associated with every
+     equipment type of the logistic phase under consideration
+    feas_v : dict
+     dictionnary containing all logistic requirements associated with every
+     vessel type of the logistic phase under consideration
+    """
     if log_phase_id == 'F_driven':
         # Equipment feasiblity
         # Hammer sleeve diameter
