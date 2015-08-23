@@ -1,9 +1,18 @@
 # -*- coding: utf-8 -*-
 """
-Created on Fri Aug 07 10:34:21 2015
+@author: WavEC Offshore Renewables
+email: boris.teillant@wavec.org; paulo@wavec.org
 
-@author: BTeillant
+This module is responsible for returning the plan and the logistic phases 
+required to be run the required logistic phases during installation
+interphase sequencing of all logistic phases
+during installation. 
+
+BETA VERSION NOTES: This current version is limited to the feasibility functions 
+of two logistic phases (one for the installation module and one for the O&M), 
+this will be upgraded for the beta version due to october.
 """
+
 import warnings
 
 

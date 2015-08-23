@@ -4,9 +4,9 @@
 email: boris.teillant@wavec.org; paulo@wavec.org
 
 This module governs the definition of the logistic phases. The functions included
-in this module are responsible to initialize and characterize the logistic phases
-both of the installation and O&M modules. These functions return each logistic phase
-characterized in terms of operations sequence and vesse & equipment combination.
+are responsible to initialize and characterize the logistic phases both of the 
+installation and O&M modules. The functions return a class of each logistic phase
+characterized in terms of operations sequence and vessel & equipment combination.
 
 BETA VERSION NOTES: In this version, only two logistic phases were characterized,
 one related to Moorings and Foundation Installation: Driven Pile, and another
@@ -69,18 +69,16 @@ def logPhase_install_init(logOp, vessels, equipments):
     Parameters
     ----------
     logOp : dict
-     among other data contains the feasibility requirements of vessels
-    vessels : dict
-     contains data regarding the vessel and equipment combinations specific of
-     each operation sequence of the logistic phase
-    equipments : dict
-     contains data regarding the vessel and equipment combinations specific of
-     each operation sequence of the logistic phase
+     dictionnary containing all classes defining the individual logistic operations
+    vessels : DataFrame
+     Panda table containing the vessel database
+    equipments : DataFrame
+     Panda table containing the equipment database
 
     Returns
     -------
-    logPhase_install : class
-     A dict of panda dataframes with all the feasibile vessels
+    logPhase_install : dict
+     dictionnary containing all classes defining the logistic phases for installation
     """
 
     # 1st Level - Initialize the logistic phases through LogPhase classes
@@ -194,18 +192,16 @@ def logPhase_OM_init(logOp, vessels, equipments):
     Parameters
     ----------
     logOp : dict
-     among other data contains the feasibility requirements of vessels
-    vessels : dict
-     contains data regarding the vessel and equipment combinations specific of
-     each operation sequence of the logistic phase
-    equipments : dict
-     contains data regarding the vessel and equipment combinations specific of
-     each operation sequence of the logistic phase
+     dictionnary containing all classes defining the individual logistic operations
+    vessels : DataFrame
+     Panda table containing the vessel database
+    equipments : DataFrame
+     Panda table containing the equipment database
 
     Returns
     -------
-    logPhase_OM : class
-     A dict of panda dataframes with all the feasibile vessels
+    logPhase_OM : dict
+     dictionnary containing all classes defining the logistic phases for O&M
     """
 
     # 1st Level - Initialize the logistic phases through LogPhase classes

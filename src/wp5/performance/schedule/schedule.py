@@ -39,7 +39,7 @@ def weatherWindow(user_inputs, olc):
     # Initialisation
     met_ocean = user_inputs['metocean']
     ww = {'start': 0,
-          'duraiton': 0}
+          'duration': 0}
     # Operational limit conditions (consdiered static over the entire duration of the marine operation fro the moment)
     timeStep = met_ocean.hour.ix[1] - met_ocean.hour.ix[0]
     # resourceDataPointNb = len(met_ocean.waveHs)

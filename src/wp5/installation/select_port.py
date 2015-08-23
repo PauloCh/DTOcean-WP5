@@ -1,12 +1,41 @@
 # -*- coding: utf-8 -*-
 """
-Created on Fri Aug 07 16:40:21 2015
+@author: WavEC Offshore Renewables
+email: boris.teillant@wavec.org; paulo@wavec.org
 
-@author: BTeillant
+This module is responsible for the selection of ports for both the installation
+and O&M logistic activities. 
+
+BETA VERSION NOTES: This current version is limited to the feasibility functions 
+of two logistic phases (one for the installation module and one for the O&M), 
+this will be upgraded for the beta version due to october.
 """
 
 
 def install_port(user_inputs, wp3_outputs, wp4_outputs, port_data):
+    """install_port function selects the home port used by all logistic phases
+    during installation. This selection is based on a 2 step process: 
+        1 - the port feasibility functions from all logistic phases are taken
+        into account, and the unfeasible ports are erased from the panda dataframes.  
+        2 - the closest port to the project site is choosen from the feasbile
+        list of ports.
+
+    Parameters
+    ----------
+    user_inputs : dict
+     dictionnary containing all required inputs to WP5 coming from WP1/end-user
+    wp3_outputs : dict
+     dictionnary containing all required inputs to WP5 coming from WP3
+    wp4_outputs : DataFrame
+     panda table containing all required inputs to WP5 coming from WP4
+    port_data : DataFrame
+     panda table containing the ports database     
+
+    Returns
+    -------
+    port : dict
+     dictionnary containing the results of the port selection
+    """    
     # initialisation
     port = {'Terminal Load Bearing [ton/m2]': 0,
             'Terminal area [m2]': 0,
@@ -45,6 +74,29 @@ def install_port(user_inputs, wp3_outputs, wp4_outputs, port_data):
     return port
 
 def OM_port(wp6_outputs, port_data):
+    """OM_port function selects the home port used by all logistic phases
+    required by the O&M module. This selection is based on a 2 step process: 
+        1 - the port feasibility functions from all logistic phases are taken
+        into account, and the unfeasible ports are erased from the panda dataframes.  
+        2 - the closest port to the project site is choosen from the feasbile
+        list of ports.
+
+    Parameters
+    ----------
+    user_inputs : dict
+     dictionnary containing all required inputs to WP5 coming from WP1/end-user
+    wp3_outputs : dict
+     dictionnary containing all required inputs to WP5 coming from WP3
+    wp4_outputs : DataFrame
+     panda table containing all required inputs to WP5 coming from WP4
+    port_data : DataFrame
+     panda table containing the ports database     
+
+    Returns
+    -------
+    port : dict
+     dictionnary containing the results of the port selection
+    """       
     # initialisation
     port = {'Terminal Load Bearing [ton/m2]': 0,
             'Terminal area [m2]': 0,
