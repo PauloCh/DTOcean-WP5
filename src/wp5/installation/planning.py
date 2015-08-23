@@ -3,20 +3,24 @@
 @author: WavEC Offshore Renewables
 email: boris.teillant@wavec.org; paulo@wavec.org
 
-This module is responsible for returning the plan and the logistic phases 
-required to be run the required logistic phases during installation
-interphase sequencing of all logistic phases
-during installation. 
+This module is responsible for the interphase relation between the different 
+logistic phases during installation. The inputs from the user and other DTOcean 
+packages build up unique projects which require specific installation sequences. 
+The functions in this module return the installation sequence required based on 
+pre-defined cases (type of foundations, type of moorings, type of device, type 
+of electrical infranstrucutres). 
 
-BETA VERSION NOTES: This current version is limited to the feasibility functions 
-of two logistic phases (one for the installation module and one for the O&M), 
-this will be upgraded for the beta version due to october.
+BETA VERSION NOTES: Since 
 """
 
 import warnings
 
 
 def install_plan(user_inputs, wp3_outputs, wp4_outputs):
+    """install_plan receives  function returns the id of the logistic phases required to
+    conduct the installation of a particular case, plus the interphase relation
+    between the 
+    """
     if user_inputs['device']['technology type'].ix[0] == "seabed fixed":
         if wp3_outputs['layout']['Electrical Layout'].ix[0] == "type 1":
             if wp4_outputs['foundation type'].ix[0] == "shallow foundation":
