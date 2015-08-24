@@ -12,15 +12,6 @@ database source and WP5 package, so it becomes simple to shift from
 the temporary .xlsx and .csv files to the final SQL solution.
 """
 
-wp2_outputs : dict
- dictionnary containing all required inputs to WP5 coming from WP2
-wp3_outputs : dict
- dictionnary containing all required inputs to WP5 coming from WP3
-wp4_outputs : DataFrame
- Panda table containing all required inputs to WP5 coming from WP4
-wp6_outputs : dict
- dictionnary containing all required inputs to WP5 coming from WP6
-
 import pandas as pd
 
 def load_WP1_BoM(file_path_device, file_path_metocean):

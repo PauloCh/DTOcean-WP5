@@ -1,11 +1,18 @@
 # -*- coding: utf-8 -*-
 """
-Created on Sun Aug 16 11:53:24 2015
+@author: WavEC Offshore Renewables
+email: boris.teillant@wavec.org; paulo@wavec.org
 
-@author: BTeillant
+This module is responsible for the schedule step in the WP5 methodology. It
+contains functions to calculate the time required to perform certain operations
+such as transit to site, always taking into account the weather windows through
+the operation limit conditions defined for each operation.
+
+BETA VERSION NOTES: The module will suffer major changes in the next version of
+the code.
 """
-import numpy
 
+import numpy
 
 def distance(coordinates, map_land):
     """

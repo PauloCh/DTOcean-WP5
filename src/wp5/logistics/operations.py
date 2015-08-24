@@ -1,11 +1,17 @@
-
+# -*- coding: utf-8 -*-
 """
-operations.py is the file governing the definition of the logistic operations
+@author: WavEC Offshore Renewables
+email: boris.teillant@wavec.org; paulo@wavec.org
 
-operations.py defines all individual logistic operations considered within the
-DTOcean tool.
+This module governs the definition of all individual logistic operations
+considered within the DTOcean tool, in terms of id, description, pre-defined
+time for completition and operational limit conditions. These will be used to
+further characterize the operation sequence of each logistic phase.
+
+BETA VERSION NOTES: In this version, a limited number of operations were defined
+and their characterization was mostly limited to the id and description. This
+will be further expanded in the following version.
 """
-
 
 class LogOp(object):
 
@@ -16,26 +22,29 @@ class LogOp(object):
         self.time = time
         self.cost = cost
 
-
-"""
-#### Definition of the logistic operations by invocaking the class LogOp ###
-# Invocation of the full list of individual logistic operations covered in WP5
-# Explanation of the key ID numbering system implemented:
-# 1st digit:  1 = General individual operation shared with all/most logistic phases;
-#             2 = Specialized individual operation for the installation of electrical infrastructure;
-#             3 = Specialized individual operation for the installation of foundations;
-#             4 = Specialized individual operation for the installation of moorings;
-#             5 = Specialized individual operation for the installation of tidal or wave energyd devices;
-#             6 = Specialized individual operation for inspection activities;
-#             7 = Specialized individual operation for on-site maintenance interventions;
-#             8 = Specialized individual operation for port-based maintenance interventions;
-# 2nd digit: simple counter to discriminate between different individual
-#            operations within the same category defined by the 1st digit
-"""
-
-
 def logOp_init():
+    """logOp_init function defines all individual logistic operations considered
+    within the DTOcean tool. Each individual operation is defined by invoking
+    the class LogOp. Explanation of the key ID numbering system implemented:
+    1st digit:  1 = General individual operation shared with all/most logistic phases;
+                2 = Specialized individual operation for the installation of electrical infrastructure;
+                3 = Specialized individual operation for the installation of foundations;
+                4 = Specialized individual operation for the installation of moorings;
+                5 = Specialized individual operation for the installation of tidal or wave energyd devices;
+                6 = Specialized individual operation for inspection activities;
+                7 = Specialized individual operation for on-site maintenance interventions;
+                8 = Specialized individual operation for port-based maintenance interventions;
+    2nd digit: simple counter to discriminate between different individual
+               operations within the same category defined by the 1st digit
 
+    Parameters
+    ----------
+
+    Returns
+    -------
+    logOp : dict
+     dictionnary containing all classes defining the logistic operations
+    """
     logOp = {"op1": LogOp(10, "Mobilisation", [0, 0, 0, 0], 48, 0),
              "op2": LogOp(11, "Assembly at port", [0, 0, 0, 0], 1, 0),
              "op3": LogOp(13, "Vessel preparation and loading", [0, 0, 0, 0], 1, 0),
@@ -69,7 +78,7 @@ def logOp_init():
              "op_D1": LogOp(50, "On-site posisitioning and connection of bottom-fixed device", [0, 0, 0, 0], 0, 0),
              "op_D2": LogOp(51, "On-site posisitioning and connection of floating device", [0, 0, 0, 0], 0, 0),
 
-             "op_OM1": LogOp(50, "Inspection Maintenance Onsite", [0, 0, 0, 0], 8, 0)
+             "op_OM1": LogOp(60, "Inspection Maintenance Onsite", [0, 0, 0, 0], 8, 0)
 
              }
 
