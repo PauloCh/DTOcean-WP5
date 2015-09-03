@@ -1,8 +1,15 @@
 # -*- coding: utf-8 -*-
 """
-Created on Tue Aug 18 18:45:03 2015
+@author: WavEC Offshore Renewables
+email: boris.teillant@wavec.org; paulo@wavec.org
 
-@author: BTeillant
+This module is responsible for the cost step in the WP5 methodology. It contains
+functions to calculate the cost of each solution based on the schedule, day rates
+of vessels and equipments and port economic assessment.
+
+BETA VERSION NOTES: The current version of this module only takes into account
+the day rates of vessels to calculate the cost. This will be expanded to equipment
+and port in the next version of the code.
 """
 import numpy
 
