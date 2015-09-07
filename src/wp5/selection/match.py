@@ -13,7 +13,7 @@ BETA VERSION DETAILS: up to date, the functionalities explained previously have
 not been implemented, this module should suffer major changes for the beta version
 """
 
-from ..logistics.phase import VE_solutions
+from ..logistics.phase.classes import VE_solutions
 
 
 def compatibility_ve(install, log_phase):
@@ -25,7 +25,7 @@ def compatibility_ve(install, log_phase):
     install : dict
      not used
     log_phase : class
-     class of the logistic phase under consideration for assessment, contains 
+     class of the logistic phase under consideration for assessment, contains
      data refered to the feasible vessel and equipment combinations specific of
      each operation sequence of the logistic phase
 
@@ -74,7 +74,7 @@ def compatibility_ve_om(install, log_phase):
     install : dict
      not used
     log_phase : class
-     class of the logistic phase under consideration for assessment, contains 
+     class of the logistic phase under consideration for assessment, contains
      data refered to the feasible vessel and equipment combinations specific of
      each operation sequence of the logistic phase
 
