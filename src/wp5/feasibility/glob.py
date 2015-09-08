@@ -6,7 +6,7 @@ from wp5.feasibility.wp3 import wp3_feas
 
 def glob_feas(log_phase, log_phase_id, user_inputs, wp2_outputs, wp3_outputs, wp4_outputs):
     """glob.py contains a function that calls the appropriate sub-functions to
-    determine the logistic requirement associated with one logistic phase
+    determine the logistic requirements associated with one logistic phase
     
     Parameters
     ----------
@@ -25,7 +25,7 @@ def glob_feas(log_phase, log_phase_id, user_inputs, wp2_outputs, wp3_outputs, wp
     
     Returns
     -------
-    feasibility : typle
+    feasibility : tuple
      tuple containing all logistic requirements associated with every vessel
      and equipment type of the logistic phase under consideration
     """
