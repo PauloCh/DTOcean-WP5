@@ -28,6 +28,10 @@ def initialize_f_drive_phase(log_op, vessels, equipments):
     phase.op_ve[0].ve_combination[3] = {'vessel': [(1, vessels['JUP Vessel'])],
                                         'equipment': [(1, equipments['Drill Rig'], 0)]}
 
+
+#-------------------------------------------------------------------------------------------------
+
+
     phase.op_ve[1] = DefPhase(2, 'Hammering')
     phase.op_ve[1].op_sequence = [log_op["op1"],
                                   log_op["op2"],
@@ -51,6 +55,10 @@ def initialize_f_drive_phase(log_op, vessels, equipments):
 
     phase.op_ve[1].ve_combination[3] = {'vessel': [(1, vessels['JUP Vessel'])],
                                         'equipment': [(1, equipments['Hammer'], 0)]}
+
+
+#-------------------------------------------------------------------------------------------------
+
 
     phase.op_ve[2] = DefPhase(3, 'Vibro Pilling')
     phase.op_ve[2].op_sequence = [log_op["op1"],

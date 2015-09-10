@@ -14,7 +14,20 @@ related to Operation and Maintenance: Offshore Inspection.
 """
 
 from .classes import LogPhase, DefPhase
+
+from .e_export import initialize_e_export_phase
+from .e_array import initialize_e_array_phase
+from .e_cp import initialize_e_cp_phase
+
 from .f_driven import initialize_f_drive_phase
+from .f_suction import initialize_f_suction_phase
+from .f_gravity import initialize_f_gravity_phase
+
+from .m_drag import initialize_m_drag_phase
+from .m_direct import initialize_m_direct_phase
+
+from .d_fixed import initialize_d_fixed_phase
+from .d_floating import initialize_d_floating_phase
 
 
 def logPhase_install_init(log_op, vessels, equipments):
@@ -50,19 +63,19 @@ def logPhase_install_init(log_op, vessels, equipments):
 
     # 1st Level - Initialize the logistic phases through LogPhase classes
 
-    logPhase_install = {'E_export': LogPhase(100, "Installation of static subsea export power cables"),
-                        'E_array': LogPhase(101, "Installation of static subsea inter-array power cables"),
-                        'E_cp': LogPhase(102, "Installation of offshore electrical collection point"),
+    logPhase_install = {'E_export': initialize_e_export_phase(log_op, vessels, equipments),
+                        'E_array': initialize_e_array_phase(log_op, vessels, equipments),
+                        'E_cp': initialize_e_cp_phase(log_op, vessels, equipments),
 
                         'F_driven': initialize_f_drive_phase(log_op, vessels, equipments),
-                        'F_suction': LogPhase(111, "Installation of suction caissons for foundation systems"),
-                        'F_gravity': LogPhase(112, "Installation of gravity based foundations"),
+                        'F_suction': initialize_f_suction_phase(log_op, vessels, equipments), 
+                        'F_gravity': initialize_f_gravity_phase(log_op, vessels, equipments), 
 
-                        'M_drag': LogPhase(113, "Installation of mooring systems with drag-embedment anchors"),
-                        'M_direct': LogPhase(114, "Installation of mooring systems with direct-embedment anchors"),
+                        'M_drag': initialize_m_drag_phase(log_op, vessels, equipments),
+                        'M_direct': initialize_m_direct_phase(log_op, vessels, equipments),
 
-                        'D_fixed': LogPhase(120, "Installation of bottom fixed devices"),
-                        'D_floating': LogPhase(121, "Installation of floating devices")
+                        'D_fixed': initialize_d_fixed_phase(log_op, vessels, equipments),
+                        'D_floating': initialize_d_floating_phase(log_op, vessels, equipments)
                         }
 
 
@@ -71,6 +84,26 @@ def logPhase_install_init(log_op, vessels, equipments):
 
 
     return logPhase_install
+
+
+
+
+
+
+from om_topside import initialize_om_topside_phase 
+                   
+from om_underwater_divers import initialize_om_underwater_divers_phase 
+from om_underwater_rov import initialize_om_underwater_rov_phase
+
+from om_moorings import initialize_om_moorings_phase 
+from om_electrical import initialize_om_electrical_phase 
+
+from rt_ondeck import initialize_rt_ondeck_phase 
+from rt_towing import initialize_rt_towing_phase
+
+from rt_mooring import initialize_rt_mooring_phase 
+from rt_umbilical import initialize_rt_umbilical_phase 
+
 
 
 def logPhase_OM_init(log_op, vessels, equipments):
@@ -106,24 +139,24 @@ def logPhase_OM_init(log_op, vessels, equipments):
 
     # 1st Level - Initialize the logistic phases through LogPhase classes
 
-    logPhase_OM = {'insp': LogPhase(900, "O&M top-side maintenance")}
+    logPhase_OM = {'Om_topside': initialize_om_topside_phase(log_op, vessels, equipments), 
+                   
+                   'Om_underwater_divers': initialize_om_underwater_divers_phase(log_op, vessels, equipments), 
+                    'Om_underwater_rov': initialize_om_underwater_rov_phase(log_op, vessels, equipments), 
+
+                    'Om_moorings': initialize_om_moorings_phase(log_op, vessels, equipments), 
+                    'Om_electrical': initialize_om_electrical_phase(log_op, vessels, equipments), 
+
+                    'Rt_ondeck': initialize_rt_ondeck_phase(log_op, vessels, equipments), 
+                    'Rt_towing': initialize_rt_towing_phase(log_op, vessels, equipments), 
+
+                    'Rt_mooring': initialize_rt_mooring_phase(log_op, vessels, equipments), 
+                    'Rt_umbilical': initialize_rt_umbilical_phase(log_op, vessels, equipments) 
+                    }    
+                    
+                        
 
     # 2nd Level - Define the diferent operations sequence and corresponding v&e combination for each Phase
 
-    logPhase_OM['insp'].op_ve[0] = DefPhase(1, 'inps')
-
-    logPhase_OM['insp'].op_ve[0].op_sequence = [log_op["op1"],
-                                                log_op["op2"],
-                                                log_op["op3"],
-                                                log_op["op4"],
-                                                log_op["op_OM1"],
-                                                log_op["op7"],
-                                                log_op["op8"]]
-
-    logPhase_OM['insp'].op_ve[0].ve_combination[0] = {'vessel': [(1, vessels['CTV'])],
-                                                      'equipment': [(0, 0, 0)]}
-
-    logPhase_OM['insp'].op_ve[0].ve_combination[1] = {'vessel': [(1, vessels['Multicat'])],
-                                                      'equipment': [(0, 0, 0)]}
 
     return logPhase_OM

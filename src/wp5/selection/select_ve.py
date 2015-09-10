@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-"""
 @author: WavEC Offshore Renewables
 email: boris.teillant@wavec.org; paulo@wavec.org
 
