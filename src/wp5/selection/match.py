@@ -37,30 +37,80 @@ def compatibility_ve(install, log_phase):
      An updated version of the log_phase argument containing only the feasible
      equipments within each vessel and equipment combinations dataframes
     """
+    ves = {}
+    ves_sol = {}
+    eq = {}
+    eq_sol = {}
+    nr_sol = 0
 
-    log_phase.op_ve[1].sol[0] = VE_solutions(0)
-    log_phase.op_ve[1].sol[1] = VE_solutions(1)
+    for seq in range(len(log_phase.op_ve)):
+        for combi in range(len(log_phase.op_ve[seq].ve_combination)):
 
-    pd_ves0 = log_phase.op_ve[1].ve_combination[0]['vessel'][0][1].panda
-    pd_ves0_index = pd_ves0.index
+            for nr_ves in range(len(log_phase.op_ve[seq].ve_combination[combi]['vessel'])):
 
-    pd_ves1 = log_phase.op_ve[1].ve_combination[0]['vessel'][1][1].panda
-    pd_ves1_index = pd_ves1.index
+                ves_quant = log_phase.op_ve[seq].ve_combination[combi]['vessel'][nr_ves][0]  # Quantity of vessels in the solution
+                ves_class = log_phase.op_ve[seq].ve_combination[combi]['vessel'][nr_ves][1]
 
-    pd_eq = log_phase.op_ve[1].ve_combination[0]['equipment'][0][1].panda
-    pd_eq_index = pd_eq.index
+                ves_index = ves_class.panda.index
 
-    log_phase.op_ve[1].sol[0].sol_ves[0] = pd_ves0.ix[pd_ves0_index[0]]
-    log_phase.op_ve[1].sol[0].sol_ves[1] = pd_ves1.ix[pd_ves1_index[0]]
-    log_phase.op_ve[1].sol[0].sol_eq[0] = pd_eq.ix[pd_eq_index[0]]
+                for a in range(len(ves_index)):
 
-    log_phase.op_ve[1].sol[1].sol_ves[0] = pd_ves0.ix[pd_ves0_index[1]]
-    log_phase.op_ve[1].sol[1].sol_ves[1] = pd_ves1.ix[pd_ves1_index[1]]
-    log_phase.op_ve[1].sol[1].sol_eq[0] = pd_eq.ix[pd_eq_index[0]]
+                  ves[a] = ves_class.panda.ix[ves_index[a]]
 
-    sol = {}
-    sol[0] = log_phase.op_ve[1].sol[0]
-    sol[1] = log_phase.op_ve[1].sol[1]
+                ves_sol[nr_ves] = {'quantity': ves_quant,
+                                   'Series': ves}
+
+            for nr_eq in range(len(log_phase.op_ve[seq].ve_combination[combi]['equipment'])):
+
+                eq_quant = log_phase.op_ve[seq].ve_combination[combi]['equipment'][nr_eq][0]  # Quantity of vessels in the solution
+                eq_class = log_phase.op_ve[seq].ve_combination[combi]['equipment'][nr_eq][1]
+
+                eq_index = eq_class.panda.index
+
+                for a in range(len(eq_index)):
+
+                  eq[a] = eq_class.panda.ix[eq_index[a]]
+
+                eq_sol[nr_eq] = {'quantity': eq_quant,
+                                 'Series': eq}
+
+        nr_sol = nr_sol
+
+        for a in range(nr_ves):
+            for b in range(len(ves_sol[a]['Series'])):
+                for c in range(nr_eq):
+                    for d in range(len(eq_sol[c]['Series'])):
+
+                        sol = VE_solutions(nr_sol)
+
+                        sol.sol_ves[a] = ves_sol[a]['Series'][b]
+
+                        log_phase.op_ve[seq].sol[nr_sol] = sol
+
+
+#    log_phase.op_ve[1].sol[0] = VE_solutions(0)
+#    log_phase.op_ve[1].sol[1] = VE_solutions(1)
+#
+#    pd_ves0 = log_phase.op_ve[1].ve_combination[0]['vessel'][0][1].panda
+#    pd_ves0_index = pd_ves0.index
+#
+#    pd_ves1 = log_phase.op_ve[1].ve_combination[0]['vessel'][1][1].panda
+#    pd_ves1_index = pd_ves1.index
+#
+#    pd_eq = log_phase.op_ve[1].ve_combination[0]['equipment'][0][1].panda
+#    pd_eq_index = pd_eq.index
+#
+#    log_phase.op_ve[1].sol[0].sol_ves[0] = pd_ves0.ix[pd_ves0_index[0]]
+#    log_phase.op_ve[1].sol[0].sol_ves[1] = pd_ves1.ix[pd_ves1_index[0]]
+#    log_phase.op_ve[1].sol[0].sol_eq[0] = pd_eq.ix[pd_eq_index[0]]
+#
+#    log_phase.op_ve[1].sol[1].sol_ves[0] = pd_ves0.ix[pd_ves0_index[1]]
+#    log_phase.op_ve[1].sol[1].sol_ves[1] = pd_ves1.ix[pd_ves1_index[1]]
+#    log_phase.op_ve[1].sol[1].sol_eq[0] = pd_eq.ix[pd_eq_index[0]]
+#
+#    sol = {}
+#    sol[0] = log_phase.op_ve[1].sol[0]
+#    sol[1] = log_phase.op_ve[1].sol[1]
 
     return sol, log_phase
 

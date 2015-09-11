@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
+"""
 @author: WavEC Offshore Renewables
 email: boris.teillant@wavec.org; paulo@wavec.org
 
-This module is responsible for the first part of the selection step in the WP5 
-methodology. It contains functions to match the requirements computed in the 
-feasibility functions, with the parameters of vessels and equipments imported 
+This module is responsible for the first part of the selection step in the WP5
+methodology. It contains functions to match the requirements computed in the
+feasibility functions, with the parameters of vessels and equipments imported
 in the load functions.
 
 BETA VERSION NOTES: These functions are mature and should not suffer many
@@ -12,9 +13,9 @@ changes from the current version to the following beta version.
 """
 
 def select_e (install, log_phase):
-    """select_e function selects the equipments that satisfy the minimum 
-    requirements calculated in the feasibility functions. The current method to 
-    achieve this is erasing the unfeasible equipments from the panda dataframes 
+    """select_e function selects the equipments that satisfy the minimum
+    requirements calculated in the feasibility functions. The current method to
+    achieve this is erasing the unfeasible equipments from the panda dataframes
     included in the ve_combination objects.
 
     Parameters
@@ -22,7 +23,7 @@ def select_e (install, log_phase):
     install : dict
      among other data contains the feasibility requirements of equipments
     log_phase : class
-     class of the logistic phase under consideration for assessment, contains 
+     class of the logistic phase under consideration for assessment, contains
      data refered to the vessel and equipment combinations specific of
      each operation sequence of the logistic phase
 
