@@ -59,17 +59,17 @@ def initialize_f_drive_phase(log_op, vessels, equipments):
 
 #-------------------------------------------------------------------------------------------------
 
-
-    phase.op_ve[2] = DefPhase(3, 'Vibro Pilling')
-    phase.op_ve[2].op_sequence = [log_op["op1"],
-                                  log_op["op2"],
-                                  log_op["op3"],
-                                  log_op["op4"],
-                                  log_op["op5"],
-                                  log_op["op_F3"],
-                                  log_op["op_F7"],
-                                  log_op["op6"],
-                                  log_op["op7"],
-                                  log_op["op8"]]
+#
+#    phase.op_ve[2] = DefPhase(3, 'Vibro Pilling')
+#    phase.op_ve[2].op_sequence = [log_op["op1"],
+#                                  log_op["op2"],
+#                                  log_op["op3"],
+#                                  log_op["op4"],
+#                                  log_op["op5"],
+#                                  log_op["op_F3"],
+#                                  log_op["op_F7"],
+#                                  log_op["op6"],
+#                                  log_op["op7"],
+#                                  log_op["op8"]]
 
     return phase

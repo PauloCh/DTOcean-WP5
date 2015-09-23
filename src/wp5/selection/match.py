@@ -43,7 +43,7 @@ def compatibility_ve(install, log_phase):
     eq_sol = {}
     nr_sol = 0
 
-    for seq in range(len(log_phase.op_ve)):
+    for seq in log_phase.op_ve:
         for combi in range(len(log_phase.op_ve[seq].ve_combination)):
 
             for nr_ves in range(len(log_phase.op_ve[seq].ve_combination[combi]['vessel'])):
