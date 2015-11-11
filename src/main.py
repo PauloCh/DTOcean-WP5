@@ -24,40 +24,44 @@ main.py can be described in five core sub-modules:
 
 Parameters
 ----------
-vessels : DataFrame
- Panda table containing the vessel database
-equipments : DataFrame
- Panda table containing the equipment database
-ports : DataFrame
- Panda table containing the ports database
-user_inputs : dict
- dictionnary containing all required inputs to WP5 coming from WP1/end-user
-wp2_outputs : dict
- dictionnary containing all required inputs to WP5 coming from WP2
-wp3_outputs : dict
- dictionnary containing all required inputs to WP5 coming from WP3
-wp4_outputs : DataFrame
- Panda table containing all required inputs to WP5 coming from WP4
-wp6_outputs : dict
- dictionnary containing all required inputs to WP5 coming from WP6
+vessels(DataFrame): Panda table containing the vessel database
+
+equipments (DataFrame): Panda table containing the equipment database
+
+ports (DataFrame): Panda table containing the ports database
+
+user_inputs (dict): dictionnary containing all required inputs to WP5 coming from WP1/end-user:
+     'device' (Dataframe): inputs required from the device
+     'metocean' (Dataframe): metocean data
+
+wp2_outputs (dict): dictionnary containing all required inputs to WP5 coming from WP2
+     'units' (DataFrame): number of devices
+     'position' (DataFrame): UTM position of the devices
+
+wp3_outputs (dict): dictionnary containing all required inputs to WP5 coming from WP3
+     'layout' (DataFrame): to be specified
+
+wp4_outputs (DataFrame): containing foundation data required for each device
+
+wp6_outputs (dict):  dictionnary containing all required inputs to WP5 coming from WP6
+     'LogPhase1' (DataFrame): All inputs required for LpM1 logistic phase as defined by WP6
 
 Returns
 -------
-logOp : dict
- dictionnary containing all classes defining the individual logistic operations
-logPhase_install : dict
- dictionnary containing all classes defining the logistic phases for installation
-logPhase_OM : dict
- dictionnary containing all classes defining the logistic phases for O&M
-install_plan : dict
- dictionnary containing the plan of the logistic phases for installation
-install_port : dict
- dictionnary containing the results of the port selection
-install : dict
- dictionnary compiling all key results obtained from the assessment of the
- logistic phases for installation
-log_phase : Class
- Class of the logistic phase under consideration for assessment
+
+install (dict): dictionnary compiling all key results obtained from the assessment of the logistic phases for installation
+    'plan' (dict): installation sequence of the required logistic phases
+    'port' (DataFrame): port data related to the selected installation port
+    'requirement' (tuple): minimum requirements returned from the feasibility functions
+    'eq_select' (dict): list of equipments satisfying the minimum requirements
+    've_select' (dict): list of vessels satisfying the minimum requirements
+    'combi_select' (dict): list of solutions passing the compatibility check
+    'schedule' (dict): list of parameters with data about time
+    'cost'  (dict): vessel equiment and port cost
+    'risk': to be defined
+    'envir': to be defined
+    'status': to be defined
+
 
 Examples
 --------
