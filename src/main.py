@@ -6,6 +6,8 @@ email: boris.teillant@wavec.org; paulo@wavec.org
 
 
 
+
+
 main.py is the main file of the WP5 module within the suite of design tools
 developped under the EU FP7 DTOcean project. main.py provides an estimation of
 the predicted performance of feasible maritime infrastructure solutions
