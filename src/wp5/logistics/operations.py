@@ -75,10 +75,15 @@ def logOp_init():
              "op_M8": LogOp(47, "Direct-embedment anchor seafloor penetration through jetting-embedment + mooring lines deployment", [0, 0, 0, 0], 0, 0),
              "op_M9": LogOp(48, "Direct-embedment anchor seafloor penetration through mechanical-embedment + mooring lines deployment", [0, 0, 0, 0], 0, 0),
 
-             "op_D1": LogOp(50, "On-site posisitioning and connection of bottom-fixed device", [0, 0, 0, 0], 0, 0),
-             "op_D2": LogOp(51, "On-site posisitioning and connection of floating device", [0, 0, 0, 0], 0, 0),
-
-             "op_OM1": LogOp(60, "Inspection Maintenance Onsite", [0, 0, 0, 0], 8, 0)
+             "op_DQ1": LogOp(50, "Assembly at quay of device", [0, 0, 0, 0], 0, 0),
+             "op_DDD1": LogOp(51, "Assembly at dry-dock of device", [0, 0, 0, 0], 0, 0),
+             "op_DON2": LogOp(52, "On-deck transportation of device", [0, 0, 0, 0], 0, 0),
+             "op_DTT2": LogOp(53, "Towing transportation of device", [0, 0, 0, 0], 0, 0),
+             "op_DBF3": LogOp(54, "On-site posisitioning of bottom-fixed device", [0, 0, 0, 0], 0, 0),
+             "op_DBF4": LogOp(55, "Connection to mooring system of bottom-fixed device", [0, 0, 0, 0], 0, 0),
+             "op_DF3": LogOp(56, "On-site posisitioning of floating device", [0, 0, 0, 0], 0, 0),
+             "op_DF4": LogOp(57, "Connection to mooring system of floating device", [0, 0, 0, 0], 0, 0),
+             "op_D5": LogOp(58, "Connection to electrical grid", [0, 0, 0, 0], 0, 0),
 
              }
 

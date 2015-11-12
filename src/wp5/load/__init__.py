@@ -34,6 +34,7 @@ def load_vessel_data(file_path):
     excel = pd.ExcelFile(file_path)
     # Collect data from a particular tab
     pd_vessel = excel.parse('Python_Format', header=0, index_col=0)
+
     # Splits the pd_vessel object with the full dataset, into smaller panda
     # objects with specific vessel types. Each vessel object is initiated with
     # the vessel class: VesselType
@@ -46,14 +47,18 @@ def load_vessel_data(file_path):
                'Multicat': VesselType("Multicat", pd_vessel[pd_vessel['Vessel type'] == 'Multicat']),
                'CLV': VesselType("CLV", pd_vessel[pd_vessel['Vessel type'] == 'CLV']),
                'CLB': VesselType("CLB", pd_vessel[pd_vessel['Vessel type'] == 'CLB']),
-               'CTV': VesselType("CTV", pd_vessel[pd_vessel['Vessel type'] == 'CTV'])
+               'CTV': VesselType("CTV", pd_vessel[pd_vessel['Vessel type'] == 'CTV']),
+               'Fit for Purpose': VesselType("Fit for Purpose", pd_vessel[pd_vessel['Vessel type'] == 'Fit for Purpose']),
+               'Platform Support Vessel': VesselType("Platform Support Vessel", pd_vessel[pd_vessel['Vessel type'] == 'Platform Support Vessel']),
+               'Helicopter': VesselType("Helicopter", pd_vessel[pd_vessel['Vessel type'] == 'Helicopter'])
                }
 
     return vessels
 
 
 def load_equipment_data(file_path):
-    """Imports equipment database into panda dataframes and creates a class for
+    """Imports equipment database into panda dataframe    hammer = excel.parse('hammer', header=0, index_col=0)
+s and creates a class for
     each equipment type
 
     Parameters
@@ -71,11 +76,22 @@ def load_equipment_data(file_path):
     excel = pd.ExcelFile(file_path)
     # Collect data from a particular tab
     hammer = excel.parse('hammer', header=0, index_col=0)
-    drillingRig = excel.parse('drill rig', header=0, index_col=0)
+    drillrig = excel.parse('drillrig', header=0, index_col=0)
+    # vibrodiver = excel.parse('vibrodiver', header=0, index_col=0)
+    # divers = excel.parse('divers', header=0, index_col=0)
+    # rovinspections = excel.parse('rovinspections', header=0, index_col=0)
+    # rovworkclass = excel.parse('rovworkclass', header=0, index_col=0)
+    # floatingcrane = excel.parse('floatingcrane', header=0, index_col=0)
+
     # Define equipment types by invoking EquipmentType class
-    equipments = {'Hammer': EquipmentType("Hammer", hammer),
-                  'Drill Rig': EquipmentType("Drill Rig", drillingRig)
-                  }
+    equipments = {'Hammer': EquipmentType("Hammer", hammer)
+        ,'Drill Rig': EquipmentType("Drill Rig", drillrig)
+                 # ,'Vibro Driver': EquipmentType("Vibro Driver", vibrodiver)
+                 # ,'Divers': EquipmentType("Divers", divers)
+                 #   ,'Rov-inspection': EquipmentType("Rov-inspection", rovinspections)
+                 #   ,'Rov-workclass': EquipmentType("Rov-workclass", rovworkclass)
+                   # ,'Floating crane': EquipmentType("Floating crane", floatingcrane)
+                 }
 
     return equipments
 
