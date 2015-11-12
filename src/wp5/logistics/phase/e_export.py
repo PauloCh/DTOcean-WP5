@@ -10,8 +10,7 @@ def initialize_e_export_phase(log_op, vessels, equipments):
 #                                  log_op["op3"],
 #                                  log_op["op4"],
 #                                  log_op["op5"],
-#                                  log_op["op_F1"],
-#                                  log_op["op_F7"],
+#                                  log_op["op_EI1"],
 #                                  log_op["op6"],
 #                                  log_op["op7"],
 #                                  log_op["op8"]]
