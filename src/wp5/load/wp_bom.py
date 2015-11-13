@@ -14,15 +14,13 @@ the temporary .xlsx and .csv files to the final SQL solution.
 
 import pandas as pd
 
-def load_WP1_BoM(file_path_device, file_path_metocean):
+def load_user_inputs(file_path_device):
     """Imports WP1 data set into panda dataframes.
 
     Parameters
     ----------
     file_path_device : string
      the folder path of the device database
-    file_path_metocean : string
-     the folder path of the metocean database
 
     Returns
     -------
@@ -31,18 +29,26 @@ def load_WP1_BoM(file_path_device, file_path_metocean):
     """
     # Transform the .xls database into panda type
     excel = pd.ExcelFile(file_path_device)
-    metocean = pd.read_csv(file_path_metocean)
+
     # Collect data from a particular .xls tab
+    site = excel.parse('site', header=0, index_col=0)
+    metocean = excel.parse('metocean', header=0, index_col=0)
     device = excel.parse('device', header=0, index_col=0)
+    sub_device = excel.parse('sub_device', header=0, index_col=0)
+    landfall = excel.parse('landfall', header=0, index_col=0)
+
     # Splits the different dataset through different dict keys()
-    WP1_BoM = {'device': device,
-               'metocean': metocean
-               }
+    user_inputs = {'site': site,
+                   'metocean': metocean,
+                   'device': device,
+                   'sub_device': sub_device,
+                   'landfall': landfall
+                  }
 
-    return WP1_BoM
+    return user_inputs
 
 
-def load_WP2_BoM(file_path):
+def load_hydrodynamic_outputs(file_path):
     """Imports WP2 data set into panda dataframes.
 
     Parameters
@@ -57,18 +63,14 @@ def load_WP2_BoM(file_path):
     """
     # Transform the .xls database into panda type
     excel = pd.ExcelFile(file_path)
+
     # Collect data from a particular tab
-    units = excel.parse('units', header=0, index_col=0)
-    position = excel.parse('position', header=0, index_col=0)
-    # Splits the different dataset through different dict keys()
-    WP2_BoM = {'NumOFunits': units,
-               'Position': position
-               }
+    hydrodynamic_outputs = excel.parse('units', header=0, index_col=0)
 
-    return WP2_BoM
+    return hydrodynamic_outputs
 
 
-def load_WP3_BoM(file_path):
+def load_electrical_outputs(file_path):
     """Imports WP3 data set into panda dataframes.
 
     Parameters
@@ -83,16 +85,28 @@ def load_WP3_BoM(file_path):
     """
     # Transform the .xls database into panda type
     excel = pd.ExcelFile(file_path)
+
     # Collect data from a particular tab
-    layout = excel.parse('Sheet1', header=0, index_col=0)
+    collection_point = excel.parse('collection point', header=0, index_col=0)
+    dynamic_cable = excel.parse('dynamic cable', header=0, index_col=0)
+    static_cable = excel.parse('static cable', header=0, index_col=0)
+    cable_route = excel.parse('cable route', header=0, index_col=0)
+    connectors = excel.parse('connectors', header=0, index_col=0)
+    external_protection = excel.parse('external protection', header=0, index_col=0)
+
     # Splits the different dataset through different dict keys()
-    WP3_BoM = {'layout': layout,
-               }
+    electrical_outputs = {'collection point': collection_point,
+                          'dynamic cable': dynamic_cable,
+                          'static cable': static_cable,
+                          'cable route': cable_route,
+                          'connectors': connectors,
+                          'external protection': external_protection
+                          }
 
-    return WP3_BoM
+    return electrical_outputs
 
 
-def load_WP4_BoM(file_path):
+def load_MF_outputs(file_path):
     """Imports WP4 data set into panda dataframes.
 
     Parameters
@@ -106,12 +120,21 @@ def load_WP4_BoM(file_path):
      Dataframe containing all required inputs to WP5 coming from WP4
     """
     # Transform the .csv database into panda type
-    WP4_BoM = pd.read_csv(file_path)
+    excel = pd.ExcelFile(file_path)
 
-    return WP4_BoM
+    # Collect data from a particular tab
+    line = excel.parse('line', header=0, index_col=0)
+    foundation = excel.parse('foundation', header=0, index_col=0)
+
+    # Splits the different dataset through different dict keys()
+    MF_outputs = {'line': line,
+                  'foundation': foundation,
+                  }
+
+    return MF_outputs
 
 
-def load_WP6_BoM(file_path):
+def load_OM_outputs(file_path):
     """Imports WP6 data set into panda dataframes.
 
     Parameters

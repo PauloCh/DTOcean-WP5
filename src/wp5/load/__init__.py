@@ -96,8 +96,8 @@ s and creates a class for
                   'mattress': EquipmentType("mattress", mattress),
                   'rock filter bags': EquipmentType("rock_filter_bags", rock_filter_bags),
                   'split pipe': EquipmentType("split_pipe", split_pipe),
-                  'hammer': EquipmentType("hammer", hammer)
-                  'drilling rigs': EquipmentType("drilling_rigs", drilling_rigs)
+                  'hammer': EquipmentType("hammer", hammer),
+                  'drilling rigs': EquipmentType("drilling_rigs", drilling_rigs),
                   'vibro driver': EquipmentType("vibro_driver", vibro_driver)
                  }
 
