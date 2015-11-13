@@ -110,21 +110,25 @@ def database_file(file):
 """
 Loading required inputs and database into panda dataframes
 """
-vessels = load_vessel_data(database_file("logisticsDB_vessel_python.xlsx"))
-equipments = load_equipment_data(database_file("logisticsDB_equipment_python.xlsx"))
-ports = load_port_data(database_file("logisticsDB_ports_python.xlsx"))
 
-user_inputs = load_user_inputs(database_file("inputs_user.xlsx"))
-hydrodynamic_outputs = load_hydrodynamic_outputs(database_file("ouputs_hydrodynamic.xlsx"))
-electrical_outputs = load_electrical_outputs(database_file("ouputs_electrical.xlsx"))
-MF_outputs = load_MF_outputs(database_file("outputs_MF.xlsx"))
-OM_outputs = load_OM_outputs(database_file("outputs_OM.xlsx"))
+##Internal logistic module databases
+#vessels = load_vessel_data(database_file("logisticsDB_vessel_python.xlsx"))
+#equipments = load_equipment_data(database_file("logisticsDB_equipment_python.xlsx"))
+#ports = load_port_data(database_file("logisticsDB_ports_python.xlsx"))
+#
+##upstream module inputs/outputs
+#user_inputs = load_user_inputs(database_file("inputs_user.xlsx"))
+#hydrodynamic_outputs = load_hydrodynamic_outputs(database_file("ouputs_hydrodynamic.xlsx"))
+#electrical_outputs = load_electrical_outputs(database_file("ouputs_electrical.xlsx"))
+#MF_outputs = load_MF_outputs(database_file("outputs_MF.xlsx"))
+#OM_outputs = load_OM_outputs(database_file("outputs_OM.xlsx"))
 
 """
  Initialise logistic operations and logistic phases
 """
-#logOp = logOp_init()
-#
+
+logOp = logOp_init(database_file("operations_time_OLC.xlsx"))
+
 #logPhase_install = logPhase_install_init(logOp, vessels, equipments)
 ##logPhase_OM = logPhase_OM_init(logOp, vessels, equipments)
 #
