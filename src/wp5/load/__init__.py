@@ -85,7 +85,7 @@ s and creates a class for
 
     # Define equipment types by invoking EquipmentType class
     equipments = {'Hammer': EquipmentType("Hammer", hammer)
-        ,'Drill Rig': EquipmentType("Drill Rig", drillrig)
+                    , 'Drill Rig': EquipmentType("Drill Rig", drillrig)
                  # ,'Vibro Driver': EquipmentType("Vibro Driver", vibrodiver)
                  # ,'Divers': EquipmentType("Divers", divers)
                  #   ,'Rov-inspection': EquipmentType("Rov-inspection", rovinspections)

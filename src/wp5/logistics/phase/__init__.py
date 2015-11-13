@@ -64,23 +64,24 @@ def logPhase_install_init(log_op, vessels, equipments):
     # 1st Level - Initialize the logistic phases through LogPhase classes
 
     logPhase_install = {
-        'E_export': initialize_e_export_phase(log_op, vessels, equipments)
-                        # ,'E_array': initialize_e_array_phase(log_op, vessels, equipments)
-                        # ,'E_cp': initialize_e_cp_phase(log_op, vessels, equipments)
+                        'E_export': initialize_e_export_phase(log_op, vessels, equipments)
+                        # , 'E_array': initialize_e_array_phase(log_op, vessels, equipments)
+                        # , 'E_cp': initialize_e_cp_phase(log_op, vessels, equipments)
 
-                       ,'F_driven': initialize_f_drive_phase(log_op, vessels, equipments)
-                       # ,'F_suction': initialize_f_suction_phase(log_op, vessels, equipments)
-                       # ,'F_gravity': initialize_f_gravity_phase(log_op, vessels, equipments)
-                       #
-                       # ,'M_drag': initialize_m_drag_phase(log_op, vessels, equipments)
-                       # ,'M_direct': initialize_m_direct_phase(log_op, vessels, equipments)
-                       #
-                       # ,'D_fixed': initialize_d_fixed_phase(log_op, vessels, equipments)
-                       # ,'D_floating': initialize_d_floating_phase(log_op, vessels, equipments)
+                        , 'F_driven': initialize_f_drive_phase(log_op, vessels, equipments)
+                        # , 'F_suction': initialize_f_suction_phase(log_op, vessels, equipments)
+                        # , 'F_gravity': initialize_f_gravity_phase(log_op, vessels, equipments)
+                        #
+                        # , 'M_drag': initialize_m_drag_phase(log_op, vessels, equipments)
+                        # , 'M_direct': initialize_m_direct_phase(log_op, vessels, equipments)
+                        #
+                        # , 'D_fixed': initialize_d_fixed_phase(log_op, vessels, equipments)
+                        # , 'D_floating': initialize_d_floating_phase(log_op, vessels, equipments)
                         }
 
 
     # 2nd Level - Define the diferent operations sequence and corresponding V&E combination for each Phase
+    # Done in seperated file?!?!?
 
 
 

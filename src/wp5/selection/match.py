@@ -14,11 +14,12 @@ not been implemented, this module should suffer major changes for the beta versi
 """
 
 from ..logistics.phase.classes import VE_solutions
-
+import itertools
+import  numpy
 
 def compatibility_ve(install, log_phase):
     """This function is currently limited to the selection of the first two
-    feasible solutions for the installation logistic phase in analisys.
+    feasible solutions for the installation logistic phase in analysis.
 
     Parameters
     ----------
@@ -37,55 +38,135 @@ def compatibility_ve(install, log_phase):
      An updated version of the log_phase argument containing only the feasible
      equipments within each vessel and equipment combinations dataframes
     """
-    ves = {}
-    ves_sol = {}
-    eq = {}
-    eq_sol = {}
-    nr_sol = 0
+
+
+    sol = {}
 
     for seq in log_phase.op_ve:
+
+        sols_ve_indxs_combs_inseq = []
+        nr_sol = 0
+
         for combi in range(len(log_phase.op_ve[seq].ve_combination)):
 
-            for nr_ves in range(len(log_phase.op_ve[seq].ve_combination[combi]['vessel'])):
+            ves = {}
+            ves_sol = {}
+            ves_indexs = {}
+            eq = {}
+            eq_sol = {}
+            eq_indexs = {}
 
-                ves_quant = log_phase.op_ve[seq].ve_combination[combi]['vessel'][nr_ves][0]  # Quantity of vessels in the solution
-                ves_class = log_phase.op_ve[seq].ve_combination[combi]['vessel'][nr_ves][1]
 
-                ves_index = ves_class.panda.index
+            #  Go through vessels
+            nr_diff_ves = len(log_phase.op_ve[seq].ve_combination[combi]['vessel'])
+            for ves_type in range(nr_diff_ves):
 
-                for a in range(len(ves_index)):
+                ves_quant = log_phase.op_ve[seq].ve_combination[combi]['vessel'][ves_type][0]  # Quantity of vessels in the solution
+                ves_class = log_phase.op_ve[seq].ve_combination[combi]['vessel'][ves_type][1]
 
-                  ves[a] = ves_class.panda.ix[ves_index[a]]
+                ves_index_vec = ves_class.panda.index
+                nr_feas_vess_i = len(ves_index_vec);
 
-                ves_sol[nr_ves] = {'quantity': ves_quant,
-                                   'Series': ves}
+                if ves_type == 0:
+                    nr_feas_vess_T = nr_feas_vess_i
+                else:
+                    nr_feas_vess_T = nr_feas_vess_T * nr_feas_vess_i
+                for indx_vec in range(nr_feas_vess_i):
 
-            for nr_eq in range(len(log_phase.op_ve[seq].ve_combination[combi]['equipment'])):
+                  ves[indx_vec] = ves_class.panda.ix[indx_vec]
 
-                eq_quant = log_phase.op_ve[seq].ve_combination[combi]['equipment'][nr_eq][0]  # Quantity of vessels in the solution
-                eq_class = log_phase.op_ve[seq].ve_combination[combi]['equipment'][nr_eq][1]
+                ves_sol[ves_type] = {'quantity': ves_quant,
+                                   'Series': ves, 'indexs': ves_index_vec}
+                ves_indexs[ves_type] = list(ves_index_vec)
 
-                eq_index = eq_class.panda.index
 
-                for a in range(len(eq_index)):
+            #  Go through equips
+            nr_diff_equi = len(log_phase.op_ve[seq].ve_combination[combi]['equipment'])
+            for eq_type in range(nr_diff_equi):
 
-                  eq[a] = eq_class.panda.ix[eq_index[a]]
+                eq_quant = log_phase.op_ve[seq].ve_combination[combi]['equipment'][eq_type][0]  # Quantity of vessels in the solution
+                eq_class = log_phase.op_ve[seq].ve_combination[combi]['equipment'][eq_type][1]
 
-                eq_sol[nr_eq] = {'quantity': eq_quant,
-                                 'Series': eq}
+                eq_index_vec = eq_class.panda.index
 
-        nr_sol = nr_sol
+                nr_feas_eq_i = len(eq_index_vec)
+                if eq_type == 0:
+                    nr_feas_eq_T = nr_feas_eq_i
+                else:
+                    nr_feas_eq_T = nr_feas_eq_T * nr_feas_eq_i
+                for indx_vec in range(nr_feas_eq_i):
 
-        for a in range(nr_ves):
-            for b in range(len(ves_sol[a]['Series'])):
-                for c in range(nr_eq):
-                    for d in range(len(eq_sol[c]['Series'])):
+                  eq[indx_vec] = eq_class.panda.ix[indx_vec]
 
-                        sol = VE_solutions(nr_sol)
+                eq_sol[eq_type] = {'quantity': eq_quant,
+                                 'Series': eq, 'indexs': eq_index_vec}
+                eq_indexs[eq_type] = list(eq_index_vec)
 
-                        sol.sol_ves[a] = ves_sol[a]['Series'][b]
 
-                        log_phase.op_ve[seq].sol[nr_sol] = sol
+
+            nr_sol_T = nr_feas_vess_T * nr_feas_eq_T
+
+
+
+
+            # Build solutions
+            # sols_ve_indxs = []
+
+            sols_ves = []
+            for ves_type in range(nr_diff_ves):
+
+                sols_ves.append(tuple(ves_indexs[ves_type]))
+                # sols_ve_indxs.append(tuple(ves_indexs[ves_type]))
+
+            sols_v_indxs_combs = list(itertools.product(*sols_ves))
+
+            sols_eq = []
+            for eq_type in range(nr_diff_equi):
+
+                sols_eq.append(tuple(eq_indexs[eq_type]))
+                # sols_ve_indxs.append(tuple(eq_indexs[eq_type]))
+
+            sols_e_indxs_combs = list(itertools.product(*sols_eq))
+
+            # sols_ve_indxs_combs_incombi = list(itertools.product(*sols_ve_indxs))
+
+            sols_ve_indxs_sprt = (sols_v_indxs_combs, sols_e_indxs_combs);
+            sols_ve_indxs_comb = list(itertools.product(*sols_ve_indxs_sprt))
+
+
+            # sols_ve_indxs_combs_inseq.append(sols_ve_indxs_combs_incombi)
+            sols_ve_indxs_combs_inseq.append(sols_ve_indxs_comb)
+
+
+        log_phase.op_ve[seq].sol = sols_ve_indxs_combs_inseq
+
+        sol = VE_solutions(nr_sol) # ??????????????!
+        sol.sol_combi[seq] = sols_ve_indxs_combs_inseq
+        sol.sol_ves[seq] = sols_ves
+        sol.sol_eq[seq] = sols_eq
+        nr_sol = nr_sol + 1;
+
+
+            # # Build solutions
+            # for ves_type in range(nr_diff_ves):
+            #     nr_feas_ves_i = len(ves_sol[ves_type]['Series'])
+            #     for ind_vel_sol in range(nr_feas_ves_i):
+            #
+            #         for eq_type in range(nr_diff_equi):
+            #             nr_feas_eq_i = len(eq_sol[eq_type]['Series'])
+            #             for ind_eq_sol in range(nr_feas_eq_i):
+            #
+            #                 sol = VE_solutions(nr_sol_inseq)
+            #
+            #                 sol.sol_ves[ves_type] = ves_sol[ves_type]['Series'][ind_vel_sol]
+            #                 sol.sol_eq[eq_type] = eq_sol[eq_type]['Series'][ind_eq_sol]
+            #
+            #                 log_phase.op_ve[seq].sol[nr_sol_inseq] = sol # MOVE ?!?!?!?!?!?!!?
+            #
+            #                 nr_sol_inseq = nr_sol_inseq + 1
+            #                 nr_sol_incombi = nr_sol_incombi + 1
+            #
+            # ERROR_check = nr_sol_T - nr_sol_incombi
 
 
 #    log_phase.op_ve[1].sol[0] = VE_solutions(0)
