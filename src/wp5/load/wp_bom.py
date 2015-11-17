@@ -149,10 +149,8 @@ def load_OM_outputs(file_path):
     """
     # Transform the .xls database into panda type
     excel = pd.ExcelFile(file_path)
-    # Collect data from a particular tab
-    wp6inputs = excel.parse('Sheet1', header=0, index_col=0)
-    # Splits the different dataset through different dict keys()
-    WP6_BoM = {'LogPhase1': wp6inputs,
-               }
 
-    return WP6_BoM
+    # Collect data from a particular tab
+    OM_outputs = excel.parse('OM', header=0, index_col=0)
+
+    return OM_outputs
