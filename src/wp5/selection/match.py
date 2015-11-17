@@ -42,13 +42,16 @@ def compatibility_ve(install, log_phase):
 
     sol = {}
 
+    # Go through different sequence options
     for seq in log_phase.op_ve:
 
         sols_ve_indxs_combs_inseq = []
         nr_sol = 0
 
+        # Go through different possible combination
         for combi in range(len(log_phase.op_ve[seq].ve_combination)):
 
+            # initialise solution variables
             ves = {}
             ves_sol = {}
             ves_indexs = {}
@@ -62,22 +65,23 @@ def compatibility_ve(install, log_phase):
             for ves_type in range(nr_diff_ves):
 
                 ves_quant = log_phase.op_ve[seq].ve_combination[combi]['vessel'][ves_type][0]  # Quantity of vessels in the solution
-                ves_class = log_phase.op_ve[seq].ve_combination[combi]['vessel'][ves_type][1]
+                ves_class = log_phase.op_ve[seq].ve_combination[combi]['vessel'][ves_type][1]  # Vessel class
 
-                ves_index_vec = ves_class.panda.index
-                nr_feas_vess_i = len(ves_index_vec);
+                ves_index_vec = ves_class.panda.index  # Get indexs that correspond to vessel class
+                nr_feas_vess_i = len(ves_index_vec)  # Number of feasible vessles within vessel type
 
+                # Quantify number of total feasible vessels regardless of type
                 if ves_type == 0:
                     nr_feas_vess_T = nr_feas_vess_i
                 else:
                     nr_feas_vess_T = nr_feas_vess_T * nr_feas_vess_i
-                for indx_vec in range(nr_feas_vess_i):
 
-                  ves[indx_vec] = ves_class.panda.ix[indx_vec]
+                for indx_vec in range(nr_feas_vess_i):
+                  ves[indx_vec] = ves_class.panda.ix[indx_vec]  # Get info of the feasible vessels
 
                 ves_sol[ves_type] = {'quantity': ves_quant,
-                                   'Series': ves, 'indexs': ves_index_vec}
-                ves_indexs[ves_type] = list(ves_index_vec)
+                                   'Series': ves, 'indexs': ves_index_vec}  # Store info of the vessels
+                ves_indexs[ves_type] = list(ves_index_vec)  # Vector of indexs of feasible vessels per type
 
 
             #  Go through equips
@@ -85,26 +89,27 @@ def compatibility_ve(install, log_phase):
             for eq_type in range(nr_diff_equi):
 
                 eq_quant = log_phase.op_ve[seq].ve_combination[combi]['equipment'][eq_type][0]  # Quantity of vessels in the solution
-                eq_class = log_phase.op_ve[seq].ve_combination[combi]['equipment'][eq_type][1]
+                eq_class = log_phase.op_ve[seq].ve_combination[combi]['equipment'][eq_type][1]  # Equipment class
 
                 eq_index_vec = eq_class.panda.index
-
                 nr_feas_eq_i = len(eq_index_vec)
+
+                # Quantify number of total feasible equipments regardless of type
                 if eq_type == 0:
                     nr_feas_eq_T = nr_feas_eq_i
                 else:
                     nr_feas_eq_T = nr_feas_eq_T * nr_feas_eq_i
-                for indx_vec in range(nr_feas_eq_i):
 
-                  eq[indx_vec] = eq_class.panda.ix[indx_vec]
+                for indx_vec in range(nr_feas_eq_i):
+                  eq[indx_vec] = eq_class.panda.ix[indx_vec]  # Get info of the feasible equipments
 
                 eq_sol[eq_type] = {'quantity': eq_quant,
-                                 'Series': eq, 'indexs': eq_index_vec}
-                eq_indexs[eq_type] = list(eq_index_vec)
+                                 'Series': eq, 'indexs': eq_index_vec}  # Store info of the equipments
+                eq_indexs[eq_type] = list(eq_index_vec)  # Vector of indexs of feasible equipments per type
 
 
 
-            nr_sol_T = nr_feas_vess_T * nr_feas_eq_T
+            nr_sol_T = nr_feas_vess_T * nr_feas_eq_T  # Total number of solutions per combination
 
 
 
@@ -113,38 +118,43 @@ def compatibility_ve(install, log_phase):
             # sols_ve_indxs = []
 
             sols_ves = []
-            for ves_type in range(nr_diff_ves):
-
+            for ves_type in range(nr_diff_ves):  # Agregatte vessel type solutions
                 sols_ves.append(tuple(ves_indexs[ves_type]))
                 # sols_ve_indxs.append(tuple(ves_indexs[ves_type]))
 
-            sols_v_indxs_combs = list(itertools.product(*sols_ves))
+            sols_v_indxs_combs = list(itertools.product(*sols_ves))  # Combine vessel solutions
 
             sols_eq = []
-            for eq_type in range(nr_diff_equi):
-
+            for eq_type in range(nr_diff_equi):  # Agregatte equipment type solutions
                 sols_eq.append(tuple(eq_indexs[eq_type]))
                 # sols_ve_indxs.append(tuple(eq_indexs[eq_type]))
 
-            sols_e_indxs_combs = list(itertools.product(*sols_eq))
+            sols_e_indxs_combs = list(itertools.product(*sols_eq))  # Combine vessel solutions
 
             # sols_ve_indxs_combs_incombi = list(itertools.product(*sols_ve_indxs))
 
-            sols_ve_indxs_sprt = (sols_v_indxs_combs, sols_e_indxs_combs);
-            sols_ve_indxs_comb = list(itertools.product(*sols_ve_indxs_sprt))
+            sols_ve_indxs_sprt = (sols_v_indxs_combs, sols_e_indxs_combs)  # Agregatte vessel and equipment solutions
+            sols_ve_indxs_comb = list(itertools.product(*sols_ve_indxs_sprt))  # Combine solutions
 
 
             # sols_ve_indxs_combs_inseq.append(sols_ve_indxs_combs_incombi)
-            sols_ve_indxs_combs_inseq.append(sols_ve_indxs_comb)
+            sols_ve_indxs_combs_inseq.append(sols_ve_indxs_comb)  # Store solution per combination
 
 
-        log_phase.op_ve[seq].sol = sols_ve_indxs_combs_inseq
+        log_phase.op_ve[seq].sol = sols_ve_indxs_combs_inseq  # Store solution per sequence
 
+        # Store final solution
         sol = VE_solutions(nr_sol) # ??????????????!
         sol.sol_combi[seq] = sols_ve_indxs_combs_inseq
         sol.sol_ves[seq] = sols_ves
         sol.sol_eq[seq] = sols_eq
         nr_sol = nr_sol + 1;
+
+
+    # Apply feasibility functions between vessel and equipment
+
+
+
 
 
             # # Build solutions

@@ -16,13 +16,13 @@ def initialize_m_drag_phase(log_op, vessels, equipments):
                                   log_op["op8"]]
 
     phase.op_ve[0].ve_combination[0] = {'vessel': [(1, vessels['AHTS'])],
-                                        'equipment': [(1, equipments['Rov inspection'], 0)]}
+                                        'equipment': [(1, equipments['rov'], 0)]}
 
     phase.op_ve[0].ve_combination[1] = {'vessel': [(1, vessels['Multicat'])],
-                                        'equipment': [(1, equipments['Rov inspection'], 0)]}
+                                        'equipment': [(1, equipments['rov'], 0)]}
 
     phase.op_ve[0].ve_combination[2] = {'vessel': [(1, vessels['Tugboat'])],
-                                        'equipment': [(1, equipments['Rov inspection'], 0)]}
+                                        'equipment': [(1, equipments['rov'], 0)]}
                                         
 
     return phase

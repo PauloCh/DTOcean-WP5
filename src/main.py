@@ -84,7 +84,7 @@ from os import path
 from wp5.load import load_vessel_data, load_equipment_data, load_port_data
 from wp5.load.wp_bom import load_user_inputs, load_hydrodynamic_outputs
 from wp5.load.wp_bom import load_electrical_outputs, load_MF_outputs
-from wp5.load.wp_bom import load_OM_outputs
+# from wp5.load.wp_bom import load_OM_outputs
 from wp5.logistics.operations import logOp_init
 from wp5.logistics.phase import logPhase_install_init
 from wp5.installation import planning, select_port
@@ -118,69 +118,69 @@ user_inputs = load_user_inputs(database_file("inputs_user.xlsx"))
 hydrodynamic_outputs = load_hydrodynamic_outputs(database_file("ouputs_hydrodynamic.xlsx"))
 electrical_outputs = load_electrical_outputs(database_file("ouputs_electrical.xlsx"))
 MF_outputs = load_MF_outputs(database_file("outputs_MF.xlsx"))
-OM_outputs = load_OM_outputs(database_file("outputs_OM.xlsx"))
+# OM_outputs = load_OM_outputs(database_file("outputs_OM.xlsx"))
 
 """
  Initialise logistic operations and logistic phases
 """
-#logOp = logOp_init()
-#
-#logPhase_install = logPhase_install_init(logOp, vessels, equipments)
-##logPhase_OM = logPhase_OM_init(logOp, vessels, equipments)
-#
-#"""
-# Determine the adequate installation logistic phase plan
-#"""
-#install_plan = planning.install_plan(user_inputs, electrical_outputs, M&F_outputs)
-#
-## DUMMY-TO BE ERASED, install plan is constrained to F_driven because
-## we just have the F_driven characterized for now
-#install_plan = {0: ['F_driven']}
-#
-## Select the most appropriate base installation port
-#install_port = select_port.install_port(user_inputs, electrical_outputs, M&F_outputs, ports)
-#
-## Incremental assessment of all logistic phase forming the the installation process
-#install = {'plan': install_plan,
-#           'port': install_port,
-#           'requirement': {},
-#           'eq_select': {},
-#           've_select': {},
-#           'combi_select': {},
-#           'schedule': {},
-#           'cost': {},
-#           'risk': {},
-#           'envir': {},
-#           'status': "pending"}
-#
-#if install['status'] == "pending":
-#    # loop over the number of layers of the installation plan
-#    for x in range(len(install['plan'])):
-#        for y in range(len(install['plan'][x])):
-#            # extract the LogPhase ID to be evaluated from the installation plan
-#            log_phase_id = install['plan'][x][y]
-#            log_phase = logPhase_install[log_phase_id]
-#            # characterize the logistic requirements
-#            install['requirement'] = glob_feas(log_phase, log_phase_id,
-#                                               user_inputs, hydrodynamic_outputs,
-#                                               electrical_outputs, M&F_outputs)
-#
-#            # selection of the maritime infrastructure
-#            install['eq_select'], log_phase = select_e(install, log_phase)
-#            install['ve_select'], log_phase = select_v(install, log_phase)
-#
-#            # matching requirements for combinations of port/vessel(s)/equipment
-#            # install['combi_select'] = compatibility_vp(install, log_phase)
-#            install['combi_select'], log_phase = compatibility_ve(install, log_phase)
-#
-#            # schedule assessment of the different operation sequence
-#            install['schedule'], log_phase = sched(x, install, log_phase, user_inputs, hydrodynamic_outputs, electrical_outputs, M&F_outputs)
-#
-#            # cost assessment of the different operation sequenc
-#            install['cost'], log_phase = cost(install, log_phase)
-#
-#            # TO DO -> risk and enviromental impact
+logOp = logOp_init()
 
-#
-#if __name__ == "__main__":
-#    run()
+logPhase_install = logPhase_install_init(logOp, vessels, equipments)
+#logPhase_OM = logPhase_OM_init(logOp, vessels, equipments)
+
+"""
+Determine the adequate installation logistic phase plan
+"""
+install_plan = planning.install_plan(user_inputs, electrical_outputs, M&F_outputs)
+
+# DUMMY-TO BE ERASED, install plan is constrained to F_driven because
+# we just have the F_driven characterized for now
+install_plan = {0: ['F_driven']}
+
+# Select the most appropriate base installation port
+install_port = select_port.install_port(user_inputs, electrical_outputs, M&F_outputs, ports)
+
+# Incremental assessment of all logistic phase forming the the installation process
+install = {'plan': install_plan,
+          'port': install_port,
+          'requirement': {},
+          'eq_select': {},
+          've_select': {},
+          'combi_select': {},
+          'schedule': {},
+          'cost': {},
+          'risk': {},
+          'envir': {},
+          'status': "pending"}
+
+if install['status'] == "pending":
+   # loop over the number of layers of the installation plan
+   for x in range(len(install['plan'])):
+       for y in range(len(install['plan'][x])):
+           # extract the LogPhase ID to be evaluated from the installation plan
+           log_phase_id = install['plan'][x][y]
+           log_phase = logPhase_install[log_phase_id]
+           # characterize the logistic requirements
+           install['requirement'] = glob_feas(log_phase, log_phase_id,
+                                              user_inputs, hydrodynamic_outputs,
+                                              electrical_outputs, M&F_outputs)
+
+           # selection of the maritime infrastructure
+           install['eq_select'], log_phase = select_e(install, log_phase)
+           install['ve_select'], log_phase = select_v(install, log_phase)
+
+           # matching requirements for combinations of port/vessel(s)/equipment
+           # install['combi_select'] = compatibility_vp(install, log_phase)
+           install['combi_select'], log_phase = compatibility_ve(install, log_phase)
+
+           # schedule assessment of the different operation sequence
+           install['schedule'], log_phase = sched(x, install, log_phase, user_inputs, hydrodynamic_outputs, electrical_outputs, M&F_outputs)
+
+           # cost assessment of the different operation sequenc
+           install['cost'], log_phase = cost(install, log_phase)
+
+           # TO DO -> risk and enviromental impact
+
+
+if __name__ == "__main__":
+   run()
