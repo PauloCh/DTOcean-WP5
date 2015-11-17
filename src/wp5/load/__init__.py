@@ -46,9 +46,11 @@ def load_vessel_data(file_path):
                'JUP Vessel': VesselType("JUP Vessel", pd_vessel[pd_vessel['Vessel type [-]'] == 'JUP Vessel']),
                'Anchor Handling': VesselType("AHTS", pd_vessel[pd_vessel['Vessel type [-]'] == 'AHTS']),
                'Multicat': VesselType("Multicat", pd_vessel[pd_vessel['Vessel type [-]'] == 'Multicat']),
+               'AHTS': VesselType("AHTS", pd_vessel[pd_vessel['Vessel type [-]'] == 'AHTS']),
                'CLV': VesselType("CLV", pd_vessel[pd_vessel['Vessel type [-]'] == 'CLV']),
                'CLB': VesselType("CLB", pd_vessel[pd_vessel['Vessel type [-]'] == 'CLB']),
                'CTV': VesselType("CTV", pd_vessel[pd_vessel['Vessel type [-]'] == 'CTV']),
+               'Construction Support Vessel': VesselType("Construction Support Vessel", pd_vessel[pd_vessel['Vessel type [-]'] == 'Construction Support Vessel']),
                'Fit for Purpose': VesselType("Fit for Purpose", pd_vessel[pd_vessel['Vessel type [-]'] == 'Fit for Purpose']),
                'Platform Support Vessel': VesselType("Platform Supply Vessel", pd_vessel[pd_vessel['Vessel type [-]'] == 'PSV']),
                'Helicopter': VesselType("Helicopter", pd_vessel[pd_vessel['Vessel type [-]'] == 'Helicopter'])

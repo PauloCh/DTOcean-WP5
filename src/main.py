@@ -127,7 +127,7 @@ MF_outputs = load_MF_outputs(database_file("outputs_MF.xlsx"))
  Initialise logistic operations and logistic phases
 """
 
-logOp = logOp_init()
+# logOp = logOp_init()
 
 
 logOp = logOp_init(database_file("operations_time_OLC.xlsx"))
@@ -140,14 +140,14 @@ logPhase_install = logPhase_install_init(logOp, vessels, equipments)
 Determine the adequate installation logistic phase plan
 
 """
-install_plan = planning.install_plan(user_inputs, electrical_outputs, M&F_outputs)
+install_plan = planning.install_plan(user_inputs, electrical_outputs, MF_outputs)
 
 # DUMMY-TO BE ERASED, install plan is constrained to F_driven because
 # we just have the F_driven characterized for now
 install_plan = {0: ['F_driven']}
 
 # Select the most appropriate base installation port
-install_port = select_port.install_port(user_inputs, electrical_outputs, M&F_outputs, ports)
+install_port = select_port.install_port(user_inputs, electrical_outputs, MF_outputs, ports)
 
 # Incremental assessment of all logistic phase forming the the installation process
 install = {'plan': install_plan,
@@ -172,7 +172,7 @@ if install['status'] == "pending":
            # characterize the logistic requirements
            install['requirement'] = glob_feas(log_phase, log_phase_id,
                                               user_inputs, hydrodynamic_outputs,
-                                              electrical_outputs, M&F_outputs)
+                                              electrical_outputs, MF_outputs)
 
            # selection of the maritime infrastructure
            install['eq_select'], log_phase = select_e(install, log_phase)
@@ -192,6 +192,7 @@ if install['status'] == "pending":
 
 
 if __name__ == "__main__":
+            install = {'plan': install_plan,
            'port': install_port,
            'requirement': {},
            'eq_select': {},
@@ -213,7 +214,7 @@ if install['status'] == "pending":
             # characterize the logistic requirements
             install['requirement'] = glob_feas(log_phase, log_phase_id,
                                                user_inputs, hydrodynamic_outputs,
-                                               electrical_outputs, M&F_outputs)
+                                               electrical_outputs, MF_outputs)
 
             # selection of the maritime infrastructure
             install['eq_select'], log_phase = select_e(install, log_phase)

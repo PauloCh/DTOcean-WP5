@@ -5,16 +5,17 @@ def initialize_f_drive_phase(log_op, vessels, equipments):
     phase = LogPhase(110, "Installation of driven piles foundations")
 
     phase.op_ve[0] = DefPhase(1, 'Drilling')
-    phase.op_ve[0].op_sequence = [log_op["op1"],
-                                 log_op["op2"],
-                                 log_op["op3"],
-                                 log_op["op4"],
-                                 log_op["op5"],
-                                 log_op["op_F1"],
-                                 log_op["op_F7"],
-                                 log_op["op6"],
-                                 log_op["op7"],
-                                 log_op["op8"]]
+    phase.op_ve[0].op_sequence = [log_op["Mob"],
+                                 log_op["AssPort"],
+                                 log_op["VessPrep"],
+                                 log_op["TranPortSite"],
+                                 log_op["SeafloorEquipPrep"],
+                                 log_op["PileDrill"],
+                                 log_op["Grout"],
+                                 log_op["GroutRemov"],
+                                 log_op["TranSiteSite"],
+                                 log_op["TranSitePort"],
+                                 log_op["Demob"]]
 
     phase.op_ve[0].ve_combination[0] = {'vessel': [(1, vessels['Crane Barge']), (2, vessels['Tugboat'])],
                                        'equipment': [(1, equipments['drilling rigs'], 0)]}
@@ -33,16 +34,17 @@ def initialize_f_drive_phase(log_op, vessels, equipments):
 
 
     phase.op_ve[1] = DefPhase(2, 'Hammering')
-    phase.op_ve[1].op_sequence = [log_op["op1"],
-                                  log_op["op2"],
-                                  log_op["op3"],
-                                  log_op["op4"],
-                                  log_op["op5"],
-                                  log_op["op_F2"],
-                                  log_op["op_F7"],
-                                  log_op["op6"],
-                                  log_op["op7"],
-                                  log_op["op8"]]
+    phase.op_ve[1].op_sequence = [log_op["Mob"],
+                                  log_op["AssPort"],
+                                  log_op["VessPrep"],
+                                  log_op["TranPortSite"],
+                                  log_op["SeafloorEquipPrep"],
+                                  log_op["PileHamm"],
+                                  log_op["Grout"],
+                                  log_op["GroutRemov"],
+                                  log_op["TranSiteSite"],
+                                  log_op["TranSitePort"],
+                                  log_op["Demob"]]
 
     phase.op_ve[1].ve_combination[0] = {'vessel': [(1, vessels['Crane Barge']), (2, vessels['Tugboat'])],
                                         'equipment': [(1, equipments['hammer'], 0)]}
@@ -61,16 +63,17 @@ def initialize_f_drive_phase(log_op, vessels, equipments):
 
 
     phase.op_ve[2] = DefPhase(3, 'Vibro Pilling')
-    phase.op_ve[2].op_sequence = [log_op["op1"],
-                                 log_op["op2"],
-                                 log_op["op3"],
-                                 log_op["op4"],
-                                 log_op["op5"],
-                                 log_op["op_F3"],
-                                 log_op["op_F7"],
-                                 log_op["op6"],
-                                 log_op["op7"],
-                                 log_op["op8"]]
+    phase.op_ve[2].op_sequence = [log_op["Mob"],
+                                 log_op["AssPort"],
+                                 log_op["VessPrep"],
+                                 log_op["TranPortSite"],
+                                 log_op["SeafloorEquipPrep"],
+                                 log_op["PileVibro"],
+                                 log_op["Grout"],
+                                 log_op["GroutRemov"],
+                                 log_op["TranSiteSite"],
+                                 log_op["TranSitePort"],
+                                 log_op["Demob"]]
 
 
     phase.op_ve[2].ve_combination[0] = {'vessel': [(1, vessels['Crane Barge']), (2, vessels['Tugboat'])],

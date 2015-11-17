@@ -5,15 +5,15 @@ def initialize_f_suction_phase(log_op, vessels, equipments):
     phase = LogPhase(111, "Installation of suction caissons for foundation systems")
 
     phase.op_ve[0] = DefPhase(1, 'Suction')
-    phase.op_ve[0].op_sequence = [log_op["op1"],
-                                  log_op["op2"],
-                                  log_op["op3"],
-                                  log_op["op4"],
-                                  log_op["op5"],
-                                  log_op["op_M5"],
-                                  log_op["op6"],
-                                  log_op["op7"],
-                                  log_op["op8"]]
+    phase.op_ve[0].op_sequence = [log_op["Mob"],
+                                  log_op["AssPort"],
+                                  log_op["VessPrep"],
+                                  log_op["TranPortSite"],
+                                  log_op["SeafloorEquipPrep"],
+                                  log_op["SuctCais"],
+                                  log_op["TranSiteSite"],
+                                  log_op["TranSitePort"],
+                                  log_op["Demob"]]
 
 
     #??????????????????????????
