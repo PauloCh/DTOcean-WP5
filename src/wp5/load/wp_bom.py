@@ -93,6 +93,7 @@ def load_electrical_outputs(file_path):
     cable_route = excel.parse('cable route', header=0, index_col=0)
     connectors = excel.parse('connectors', header=0, index_col=0)
     external_protection = excel.parse('external protection', header=0, index_col=0)
+    layout = excel.parse('layout', header=0, index_col=0)
 
     # Splits the different dataset through different dict keys()
     electrical_outputs = {'collection point': collection_point,
@@ -100,7 +101,8 @@ def load_electrical_outputs(file_path):
                           'static cable': static_cable,
                           'cable route': cable_route,
                           'connectors': connectors,
-                          'external protection': external_protection
+                          'external protection': external_protection,
+                          'layout': layout
                           }
 
     return electrical_outputs
