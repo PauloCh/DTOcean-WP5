@@ -73,6 +73,7 @@ def install_port(user_inputs, wp3_outputs, wp4_outputs, port_data):
 
     return port
 
+
 def OM_port(wp6_outputs, port_data):
     """OM_port function selects the home port used by all logistic phases
     required by the O&M module. This selection is based on a 2 step process: 

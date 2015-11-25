@@ -111,17 +111,32 @@ def database_file(file):
 Loading required inputs and database into panda dataframes
 """
 
-#Internal logistic module databases
-vessels = load_vessel_data(database_file("logisticsDB_vessel_python.xlsx"))
-equipments = load_equipment_data(database_file("logisticsDB_equipment_python.xlsx"))
-ports = load_port_data(database_file("logisticsDB_ports_python.xlsx"))
+import pickle
 
-#upstream module inputs/outputs
-user_inputs = load_user_inputs(database_file("inputs_user.xlsx"))
-hydrodynamic_outputs = load_hydrodynamic_outputs(database_file("ouputs_hydrodynamic.xlsx"))
-electrical_outputs = load_electrical_outputs(database_file("ouputs_electrical.xlsx"))
-MF_outputs = load_MF_outputs(database_file("outputs_MF.xlsx"))
-# OM_outputs = load_OM_outputs(database_file("outputs_OM.xlsx"))
+inputs_SV_LD = 'load'
+if inputs_SV_LD == "save":
+    # Saving the objects:
+
+    #Internal logistic module databases
+    vessels = load_vessel_data(database_file("logisticsDB_vessel_python.xlsx"))
+    equipments = load_equipment_data(database_file("logisticsDB_equipment_python.xlsx"))
+    ports = load_port_data(database_file("logisticsDB_ports_python.xlsx"))
+
+    #upstream module inputs/outputs
+    user_inputs = load_user_inputs(database_file("inputs_user.xlsx"))
+    hydrodynamic_outputs = load_hydrodynamic_outputs(database_file("ouputs_hydrodynamic.xlsx"))
+    electrical_outputs = load_electrical_outputs(database_file("ouputs_electrical.xlsx"))
+    MF_outputs = load_MF_outputs(database_file("outputs_MF.xlsx"))
+    # OM_outputs = load_OM_outputs(database_file("outputs_OM.xlsx"))
+
+    with open('objs.pickle', 'w') as f:
+        pickle.dump([vessels, equipments, ports, user_inputs, hydrodynamic_outputs, electrical_outputs, MF_outputs], f)
+elif inputs_SV_LD == "load":
+    # Getting back the objects:
+    with open('objs.pickle') as f:
+        vessels, equipments, ports, user_inputs, hydrodynamic_outputs, electrical_outputs, MF_outputs = pickle.load(f)
+else:
+    print 'Invalid saveLoad option'
 
 """
  Initialise logistic operations and logistic phases
@@ -147,7 +162,8 @@ install_plan = planning.install_plan(user_inputs, electrical_outputs, MF_outputs
 install_plan = {0: ['F_driven']}
 
 # Select the most appropriate base installation port
-install_port = select_port.install_port(user_inputs, electrical_outputs, MF_outputs, ports)
+# install_port = select_port.install_port(user_inputs, electrical_outputs, MF_outputs, ports)
+install_port = 0
 
 # Incremental assessment of all logistic phase forming the the installation process
 install = {'plan': install_plan,

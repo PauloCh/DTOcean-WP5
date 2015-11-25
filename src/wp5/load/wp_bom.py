@@ -65,7 +65,7 @@ def load_hydrodynamic_outputs(file_path):
     excel = pd.ExcelFile(file_path)
 
     # Collect data from a particular tab
-    hydrodynamic_outputs = excel.parse('units', header=0, index_col=0)
+    hydrodynamic_outputs = excel.parse('Units', header=0, index_col=0)
 
     return hydrodynamic_outputs
 
