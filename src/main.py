@@ -65,7 +65,7 @@ install (dict): dictionnary compiling all key results obtained from the assessme
 
 Examples
 --------
->>> WP5()
+>>> LOGISTICS()
 
 
 See also: ...
@@ -81,18 +81,18 @@ See also: ...
 
 from os import path
 
-from wp5.load import load_phase_order_data, load_time_olc_data, load_vessel_data, load_equipment_data, load_port_data
-from wp5.load.wp_bom import load_user_inputs, load_hydrodynamic_outputs
-from wp5.load.wp_bom import load_electrical_outputs, load_MF_outputs
+from Logistics.load import load_phase_order_data, load_time_olc_data, load_vessel_data, load_equipment_data, load_port_data
+from Logistics.load.wp_bom import load_user_inputs, load_hydrodynamic_outputs
+from Logistics.load.wp_bom import load_electrical_outputs, load_MF_outputs
 # from wp5.load.wp_bom import load_OM_outputs
-from wp5.logistics.operations import logOp_init
-from wp5.logistics.phase import logPhase_install_init
-from wp5.installation import planning, select_port
-from wp5.feasibility.glob import glob_feas
-from wp5.selection.select_ve import select_e, select_v
-from wp5.selection.match import compatibility_ve
-from wp5.performance.schedule.schedule import sched
-from wp5.performance.economic.eco import cost
+from Logistics.logistics.operations import logOp_init
+from Logistics.logistics.phase import logPhase_install_init
+from Logistics.installation import planning, select_port
+from Logistics.feasibility.glob import glob_feas
+from Logistics.selection.select_ve import select_e, select_v
+from Logistics.selection.match import compatibility_ve
+from Logistics.performance.schedule.schedule import sched
+from Logistics.performance.economic.eco import cost
 
 # # Set directory paths for loading inputs (@Tecanalia)
 mod_path = path.dirname(path.realpath(__file__))
@@ -113,8 +113,8 @@ Loading required inputs and database into panda dataframes
 
 import pickle
 
-# inputs_SV_LD = 'save'
-inputs_SV_LD = 'load'
+inputs_SV_LD = 'save'
+# inputs_SV_LD = 'load'
 
 if inputs_SV_LD == "save":
     # Saving the objects:
@@ -213,6 +213,9 @@ if install['status'] == "pending":
            install['cost'], log_phase = cost(install, log_phase)
 
            # TO DO -> risk and enviromental impact
+
+
+
 
 
 if __name__ == "__main__":
