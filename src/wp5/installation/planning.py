@@ -18,7 +18,7 @@ installation sequences) will be updated.
 import warnings
 
 
-def install_plan(user_inputs, wp3_outputs, wp4_outputs):
+def install_plan(user_inputs, electrical_outputs, MF_outputs):
     """install_plan receives upstream data providing information to build the
     project case, based on this info the function returns a dictionary containing
     a specific installation sequence, using the following methodology:
@@ -47,130 +47,130 @@ def install_plan(user_inputs, wp3_outputs, wp4_outputs):
      relation and sequence.
     """
     if user_inputs['device']['type [-]'].ix[0] == "seabed fixed":
-        if wp3_outputs['layout']['Electrical Layout [-]'].ix[0] == "type 1":
-            if wp4_outputs['foundation']['type [-]'].ix[0] == "shallow foundation":
+        if electrical_outputs['layout']['Electrical Layout [-]'].ix[0] == "type 1":
+            if MF_outputs['foundation']['type [-]'].ix[0] == "shallow foundation":
                 # Explanation of the distionnary install_seq
                 # install_seq = {0: [100, 101, 112],
                 #                1: [{120: 112}],
                 #                2: [{102: (120, 100)}]}
                 install_seq = {0: ['E_export', 'E_array', 'E_cp', 'F_driven', 'D_fixed']}
 
-            elif wp4_outputs['foundation']['type [-]'].ix[0] == "pile":
+            elif MF_outputs['foundation']['type [-]'].ix[0] == "pile":
                 install_seq = {0: ['E_export', 'E_array', 'E_cp', 'F_driven', 'D_fixed']}
 
-            elif wp4_outputs['foundation']['type [-]'].ix[0] == "suction caisson":
+            elif MF_outputs['foundation']['type [-]'].ix[0] == "suction caisson":
                 install_seq = {0: ['E_export', 'E_array', 'E_cp', 'F_suction', 'D_fixed']}
 
-            elif wp4_outputs['foundation']['type [-]'].ix[0] == "gravity based":
+            elif MF_outputs['foundation']['type [-]'].ix[0] == "gravity based":
                 install_seq = {0: ['E_export', 'E_array', 'E_cp', 'F_gravity', 'D_fixed']}
 
-            elif wp4_outputs['foundation']['type [-]'].ix[0] == "drag-embedment":
+            elif MF_outputs['foundation']['type [-]'].ix[0] == "drag-embedment":
                 install_seq = {0: ['E_export', 'E_array', 'E_cp', 'M_drag', 'D_fixed']}
 
-            elif wp4_outputs['foundation']['type [-]'].ix[0] == "direct embedment":
+            elif MF_outputs['foundation']['type [-]'].ix[0] == "direct embedment":
                 install_seq = {0: ['E_export', 'E_array', 'E_cp', 'M_direct', 'D_fixed']}
 
             else:
                 warnings.warn("unknown electrical layout type")
 
-        elif wp3_outputs['layout']['Electrical Layout [-]'] == "type 2":
-            if wp4_outputs['foundation']['type [-]'].ix[0] == "shallow foundation":
+        elif electrical_outputs['layout']['Electrical Layout [-]'] == "type 2":
+            if MF_outputs['foundation']['type [-]'].ix[0] == "shallow foundation":
                 install_seq = {0: ['E_export', 'E_array', 'E_cp', 'F_driven', 'D_fixed']}
 
-            elif wp4_outputs['foundation']['type [-]'].ix[0] == "pile":
+            elif MF_outputs['foundation']['type [-]'].ix[0] == "pile":
                 install_seq = {0: ['E_export', 'E_array', 'E_cp', 'F_driven', 'D_fixed']}
 
-            elif wp4_outputs['foundation']['type [-]'].ix[0] == "suction caisson":
+            elif MF_outputs['foundation']['type [-]'].ix[0] == "suction caisson":
                 install_seq = {0: ['E_export', 'E_array', 'E_cp', 'F_suction', 'D_fixed']}
 
-            elif wp4_outputs['foundation']['type [-]'].ix[0] == "gravity based":
+            elif MF_outputs['foundation']['type [-]'].ix[0] == "gravity based":
                 install_seq = {0: ['E_export', 'E_array', 'E_cp', 'F_gravity', 'D_fixed']}
 
-            elif wp4_outputs['foundation']['type [-]'].ix[0] == "drag-embedment":
+            elif MF_outputs['foundation']['type [-]'].ix[0] == "drag-embedment":
                 install_seq = {0: ['E_export', 'E_array', 'E_cp', 'M_drag', 'D_fixed']}
 
-            elif wp4_outputs['foundation']['type [-]'].ix[0] == "direct embedment":
+            elif MF_outputs['foundation']['type [-]'].ix[0] == "direct embedment":
                 install_seq = {0: ['E_export', 'E_array', 'E_cp', 'M_direct', 'D_fixed']}
 
-        elif wp3_outputs['layout']['Electrical Layout [-]'] == "type 3":
-            if wp4_outputs['foundation']['type [-]'].ix[0] == "shallow foundation":
+        elif electrical_outputs['layout']['Electrical Layout [-]'] == "type 3":
+            if MF_outputs['foundation']['type [-]'].ix[0] == "shallow foundation":
                 install_seq = {0: ['E_export', 'E_array', 'E_cp', 'F_driven', 'D_fixed']}
 
-            elif wp4_outputs['foundation']['type [-]'].ix[0] == "pile":
+            elif MF_outputs['foundation']['type [-]'].ix[0] == "pile":
                 install_seq = {0: ['E_export', 'E_array', 'E_cp', 'F_driven', 'D_fixed']}
 
-            elif wp4_outputs['foundation']['type [-]'].ix[0] == "suction caisson":
+            elif MF_outputs['foundation']['type [-]'].ix[0] == "suction caisson":
                 install_seq = {0: ['E_export', 'E_array', 'E_cp', 'F_suction', 'D_fixed']}
 
-            elif wp4_outputs['foundation']['type [-]'].ix[0] == "gravity based":
+            elif MF_outputs['foundation']['type [-]'].ix[0] == "gravity based":
                 install_seq = {0: ['E_export', 'E_array', 'E_cp', 'F_gravity', 'D_fixed']}
 
-            elif wp4_outputs['foundation']['type [-]'].ix[0] == "drag-embedment":
+            elif MF_outputs['foundation']['type [-]'].ix[0] == "drag-embedment":
                 install_seq = {0: ['E_export', 'E_array', 'E_cp', 'M_drag', 'D_fixed']}
 
-            elif wp4_outputs['foundation']['type [-]'].ix[0] == "direct embedment":
+            elif MF_outputs['foundation']['type [-]'].ix[0] == "direct embedment":
                 install_seq = {0: ['E_export', 'E_array', 'E_cp', 'M_direct', 'D_fixed']}
 
 
     elif user_inputs['device']['type [-]'].ix[0] == "floating":
-        if wp3_outputs['layout']['Electrical Layout [-]'].ix[0] == "type 1":
-            if wp4_outputs['foundation']['type [-]'].ix[0] == "shallow foundation":
+        if electrical_outputs['layout']['Electrical Layout [-]'].ix[0] == "type 1":
+            if MF_outputs['foundation']['type [-]'].ix[0] == "shallow foundation":
                 install_seq = {0: ['E_export', 'E_array', 'E_cp', 'F_driven', 'D_floating']}
 
-            elif wp4_outputs['foundation']['type [-]'].ix[0] == "pile":
+            elif MF_outputs['foundation']['type [-]'].ix[0] == "pile":
                 install_seq = {0: ['E_export', 'E_array', 'E_cp', 'F_driven', 'D_floating']}
 
-            elif wp4_outputs['foundation']['type [-]'].ix[0] == "suction caisson":
+            elif MF_outputs['foundation']['type [-]'].ix[0] == "suction caisson":
                 install_seq = {0: ['E_export', 'E_array', 'E_cp', 'F_suction', 'D_floating']}
 
-            elif wp4_outputs['foundation']['type [-]'].ix[0] == "gravity based":
+            elif MF_outputs['foundation']['type [-]'].ix[0] == "gravity based":
                 install_seq = {0: ['E_export', 'E_array', 'E_cp', 'F_gravity', 'D_floating']}
 
-            elif wp4_outputs['foundation']['type [-]'].ix[0] == "drag-embedment":
+            elif MF_outputs['foundation']['type [-]'].ix[0] == "drag-embedment":
                 install_seq = {0: ['E_export', 'E_array', 'E_cp', 'M_drag', 'D_floating']}
 
-            elif wp4_outputs['foundation']['type [-]'].ix[0] == "direct embedment":
+            elif MF_outputs['foundation']['type [-]'].ix[0] == "direct embedment":
                 install_seq = {0: ['E_export', 'E_array', 'E_cp', 'M_direct', 'D_floating']}
 
             else:
                 warnings.warn("unknown electrical layout type")
 
-        elif wp3_outputs['layout']['Electrical Layout [-]'] == "type 2":
-            if wp4_outputs['foundation']['type [-]'].ix[0] == "shallow foundation":
+        elif electrical_outputs['layout']['Electrical Layout [-]'] == "type 2":
+            if MF_outputs['foundation']['type [-]'].ix[0] == "shallow foundation":
                 install_seq = {0: ['E_export', 'E_array', 'E_cp', 'F_driven', 'D_floating']}
 
-            elif wp4_outputs['foundation']['type [-]'].ix[0] == "pile":
+            elif MF_outputs['foundation']['type [-]'].ix[0] == "pile":
                 install_seq = {0: ['E_export', 'E_array', 'E_cp', 'F_driven', 'D_floating']}
 
-            elif wp4_outputs['foundation']['type [-]'].ix[0] == "suction caisson":
+            elif MF_outputs['foundation']['type [-]'].ix[0] == "suction caisson":
                 install_seq = {0: ['E_export', 'E_array', 'E_cp', 'F_suction', 'D_floating']}
 
-            elif wp4_outputs['foundation']['type [-]'].ix[0] == "gravity based":
+            elif MF_outputs['foundation']['type [-]'].ix[0] == "gravity based":
                 install_seq = {0: ['E_export', 'E_array', 'E_cp', 'F_gravity', 'D_floating']}
 
-            elif wp4_outputs['foundation']['type [-]'].ix[0] == "drag-embedment":
+            elif MF_outputs['foundation']['type [-]'].ix[0] == "drag-embedment":
                 install_seq = {0: ['E_export', 'E_array', 'E_cp', 'M_drag', 'D_floating']}
 
-            elif wp4_outputs['foundation']['type [-]'].ix[0] == "direct embedment":
+            elif MF_outputs['foundation']['type [-]'].ix[0] == "direct embedment":
                 install_seq = {0: ['E_export', 'E_array', 'E_cp', 'M_direct', 'D_floating']}
 
-        elif wp3_outputs['layout']['Electrical Layout [-]'] == "type 3":
-            if wp4_outputs['foundation']['type [-]'].ix[0] == "shallow foundation":
+        elif electrical_outputs['layout']['Electrical Layout [-]'] == "type 3":
+            if MF_outputs['foundation']['type [-]'].ix[0] == "shallow foundation":
                 install_seq = {0: ['E_export', 'E_array', 'E_cp', 'F_driven', 'D_floating']}
 
-            elif wp4_outputs['foundation']['type [-]'].ix[0] == "pile":
+            elif MF_outputs['foundation']['type [-]'].ix[0] == "pile":
                 install_seq = {0: ['E_export', 'E_array', 'E_cp', 'F_driven', 'D_floating']}
 
-            elif wp4_outputs['foundation']['type [-]'].ix[0] == "suction caisson":
+            elif MF_outputs['foundation']['type [-]'].ix[0] == "suction caisson":
                 install_seq = {0: ['E_export', 'E_array', 'E_cp', 'F_suction', 'D_floating']}
 
-            elif wp4_outputs['foundation']['type [-]'].ix[0] == "gravity based":
+            elif MF_outputs['foundation']['type [-]'].ix[0] == "gravity based":
                 install_seq = {0: ['E_export', 'E_array', 'E_cp', 'F_gravity', 'D_floating']}
 
-            elif wp4_outputs['foundation']['type [-]'].ix[0] == "drag-embedment":
+            elif MF_outputs['foundation']['type [-]'].ix[0] == "drag-embedment":
                 install_seq = {0: ['E_export', 'E_array', 'E_cp', 'M_drag', 'D_floating']}
 
-            elif wp4_outputs['foundation']['type [-]'].ix[0] == "direct embedment":
+            elif MF_outputs['foundation']['type [-]'].ix[0] == "direct embedment":
                 install_seq = {0: ['E_export', 'E_array', 'E_cp', 'M_direct', 'D_floating']}
 
     else:

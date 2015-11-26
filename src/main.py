@@ -81,7 +81,7 @@ See also: ...
 
 from os import path
 
-from wp5.load import load_vessel_data, load_equipment_data, load_port_data
+from wp5.load import load_phase_order_data, load_time_olc_data, load_vessel_data, load_equipment_data, load_port_data
 from wp5.load.wp_bom import load_user_inputs, load_hydrodynamic_outputs
 from wp5.load.wp_bom import load_electrical_outputs, load_MF_outputs
 # from wp5.load.wp_bom import load_OM_outputs
@@ -113,9 +113,15 @@ Loading required inputs and database into panda dataframes
 
 import pickle
 
+# inputs_SV_LD = 'save'
 inputs_SV_LD = 'load'
+
 if inputs_SV_LD == "save":
     # Saving the objects:
+
+    #default_values inputs
+    phase_order = load_phase_order_data(database_file("Installation_Order.xlsx"))
+    schedule_OLC = load_time_olc_data(database_file("Schedule_OLC.xlsx"))
 
     #Internal logistic module databases
     vessels = load_vessel_data(database_file("logisticsDB_vessel_python.xlsx"))
@@ -130,11 +136,13 @@ if inputs_SV_LD == "save":
     # OM_outputs = load_OM_outputs(database_file("outputs_OM.xlsx"))
 
     with open('objs.pickle', 'w') as f:
-        pickle.dump([vessels, equipments, ports, user_inputs, hydrodynamic_outputs, electrical_outputs, MF_outputs], f)
+        pickle.dump([phase_order, schedule_OLC, vessels, equipments, ports, user_inputs, hydrodynamic_outputs, electrical_outputs, MF_outputs], f)
+
 elif inputs_SV_LD == "load":
     # Getting back the objects:
     with open('objs.pickle') as f:
-        vessels, equipments, ports, user_inputs, hydrodynamic_outputs, electrical_outputs, MF_outputs = pickle.load(f)
+        phase_order, schedule_OLC, vessels, equipments, ports, user_inputs, hydrodynamic_outputs, electrical_outputs, MF_outputs = pickle.load(f)
+
 else:
     print 'Invalid saveLoad option'
 
@@ -199,7 +207,7 @@ if install['status'] == "pending":
            install['combi_select'], log_phase = compatibility_ve(install, log_phase)
 
            # schedule assessment of the different operation sequence
-           install['schedule'], log_phase = sched(x, install, log_phase, user_inputs, hydrodynamic_outputs, electrical_outputs, M&F_outputs)
+           install['schedule'], log_phase = sched(x, install, log_phase, user_inputs, hydrodynamic_outputs, electrical_outputs, MF_outputs)
 
            # cost assessment of the different operation sequenc
            install['cost'], log_phase = cost(install, log_phase)
@@ -241,7 +249,7 @@ if install['status'] == "pending":
             install['combi_select'], log_phase = compatibility_ve(install, log_phase)
 
             # schedule assessment of the different operation sequence
-            install['schedule'], log_phase = sched(x, install, log_phase, user_inputs, hydrodynamic_outputs, electrical_outputs, M&F_outputs)
+            install['schedule'], log_phase = sched(x, install, log_phase, user_inputs, hydrodynamic_outputs, electrical_outputs, MF_outputs)
 
             # cost assessment of the different operation sequenc
             install['cost'], log_phase = cost(install, log_phase)

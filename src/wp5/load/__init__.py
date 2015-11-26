@@ -16,6 +16,51 @@ import pandas as pd
 from ..logistics import VesselType
 from ..logistics import EquipmentType
 
+
+def load_time_olc_data(file_path):
+    """Imports olc database into a panda table
+
+    Parameters
+    ----------
+    file_path : string
+     the folder path of the time and olc data set
+
+    Returns
+    -------
+    time_olc : dict
+     dictionnary containing a panda dataframe with time duration and olc
+    """
+    # Transform time and olc database .xls into panda type
+    excel = pd.ExcelFile(file_path)
+    # Collect data from a particular tab
+    time_olc = excel.parse('OLC', header=0, index_col=0)
+
+    return time_olc
+
+
+
+def load_phase_order_data(file_path):
+    """Imports phase order database into a panda table
+
+    Parameters
+    ----------
+    file_path : string
+     the folder path of the phase order table
+
+    Returns
+    -------
+    phase_order : dict
+     dictionnary containing a panda dataframe with time duration and olc
+    """
+    # Transform phase table .xls into panda type
+    excel = pd.ExcelFile(file_path)
+    # Collect data from a particular tab
+    phase_order = excel.parse('InstallationOrder', header=0, index_col=0)
+
+    return phase_order
+
+
+
 def load_vessel_data(file_path):
     """Imports vessel database into panda dataframe and creates a class for each
     vessel type
@@ -125,3 +170,5 @@ def load_port_data(file_path):
     ports = excel.parse('python', header=0, index_col=0)
 
     return ports
+
+

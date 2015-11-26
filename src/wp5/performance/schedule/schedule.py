@@ -87,8 +87,7 @@ def weatherWindow(user_inputs, olc):
     return ww
 
 
-def sched(x, install, log_phase, user_inputs, wp2_outputs, wp3_outputs,
-          wp4_outputs):
+def sched(x, install, log_phase, user_inputs, hydrodynamic_outputs, electrical_outputs, MF_outputs):
 
     for seq in range(len(log_phase.op_ve)):
 
