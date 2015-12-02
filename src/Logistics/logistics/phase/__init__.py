@@ -20,14 +20,11 @@ from .e_array import initialize_e_array_phase
 from .e_cp import initialize_e_cp_phase
 
 from .f_driven import initialize_f_drive_phase
-from .f_suction import initialize_f_suction_phase
 from .f_gravity import initialize_f_gravity_phase
 
-from .m_drag import initialize_m_drag_phase
-from .m_direct import initialize_m_direct_phase
+from .moorings import initialize_moorings_phase
 
-from .d_fixed import initialize_d_fixed_phase
-from .d_floating import initialize_d_floating_phase
+from .devices import initialize_devices_phase
 
 
 def logPhase_install_init(log_op, vessels, equipments):
@@ -69,21 +66,11 @@ def logPhase_install_init(log_op, vessels, equipments):
                         , 'E_cp': initialize_e_cp_phase(log_op, vessels, equipments)
 
                         , 'F_driven': initialize_f_drive_phase(log_op, vessels, equipments)
-                        , 'F_suction': initialize_f_suction_phase(log_op, vessels, equipments)
                         , 'F_gravity': initialize_f_gravity_phase(log_op, vessels, equipments)
+                        , 'Moorings': initialize_moorings_phase(log_op, vessels, equipments)
 
-                        , 'M_drag': initialize_m_drag_phase(log_op, vessels, equipments)
-                        , 'M_direct': initialize_m_direct_phase(log_op, vessels, equipments)
-
-                        , 'D_fixed': initialize_d_fixed_phase(log_op, vessels, equipments)
-                        , 'D_floating': initialize_d_floating_phase(log_op, vessels, equipments)
+                        , 'Devices': initialize_devices_phase(log_op, vessels, equipments)
                         }
-
-
-    # 2nd Level - Define the diferent operations sequence and corresponding V&E combination for each Phase
-    # Done in seperated file?!?!?
-
-
 
     return logPhase_install
 

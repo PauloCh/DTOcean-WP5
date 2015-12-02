@@ -13,7 +13,7 @@ consisting of installation of 1 set of foundations at the time. This will be
 futher developed in the beta version due to October.
 """
 
-def wp4_feas(log_phase, log_phase_id, wp2_outputs, wp4_outputs):
+def MF_feas(log_phase, log_phase_id, wp2_outputs, wp4_outputs):
     """ wp4_feas is a function which determines the logistic requirement 
     associated with one logistic phase dealing with the installation of 
     moorings and foundation systems

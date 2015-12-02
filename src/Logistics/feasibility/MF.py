@@ -92,10 +92,6 @@ def MF_feas(log_phase, log_phase_id, wp2_outputs, wp4_outputs):
                                  ['Deck space [m^2]', 'sup', deck_area]]}
 
     # REPEAT F_driven ?!?!?
-    elif log_phase_id == 'F_suction':
-        pass
-
-    # REPEAT F_driven ?!?!?
     elif log_phase_id == 'F_gravity':
         pass
 

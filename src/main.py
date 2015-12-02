@@ -84,6 +84,7 @@ from os import path
 from Logistics.load import load_phase_order_data, load_time_olc_data, load_vessel_data, load_equipment_data, load_port_data
 from Logistics.load.wp_bom import load_user_inputs, load_hydrodynamic_outputs
 from Logistics.load.wp_bom import load_electrical_outputs, load_MF_outputs
+
 # from wp5.load.wp_bom import load_OM_outputs
 from Logistics.logistics.operations import logOp_init
 from Logistics.logistics.phase import logPhase_install_init
@@ -93,6 +94,9 @@ from Logistics.selection.select_ve import select_e, select_v
 from Logistics.selection.match import compatibility_ve
 from Logistics.performance.schedule.schedule import sched
 from Logistics.performance.economic.eco import cost
+
+
+
 
 # # Set directory paths for loading inputs (@Tecanalia)
 mod_path = path.dirname(path.realpath(__file__))
@@ -113,8 +117,8 @@ Loading required inputs and database into panda dataframes
 
 import pickle
 
-inputs_SV_LD = 'save'
-# inputs_SV_LD = 'load'
+# inputs_SV_LD = 'save'
+inputs_SV_LD = 'load'
 
 if inputs_SV_LD == "save":
     # Saving the objects:

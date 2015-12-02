@@ -12,7 +12,7 @@ BETA VERSION NOTES: This function is not being used in the current version.
 """
 
 
-def wp1_feas(log_phase, log_phase_id, user_inputs):
+def user_inputs_feas(log_phase, log_phase_id, user_inputs):
     """wp1_feas is a function which determines the logistic requirement 
     associated with one logistic phase dealing with the installation of devices
         

@@ -44,7 +44,16 @@ def select_e (install, log_phase):
         e_key_req = req_e.keys()[typ]
 
         for seq in range(len(log_phase.op_ve)):
-            for combi in range(len(log_phase.op_ve[seq].ve_combination)):
+
+            print 'seq='
+            print seq
+
+            LEN_combi = len(log_phase.op_ve[seq].ve_combination)
+            combi = 0
+            while combi < LEN_combi:
+
+                print combi
+
                 for nr_eq in range(len(log_phase.op_ve[seq].ve_combination[combi]['equipment'])):
 
                     e_key_phase = log_phase.op_ve[seq].ve_combination[combi]['equipment'][nr_eq][1].id
@@ -63,10 +72,22 @@ def select_e (install, log_phase):
                         # Check if no vessel is feasible within the req for this particular ve_combination
                         if e_pd.empty:
                             del log_phase.op_ve[seq].ve_combination[combi]   # If so, force the combination to be 0
+                            for ind_comb in range(combi,LEN_combi-1):
+                                log_phase.op_ve[seq].ve_combination[ind_comb] = log_phase.op_ve[seq].ve_combination[ind_comb+1]
+                                del log_phase.op_ve[seq].ve_combination[ind_comb+1]
+                            LEN_combi = len(log_phase.op_ve[seq].ve_combination)
                             break
                         else:
                             eq[e_key_req] = e_pd
                             log_phase.op_ve[seq].ve_combination[combi]['equipment'][nr_eq][1].panda = e_pd
+                            combi = combi + 1
+
+                    elif nr_eq==len(log_phase.op_ve[seq].ve_combination[combi]['equipment'])-1:
+                        combi = combi + 1
+
+
+
+
 
     return eq, log_phase
 
@@ -94,6 +115,8 @@ def select_v (install, log_phase):
      vessels within each vessel and equipment combinations dataframes
     """
 
+    import matplotlib.pyplot as plt
+
     req_v = install['requirement'][1]
     #Initialize an empty dic with the name of the vessels to be evaluated
     ves = dict.fromkeys(req_v.keys())
@@ -102,11 +125,23 @@ def select_v (install, log_phase):
         v_key_req = req_v.keys()[typ]
 
         for seq in range(len(log_phase.op_ve)):
-            for combi in range(len(log_phase.op_ve[seq].ve_combination)):
+
+            print 'seq='
+            print seq
+
+            LEN_combi = len(log_phase.op_ve[seq].ve_combination)
+            combi = 0
+            while combi < LEN_combi:
+
+                print combi
+
                 for nr_ves in range(len(log_phase.op_ve[seq].ve_combination[combi]['vessel'])):
 
                     v_key_phase = log_phase.op_ve[seq].ve_combination[combi]['vessel'][nr_ves][1].id
                     v_pd = log_phase.op_ve[seq].ve_combination[combi]['vessel'][nr_ves][1].panda
+
+                    # plt.imshow(v_pd)
+                    # plt.show()
 
                     if v_key_phase == v_key_req:
 
@@ -120,10 +155,21 @@ def select_v (install, log_phase):
 
                        # Check if no vessel is feasible within the req for this particular ve_combination
                        if v_pd.empty:
-                           del log_phase.op_ve[seq].ve_combination[combi]   # If so, force the combination to be 0
-                           break
+                            del log_phase.op_ve[seq].ve_combination[combi]   # If so, force the combination to be 0
+                            for ind_comb in range(combi,LEN_combi-1):
+                                log_phase.op_ve[seq].ve_combination[ind_comb] = log_phase.op_ve[seq].ve_combination[ind_comb+1]
+                                del log_phase.op_ve[seq].ve_combination[ind_comb+1]
+                            LEN_combi = len(log_phase.op_ve[seq].ve_combination)
+                            break
+
                        else:
-                           ves[v_key_req] = v_pd
-                           log_phase.op_ve[seq].ve_combination[combi]['vessel'][nr_ves][1].panda = v_pd
+                            ves[v_key_req] = v_pd
+                            log_phase.op_ve[seq].ve_combination[combi]['vessel'][nr_ves][1].panda = v_pd
+                            combi = combi + 1
+
+                    elif nr_ves==len(log_phase.op_ve[seq].ve_combination[combi]['vessel'])-1:
+                        combi = combi + 1
+
+
 
     return ves, log_phase
