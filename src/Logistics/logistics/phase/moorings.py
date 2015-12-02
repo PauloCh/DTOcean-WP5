@@ -25,13 +25,9 @@ def initialize_moorings_phase(log_op, vessels, equipments):
 
     phase.op_ve[0].ve_combination[2] = {'vessel': [(1, vessels['Tugboat'])],
                                         'equipment': [(1, equipments['rov'], 0)]}
-                                        
-                                        
-                                        
-                                  
-                                  
-                                  
-                                        
+
+
+
     phase.op_ve[1] = DefPhase(2, 'Deploy direct-embedment anchor by jetting-embedment')
     phase.op_ve[1].op_sequence = [log_op["Mob"],
                                   log_op["AssPort"],
@@ -53,13 +49,9 @@ def initialize_moorings_phase(log_op, vessels, equipments):
 
     phase.op_ve[1].ve_combination[2] = {'vessel': [(1, vessels['Tugboat'])],
                                         'equipment': [(1, equipments['rov'], 0)]}
-                                        
-                                        
-         
 
 
-                               
-                                        
+
     phase.op_ve[2] = DefPhase(3, 'Deploy direct-embedment anchor by mechanical-embedment')
     phase.op_ve[2].op_sequence = [log_op["Mob"],
                                   log_op["AssPort"],
@@ -81,7 +73,7 @@ def initialize_moorings_phase(log_op, vessels, equipments):
 
     phase.op_ve[2].ve_combination[2] = {'vessel': [(1, vessels['Tugboat'])],
                                         'equipment': [(1, equipments['rov'], 0)]}
-                                        
+
 
 
     phase.op_ve[3] = DefPhase(4, 'Deploy drag-embedment anchor')
@@ -105,7 +97,6 @@ def initialize_moorings_phase(log_op, vessels, equipments):
 
     phase.op_ve[3].ve_combination[2] = {'vessel': [(1, vessels['Tugboat'])],
                                         'equipment': [(1, equipments['rov'], 0)]}
-
 
 
     phase.op_ve[4] = DefPhase(5, 'Installation of suction caissons')
