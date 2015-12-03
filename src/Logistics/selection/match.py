@@ -141,14 +141,17 @@ def compatibility_ve(install, log_phase):
             sols_ve_indxs_combs_inseq.append(sols_ve_indxs_comb)  # Store solution per combination
 
 
-        log_phase.op_ve[seq].sol = sols_ve_indxs_combs_inseq  # Store solution per sequence
+        log_phase.op_ve[seq].sol_combi = sols_ve_indxs_combs_inseq  # Store solution per sequence
+        log_phase.op_ve[seq].sol_ves = ves_sol
+        log_phase.op_ve[seq].sol_eq = eq_sol
+
 
         # Store final solution
         sol = VE_solutions(nr_sol) # ??????????????!
         sol.sol_combi[seq] = sols_ve_indxs_combs_inseq
-        sol.sol_ves[seq] = sols_ves
-        sol.sol_eq[seq] = sols_eq
-        nr_sol = nr_sol + 1;
+        sol.sol_ves[seq] = ves_sol
+        sol.sol_eq[seq] = eq_sol
+        nr_sol = nr_sol + 1
 
 
 
@@ -156,37 +159,37 @@ def compatibility_ve(install, log_phase):
 
     # Apply feasibility functions between vessel and equipment ??????????????????????????????????????????!
 
-    req_m = install['requirement'][2]
-    #Initialize an empty dic with the name of the vessels to be evaluated
-    match = dict.fromkeys(req_m.keys())
-
-    for typ in range(len(req_m)):
-        m_key_req = req_m.keys()[typ]
-
-        for seq in range(len(log_phase.op_ve)):
-            for combi in range(len(log_phase.op_ve[seq].ve_combination)):
-                for nr_ves in range(len(log_phase.op_ve[seq].ve_combination[combi]['vessel'])):
-
-                    v_key_phase = log_phase.op_ve[seq].ve_combination[combi]['vessel'][nr_ves][1].id
-                    v_pd = log_phase.op_ve[seq].ve_combination[combi]['vessel'][nr_ves][1].panda
-
-                    if v_key_phase == v_key_req:
-
-                       for req in range(len(req_v[v_key_req])):
-                           v_para = req_v[v_key_req][req][0]
-                           v_meth = req_v[v_key_req][req][1]
-                           v_val = req_v[v_key_req][req][2]
-
-                           if v_meth == 'sup':
-                               v_pd = v_pd[v_pd[v_para] >= v_val]
-
-                       # Check if no vessel is feasible within the req for this particular ve_combination
-                       if v_pd.empty:
-                           del log_phase.op_ve[seq].ve_combination[combi]   # If so, force the combination to be 0
-                           break
-                       else:
-                           ves[v_key_req] = v_pd
-                           log_phase.op_ve[seq].ve_combination[combi]['vessel'][nr_ves][1].panda = v_pd
+    # req_m = install['requirement'][2]
+    # #Initialize an empty dic with the name of the vessels to be evaluated
+    # match = dict.fromkeys(req_m.keys())
+    #
+    # for typ in range(len(req_m)):
+    #     m_key_req = req_m.keys()[typ]
+    #
+    #     for seq in range(len(log_phase.op_ve)):
+    #         for combi in range(len(log_phase.op_ve[seq].ve_combination)):
+    #             for nr_ves in range(len(log_phase.op_ve[seq].ve_combination[combi]['vessel'])):
+    #
+    #                 v_key_phase = log_phase.op_ve[seq].ve_combination[combi]['vessel'][nr_ves][1].id
+    #                 v_pd = log_phase.op_ve[seq].ve_combination[combi]['vessel'][nr_ves][1].panda
+    #
+    #                 if v_key_phase == v_key_req:
+    #
+    #                    for req in range(len(req_v[v_key_req])):
+    #                        v_para = req_v[v_key_req][req][0]
+    #                        v_meth = req_v[v_key_req][req][1]
+    #                        v_val = req_v[v_key_req][req][2]
+    #
+    #                        if v_meth == 'sup':
+    #                            v_pd = v_pd[v_pd[v_para] >= v_val]
+    #
+    #                    # Check if no vessel is feasible within the req for this particular ve_combination
+    #                    if v_pd.empty:
+    #                        del log_phase.op_ve[seq].ve_combination[combi]   # If so, force the combination to be 0
+    #                        break
+    #                    else:
+    #                        ves[v_key_req] = v_pd
+    #                        log_phase.op_ve[seq].ve_combination[combi]['vessel'][nr_ves][1].panda = v_pd
 
 
 

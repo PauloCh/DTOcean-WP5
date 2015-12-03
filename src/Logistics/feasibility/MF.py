@@ -13,7 +13,7 @@ consisting of installation of 1 set of foundations at the time. This will be
 futher developed in the beta version due to October.
 """
 
-def MF_feas(log_phase, log_phase_id, wp2_outputs, wp4_outputs):
+def MF_feas(log_phase, log_phase_id, hydrodynamic_outputs, MF_outputs):
     """ wp4_feas is a function which determines the logistic requirement 
     associated with one logistic phase dealing with the installation of 
     moorings and foundation systems
@@ -24,9 +24,9 @@ def MF_feas(log_phase, log_phase_id, wp2_outputs, wp4_outputs):
      Class of the logistic phase under consideration for assessment
     log_phase_id : str
      string describing the ID of the logistic phase under consideration
-    wp2_outputs : dict
+    hydrodynamic_outputs : dict
      dictionnary containing all required inputs to WP5 coming from WP2
-    wp4_outputs : DataFrame
+    MF_outputs : DataFrame
      Panda table containing all required inputs to WP5 coming from WP4
     
     Returns
@@ -47,14 +47,14 @@ def MF_feas(log_phase, log_phase_id, wp2_outputs, wp4_outputs):
 
         find_fd_num = 0
         fundt_num = 0
-        for dev in range(len(wp2_outputs['device [-]'])):
+        for dev in range(len(hydrodynamic_outputs['device [-]'])):
 
-            dev_string = str( wp2_outputs['device [-]'].ix[dev] )
-            num_found = len(wp4_outputs['foundation'])
+            dev_string = str( hydrodynamic_outputs['device [-]'].ix[dev] )
+            num_found = len(MF_outputs['foundation'])
             count_fd_num = 0
             while find_fd_num < num_found:
 
-                if wp4_outputs['foundation']['devices [-]'][find_fd_num]== dev_string:
+                if MF_outputs['foundation']['devices [-]'][find_fd_num]== dev_string:
                     count_fd_num = count_fd_num + 1
                     find_fd_num = find_fd_num + 1
                 else:
@@ -68,9 +68,9 @@ def MF_feas(log_phase, log_phase_id, wp2_outputs, wp4_outputs):
                 key1 = "length [m]"
                 key2 = "width [m]"
                 key3 = "dry mass [kg]"
-                load_u_f[len(load_u_f):] = [wp4_outputs['foundation'][key1].ix[ind_found] * wp4_outputs['foundation'][key2].ix[ind_found] / wp4_outputs['foundation'][key3].ix[ind_found]]
-                area_u_f[len(area_u_f):] = [wp4_outputs['foundation'][key1].ix[ind_found] * wp4_outputs['foundation'][key2].ix[ind_found]]
-                diam_u_f[len(diam_u_f):] = [wp4_outputs['foundation'][key1].ix[ind_found]]
+                load_u_f[len(load_u_f):] = [MF_outputs['foundation'][key1].ix[ind_found] * MF_outputs['foundation'][key2].ix[ind_found] / MF_outputs['foundation'][key3].ix[ind_found]]
+                area_u_f[len(area_u_f):] = [MF_outputs['foundation'][key1].ix[ind_found] * MF_outputs['foundation'][key2].ix[ind_found]]
+                diam_u_f[len(diam_u_f):] = [MF_outputs['foundation'][key1].ix[ind_found]]
             fundt_num = found_per_dev
 
             load_u[len(load_u):] = [max(load_u_f)]

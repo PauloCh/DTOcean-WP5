@@ -91,7 +91,7 @@ def sched(x, install, log_phase, user_inputs, hydrodynamic_outputs, electrical_o
 
     for seq in range(len(log_phase.op_ve)):
 
-        for sol in range(len(log_phase.op_ve[seq].sol)):
+        for ind_sol in range(len(log_phase.op_ve[seq].sol)):
             op_dur_prep = []
             op_dur_sea = []
             olc_sea_Hs = []
@@ -109,7 +109,7 @@ def sched(x, install, log_phase, user_inputs, hydrodynamic_outputs, electrical_o
                     coordinates = 'none'
                     map_land = 'none'
                     dist_p2s = distance(coordinates, map_land)  # [km]
-                    sailing_speed = 3.6 * log_phase.op_ve[seq].sol[sol].sol_ves[0]['Transit speed [m/s]']  # [km/h]
+                    sailing_speed = 3.6 * log_phase.op_ve[seq].sol[ind_sol].sol_ves[0]['Transit speed [m/s]']  # [km/h]
                     # sailing_speed = 20.0  # [km/h]
                     log_op[op].time = dist_p2s / sailing_speed  # [h]
                     op_dur_sea[len(op_dur_sea):] = [log_op[op].time]
@@ -141,7 +141,7 @@ def sched(x, install, log_phase, user_inputs, hydrodynamic_outputs, electrical_o
                     coordinates = 'none'
                     map_land = 'none'
                     dist_p2s = distance(coordinates, map_land)  # [km]
-                    sailing_speed = 3.6 * log_phase.op_ve[seq].sol[sol].sol_ves[0]['Transit speed [m/s]']  # [km/h]
+                    sailing_speed = 3.6 * log_phase.op_ve[seq].sol[ind_sol].sol_ves[0]['Transit speed [m/s]']  # [km/h]
                     log_op[op].time = dist_p2s / sailing_speed  # [h]
                     op_dur_sea[len(op_dur_sea):] = [log_op[op].time]
 
@@ -169,7 +169,7 @@ def sched(x, install, log_phase, user_inputs, hydrodynamic_outputs, electrical_o
             index_ww_dur = indices(weather_wind['duration'], lambda x: x >= dur_total_sea)
             index_ww = index_ww_start or index_ww_dur
             waiting_time = weather_wind['start'][index_ww[0]] - starting_time
-            log_phase.op_ve[seq].sol[sol].schedule = {'olc': olc,
+            log_phase.op_ve[seq].sol[ind_sol].schedule = {'olc': olc,
                                                       'log_op_dur_all': op_dur_prep + op_dur_sea,
                                                       'preparation': sum(op_dur_prep),
                                                       'sea time': dur_total_sea,

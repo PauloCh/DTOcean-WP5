@@ -4,6 +4,8 @@ class LogPhase(object):
         self.id = id
         self.description = description
         self.op_ve = {}
+        # self.op_ve.sol_ves = {}
+        # self.op_ve.sol_eq = {}
 #        self.feasibility = feasiblity
 #        self.matching = matching
 #        self.v&e&p_selected = {}
