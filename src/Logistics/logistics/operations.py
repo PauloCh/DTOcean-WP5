@@ -37,8 +37,8 @@ def logOp_init(file_path):
                 6 = Specialized individual operation for inspection activities;
                 7 = Specialized individual operation for on-site maintenance interventions;
                 8 = Specialized individual operation for port-based maintenance interventions;
-    2nd digit: simple counter to discriminate between different individual
-               operations within the same category defined by the 1st digit
+    2nd/3rd digit: simple counter to discriminate between different individual
+                   operations within the same category defined by the 1st digit
 
     Parameters
     ----------
