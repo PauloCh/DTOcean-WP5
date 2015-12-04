@@ -45,22 +45,22 @@ def select_e (install, log_phase):
 
         for seq in range(len(log_phase.op_ve)):
 
-            print 'seq='
-            print seq
+            # print 'seq='
+            # print seq
 
             LEN_combi = len(log_phase.op_ve[seq].ve_combination)
             combi = 0
             while combi < LEN_combi:
 
-                print 'combi='
-                print combi
+                # print 'combi='
+                # print combi
 
                 LEN_nr_eq = len(log_phase.op_ve[seq].ve_combination[combi]['equipment'])
                 nr_eq = 0
                 while nr_eq < LEN_nr_eq:
 
-                    print 'nr_eq='
-                    print nr_eq
+                    # print 'nr_eq='
+                    # print nr_eq
 
                     e_key_phase = log_phase.op_ve[seq].ve_combination[combi]['equipment'][nr_eq][1].id
                     e_pd = log_phase.op_ve[seq].ve_combination[combi]['equipment'][nr_eq][1].panda
@@ -74,6 +74,9 @@ def select_e (install, log_phase):
 
                             if e_meth == 'sup':
                                 e_sol = e_pd[e_pd[e_para] >= e_val]
+                            elif e_meth == 'equal':
+                                if e_para == 'ROV inspection [yes/no]' or e_para == 'ROV workclass [yes/no]':
+                                    e_sol = e_pd[e_pd[e_para] == e_val]
 
                         # Check if no vessel is feasible within the req for this particular ve_combination
                         # if e_sol.empty:
@@ -88,8 +91,8 @@ def select_e (install, log_phase):
                                 combi=combi+1
                             break
                         else:
-                            ves[v_key_req] = e_sol
-                            log_phase.op_ve[seq].ve_combination[combi]['vessel'][nr_ves][1].panda = e_sol
+                            eq[e_key_req] = e_sol
+                            log_phase.op_ve[seq].ve_combination[combi]['equipment'][nr_eq][1].panda = e_sol
                             nr_eq = nr_eq + 1
 
                     else:
@@ -138,22 +141,22 @@ def select_v (install, log_phase):
 
         for seq in range(len(log_phase.op_ve)):
 
-            print 'seq='
-            print seq
+            # print 'seq='
+            # print seq
 
             LEN_combi = len(log_phase.op_ve[seq].ve_combination)
             combi = 0
             while combi < LEN_combi:
 
-                print 'combi='
-                print combi
+                # print 'combi='
+                # print combi
 
                 LEN_nr_ves = len(log_phase.op_ve[seq].ve_combination[combi]['vessel'])
                 nr_ves = 0
                 while nr_ves < LEN_nr_ves:
 
-                    print 'nr_ves='
-                    print nr_ves
+                    # print 'nr_ves='
+                    # print nr_ves
 
                     v_key_phase = log_phase.op_ve[seq].ve_combination[combi]['vessel'][nr_ves][1].id
                     v_pd = log_phase.op_ve[seq].ve_combination[combi]['vessel'][nr_ves][1].panda
