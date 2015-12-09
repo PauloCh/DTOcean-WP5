@@ -74,9 +74,6 @@ def select_e (install, log_phase):
 
                             if e_meth == 'sup':
                                 e_sol = e_pd[e_pd[e_para] >= e_val]
-                            elif e_meth == 'equal':
-                                if e_para == 'ROV inspection [yes/no]' or e_para == 'ROV workclass [yes/no]':
-                                    e_sol = e_pd[e_pd[e_para] == e_val]
 
                         # Check if no vessel is feasible within the req for this particular ve_combination
                         # if e_sol.empty:
@@ -99,6 +96,8 @@ def select_e (install, log_phase):
                         if nr_eq==LEN_nr_eq-1:
                             combi = combi + 1
                         nr_eq = nr_eq + 1
+
+                combi = combi + 1
 
 
 
@@ -173,6 +172,10 @@ def select_v (install, log_phase):
 
                            if v_meth == 'sup':
                                v_sol = v_pd[v_pd[v_para] >= v_val]
+                           # elif v_meth == 'equal':
+                           #      if v_para == 'ROV inspection [yes/no]' or v_para == 'ROV workclass [yes/no]':
+                           #          v_sol = v_pd[v_pd[v_para] == v_val]
+                                    # check also max depth for onboard?!?!?!
 
                        # Check if no vessel is feasible within the req for this particular ve_combination
                        # if v_sol.empty:
@@ -196,6 +199,8 @@ def select_v (install, log_phase):
                         if nr_ves==LEN_nr_ves-1:
                             combi = combi + 1
                         nr_ves = nr_ves + 1
+
+                combi = combi + 1
 
 
 

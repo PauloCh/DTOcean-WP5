@@ -38,7 +38,7 @@ def MF_feas(log_phase, log_phase_id, hydrodynamic_outputs, MF_outputs):
      dictionnary containing all logistic requirements associated with every
      vessel type of the logistic phase under consideration
     """
-    if log_phase_id == 'F_driven':
+    if log_phase_id == 'Moorings':
         # Equipment and vessel feasiblity
         diam_u = []  # list of max diameter per unit
         load_u = []  # list of loading due to the set of foundation(s) per unit
@@ -98,10 +98,7 @@ def MF_feas(log_phase, log_phase_id, hydrodynamic_outputs, MF_outputs):
         max_linelength = max(moo_line_len_u)
         max_moomass = max(moo_mass_u)
 
-        feas_e = {'Hammer': [['Sleeve diameter [m]', 'sup', sleeve_diam]],
-                  'rov': [['Depth rating [m]', 'sup', max_depth],
-                          ['ROV inspection [yes/no]', 'equal', 'yes'],
-                          ['ROV workclass [yes/no]', 'equal', 'yes']]}
+        feas_e = {'rov': [['Depth rating [m]', 'sup', max_depth]]}
 
         feas_v = {'Crane Barge': [['Deck loading [t/m^2]', 'sup', deck_loading],
                            ['Max. cargo [t]', 'sup', deck_cargo],
@@ -109,39 +106,70 @@ def MF_feas(log_phase, log_phase_id, hydrodynamic_outputs, MF_outputs):
                            ['AH drum capacity [m]', 'sup', max_moomass],
                            ['Crane capacity [t]', 'sup', deck_cargo],
                            ['AH drum capacity [m]', 'sup', max_depth],
-                                 ['Deck space [m^2]', 'sup', deck_area]],
+                           ['Deck space [m^2]', 'sup', deck_area],
+                           ['ROV inspection [yes/no]', 'equal', 'yes'],
+                           ['ROV workclass [yes/no]', 'equal', 'yes']],
                   'Crane Vessel': [['Deck loading [t/m^2]', 'sup', deck_loading],
                            ['Max. cargo [t]', 'sup', deck_cargo],
                            ['AH winch rated pull [t]', 'sup', max_linelength],
                            ['AH drum capacity [m]', 'sup', max_moomass],
                            ['Crane capacity [t]', 'sup', deck_cargo],
                            ['AH drum capacity [m]', 'sup', max_depth],
-                                   ['Deck space [m^2]', 'sup', deck_area]],
+                           ['Deck space [m^2]', 'sup', deck_area],
+                           ['ROV inspection [yes/no]', 'equal', 'yes'],
+                           ['ROV workclass [yes/no]', 'equal', 'yes']],
                   'Multicat': [['Deck loading [t/m^2]', 'sup', deck_loading],
                            ['Max. cargo [t]', 'sup', deck_cargo],
                            ['AH winch rated pull [t]', 'sup', max_linelength],
                            ['AH drum capacity [m]', 'sup', max_moomass],
                            ['Crane capacity [t]', 'sup', deck_cargo],
                            ['AH drum capacity [m]', 'sup', max_depth],
-                                   ['Deck space [m^2]', 'sup', deck_area]],
+                           ['Deck space [m^2]', 'sup', deck_area],
+                           ['ROV inspection [yes/no]', 'equal', 'yes'],
+                           ['ROV workclass [yes/no]', 'equal', 'yes']],
                   'JUP Barge': [['Deck loading [t/m^2]', 'sup', deck_loading],
                            ['Max. cargo [t]', 'sup', deck_cargo],
                            ['AH winch rated pull [t]', 'sup', max_linelength],
                            ['AH drum capacity [m]', 'sup', max_moomass],
-                                 ['Deck space [m^2]', 'sup', deck_area]],
+                           ['Deck space [m^2]', 'sup', deck_area],
+                           ['ROV inspection [yes/no]', 'equal', 'yes'],
+                           ['ROV workclass [yes/no]', 'equal', 'yes']],
                   'JUP Vessel': [['Deck loading [t/m^2]', 'sup', deck_loading],
                            ['Max. cargo [t]', 'sup', deck_cargo],
                            ['AH winch rated pull [t]', 'sup', max_linelength],
                            ['AH drum capacity [m]', 'sup', max_moomass],
-                                 ['Deck space [m^2]', 'sup', deck_area]],
+                           ['Deck space [m^2]', 'sup', deck_area],
+                           ['ROV inspection [yes/no]', 'equal', 'yes'],
+                           ['ROV workclass [yes/no]', 'equal', 'yes']],
                   'AHTS': [['Deck loading [t/m^2]', 'sup', deck_loading],
                            ['Max. cargo [t]', 'sup', deck_cargo],
                            ['AH winch rated pull [t]', 'sup', max_linelength],
                            ['AH drum capacity [m]', 'sup', max_moomass],
-                                 ['Deck space [m^2]', 'sup', deck_area]]}
+                           ['Deck space [m^2]', 'sup', deck_area],
+                           ['ROV inspection [yes/no]', 'equal', 'yes'],
+                           ['ROV workclass [yes/no]', 'equal', 'yes']]}
 
-    # REPEAT/ADAPT F_driven ?!?!?
+        feas_m_pv = {'rov': [['Beam [m]', 'sup', 'Entrance width [m]'],
+                          ['Length [m]', 'sup', 'Terminal length [m]'],
+                          ['Max. draft [m]', 'sup', 'Terminal draught [m]']]}
+
+        feas_m_ve = {'rov': [['Length [m]', 'mul', 'Width [m]', 'plus', 'AE footprint [m^2]', 'sup', 'Deck space [m^2]'],
+                  ['Weight [t]', 'plus', 'AE weight [t]', 'sup', 'Max. cargo [t]'],
+                  ['Weight [t]', 'plus', 'AE weight [t]', 'div', 'Length [m]', 'mul', 'Width [m]', 'sup', 'Deck loading [t/m^2]'],
+                      ['Weight [t]', 'sup', 'AH winch rated pull [t]']]}
+
+        feas_m_pe = {'rov': [['Length [m]', 'mul', 'Width [m]', 'plus', 'AE footprint [m^2]', 'sup', 'Terminal area [m^2]'],
+                  ['Weight [t]', 'plus', 'AE weight [t]', 'sup', 'Max gantry crane lift capacity [t]'],
+                  ['Weight [t]', 'plus', 'AE weight [t]', 'sup', 'Max tower crane lift capacity [t]'],
+                  ['Weight [t]', 'plus', 'AE weight [t]', 'div', 'Length [m]', 'mul', 'Width [m]', 'sup', 'Terminal load bearing [t/m^2]']]}
+
+
+    # REPEAT/ADAPT Moorings ?!?!?
     elif log_phase_id == 'F_gravity':
         pass
 
-    return feas_e, feas_v
+    elif log_phase_id == 'F_driven':
+        pass
+
+
+    return feas_e, feas_v, feas_m_pv, feas_m_ve, feas_m_pe
