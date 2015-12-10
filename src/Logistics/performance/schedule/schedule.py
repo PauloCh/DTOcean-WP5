@@ -48,11 +48,11 @@ def weatherWindow(user_inputs, olc):
     ww = {'start': 0,
           'duration': 0}
     # Operational limit conditions (consdiered static over the entire duration of the marine operation fro the moment)
-    timeStep = met_ocean.hour.ix[1] - met_ocean.hour.ix[0]
+    timeStep = met_ocean['hour [-]'].ix[1] - met_ocean['hour [-]'].ix[0]
     # resourceDataPointNb = len(met_ocean.waveHs)
     # Build the binary weather windows: 1=authorized access, 0=denied access
-    Hs_bin = map(float, met_ocean.waveHs > olc['maxHs'])
-    Ws_bin = map(float, met_ocean.windSpeed > olc['maxWs'])
+    Hs_bin = map(float, met_ocean['Hs [m]'] > olc['maxHs'])
+    Ws_bin = map(float, met_ocean['Ws [m/s]'] > olc['maxWs'])
 
     WW_bin = Hs_bin or Ws_bin
 
@@ -109,7 +109,7 @@ def sched(x, install, log_phase, user_inputs, hydrodynamic_outputs, electrical_o
                     coordinates = 'none'
                     map_land = 'none'
                     dist_p2s = distance(coordinates, map_land)  # [km]
-                    sailing_speed = 3.6 * log_phase.op_ve[seq].sol[ind_sol].sol_ves[0]['Transit speed [m/s]']  # [km/h]
+                    sailing_speed = 3.6 * log_phase.op_ve[seq].sol[ind_sol]['Transit speed [m/s]']  # [km/h]
                     # sailing_speed = 20.0  # [km/h]
                     log_op[op].time = dist_p2s / sailing_speed  # [h]
                     op_dur_sea[len(op_dur_sea):] = [log_op[op].time]

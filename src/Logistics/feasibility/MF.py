@@ -149,20 +149,34 @@ def MF_feas(log_phase, log_phase_id, hydrodynamic_outputs, MF_outputs):
                            ['ROV inspection [yes/no]', 'equal', 'yes'],
                            ['ROV workclass [yes/no]', 'equal', 'yes']]}
 
-        feas_m_pv = {'rov': [['Beam [m]', 'sup', 'Entrance width [m]'],
+        feas_m_pv = {'Crane Barge': [['Beam [m]', 'sup', 'Entrance width [m]'],
+                          ['Length [m]', 'sup', 'Terminal length [m]'],
+                          ['Max. draft [m]', 'sup', 'Terminal draught [m]']],
+                     'Crane Vessel': [['Beam [m]', 'sup', 'Entrance width [m]'],
+                          ['Length [m]', 'sup', 'Terminal length [m]'],
+                          ['Max. draft [m]', 'sup', 'Terminal draught [m]']],
+                     'Multicat': [['Beam [m]', 'sup', 'Entrance width [m]'],
+                          ['Length [m]', 'sup', 'Terminal length [m]'],
+                          ['Max. draft [m]', 'sup', 'Terminal draught [m]']],
+                     'JUP Barge': [['Beam [m]', 'sup', 'Entrance width [m]'],
+                          ['Length [m]', 'sup', 'Terminal length [m]'],
+                          ['Max. draft [m]', 'sup', 'Terminal draught [m]']],
+                     'JUP Vessel': [['Beam [m]', 'sup', 'Entrance width [m]'],
+                          ['Length [m]', 'sup', 'Terminal length [m]'],
+                          ['Max. draft [m]', 'sup', 'Terminal draught [m]']],
+                     'AHTS': [['Beam [m]', 'sup', 'Entrance width [m]'],
                           ['Length [m]', 'sup', 'Terminal length [m]'],
                           ['Max. draft [m]', 'sup', 'Terminal draught [m]']]}
-
-        feas_m_ve = {'rov': [['Length [m]', 'mul', 'Width [m]', 'plus', 'AE footprint [m^2]', 'sup', 'Deck space [m^2]'],
-                  ['Weight [t]', 'plus', 'AE weight [t]', 'sup', 'Max. cargo [t]'],
-                  ['Weight [t]', 'plus', 'AE weight [t]', 'div', 'Length [m]', 'mul', 'Width [m]', 'sup', 'Deck loading [t/m^2]'],
-                      ['Weight [t]', 'sup', 'AH winch rated pull [t]']]}
 
         feas_m_pe = {'rov': [['Length [m]', 'mul', 'Width [m]', 'plus', 'AE footprint [m^2]', 'sup', 'Terminal area [m^2]'],
                   ['Weight [t]', 'plus', 'AE weight [t]', 'sup', 'Max gantry crane lift capacity [t]'],
                   ['Weight [t]', 'plus', 'AE weight [t]', 'sup', 'Max tower crane lift capacity [t]'],
                   ['Weight [t]', 'plus', 'AE weight [t]', 'div', 'Length [m]', 'mul', 'Width [m]', 'sup', 'Terminal load bearing [t/m^2]']]}
 
+        feas_m_ve = {'rov': [['Length [m]', 'mul', 'Width [m]', 'plus', 'AE footprint [m^2]', 'sup', 'Deck space [m^2]'],
+                  ['Weight [t]', 'plus', 'AE weight [t]', 'sup', 'Max. cargo [t]'],
+                  ['Weight [t]', 'plus', 'AE weight [t]', 'div', 'Length [m]', 'mul', 'Width [m]', 'sup', 'Deck loading [t/m^2]'],
+                      ['Weight [t]', 'sup', 'AH winch rated pull [t]']]}
 
     # REPEAT/ADAPT Moorings ?!?!?
     elif log_phase_id == 'F_gravity':
@@ -172,4 +186,4 @@ def MF_feas(log_phase, log_phase_id, hydrodynamic_outputs, MF_outputs):
         pass
 
 
-    return feas_e, feas_v, feas_m_pv, feas_m_ve, feas_m_pe
+    return feas_e, feas_v, feas_m_pv, feas_m_pe, feas_m_ve

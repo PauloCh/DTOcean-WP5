@@ -12,7 +12,7 @@ this will be upgraded for the beta version due to october.
 """
 
 
-def install_port(user_inputs, wp3_outputs, wp4_outputs, port_data):
+def install_port(user_inputs, electrical_outputs, MF_outputs, port_data):
     """install_port function selects the home port used by all logistic phases
     during installation. This selection is based on a 2 step process: 
         1 - the port feasibility functions from all logistic phases are taken
@@ -24,9 +24,9 @@ def install_port(user_inputs, wp3_outputs, wp4_outputs, port_data):
     ----------
     user_inputs : dict
      dictionnary containing all required inputs to WP5 coming from WP1/end-user
-    wp3_outputs : dict
+    electrical_outputs : dict
      dictionnary containing all required inputs to WP5 coming from WP3
-    wp4_outputs : DataFrame
+    MF_outputs : DataFrame
      panda table containing all required inputs to WP5 coming from WP4
     port_data : DataFrame
      panda table containing the ports database     
@@ -37,27 +37,29 @@ def install_port(user_inputs, wp3_outputs, wp4_outputs, port_data):
      dictionnary containing the results of the port selection
     """    
     # initialisation
-    port = {'Terminal Load Bearing [ton/m2]': 0,
+    port = {'Terminal load bearing [t/m^2]': 0,
             'Terminal area [m2]': 0,
             'Port list satisfying the minimum requirements': 0,
             'Distance port-site': 0,
             'Selected base port for installation': 0}
-    # calculate loading and projeted area of foundations/anchors
+    # calculate loading and projected area of foundations/anchors
     load = []
     area = []
     if user_inputs['device']['type [-]'].ix[0] == "seabed fixed":
-        for x in range(wp4_outputs['quantity'].ix[0]):
+        for x in range(MF_outputs['quantity'].ix[0]):
             key1 = "diameter foundation " + str(x) + " [m]"
             key2 = "length foundation " + str(x) + " [m]"
             key3 = "weight foundation " + str(x) + " [kg]"
-            load[len(load):] = [wp4_outputs[key1].ix[0] * wp4_outputs[key2].ix[0] / wp4_outputs[key3].ix[0]]
-            area[len(area):] = [wp4_outputs[key1].ix[0] * wp4_outputs[key2].ix[0]]
+            load[len(load):] = [MF_outputs[key1].ix[0] * MF_outputs[key2].ix[0] / MF_outputs[key3].ix[0]]
+            area[len(area):] = [MF_outputs[key1].ix[0] * MF_outputs[key2].ix[0]]
+
     # terminal load bearing minimum requirement
-    port['Terminal Load Bearing [ton / m2]'] = max(user_inputs['device']['length [m]'].ix[0] * user_inputs['device']['width [m]'].ix[0] / user_inputs['device']['dry mass [kg]'].ix[0],
+    port['Terminal load bearing [t/m^2]'] = max(user_inputs['device']['length [m]'].ix[0] * user_inputs['device']['width [m]'].ix[0] / user_inputs['device']['dry mass [kg]'].ix[0],
                                                    max(load))
-    port_list = port_data[port_data['Terminal Load Bearing [ton/m2]'] >= port['Terminal Load Bearing [ton/m2]']]
-    port['Terminal area [m2]'] = max(user_inputs['device']['length [m]'].ix[0] * user_inputs['device']['width [m]'].ix[0], sum(area))
-    port_list = port_list[port_list['Terminal area [m2]'] >= port['Terminal area [m2]']]
+    port_list = port_data[ port_data['Terminal load bearing [t/m^2]'] >= port['Terminal load bearing [t/m^2]'] ]
+
+    port['Terminal area [m^2]'] = max(user_inputs['device']['length [m]'].ix[0] * user_inputs['device']['width [m]'].ix[0], sum(area))
+    port_list = port_list[ port_list['Terminal area [m^2]'] >= port['Terminal area [m^2]'] ]
 
     port['Port list satisfying the minimum requirements'] = port_list
 
@@ -74,6 +76,9 @@ def install_port(user_inputs, wp3_outputs, wp4_outputs, port_data):
     return port
 
 
+
+
+
 def OM_port(wp6_outputs, port_data):
     """OM_port function selects the home port used by all logistic phases
     required by the O&M module. This selection is based on a 2 step process: 
@@ -86,9 +91,9 @@ def OM_port(wp6_outputs, port_data):
     ----------
     user_inputs : dict
      dictionnary containing all required inputs to WP5 coming from WP1/end-user
-    wp3_outputs : dict
+    electrical_outputs : dict
      dictionnary containing all required inputs to WP5 coming from WP3
-    wp4_outputs : DataFrame
+    MF_outputs : DataFrame
      panda table containing all required inputs to WP5 coming from WP4
     port_data : DataFrame
      panda table containing the ports database     
@@ -99,7 +104,7 @@ def OM_port(wp6_outputs, port_data):
      dictionnary containing the results of the port selection
     """       
     # initialisation
-    port = {'Terminal Load Bearing [ton/m2]': 0,
+    port = {'Terminal Load Bearing [t/m^2]': 0,
             'Terminal area [m2]': 0,
             'Port list satisfying the minimum requirements': 0,
             'Distance port-site': 0,
@@ -119,8 +124,8 @@ def OM_port(wp6_outputs, port_data):
     SP_loading = float(total_mass_SP) / float(SP_area)
 
     # terminal load bearing minimum requirement
-    port_list = port_data[port_data['Terminal area [m2]'] >= SP_area]
-    port_list = port_list[port_list['Terminal Load Bearing [ton/m2]'] >= SP_loading]
+    port_list = port_data[port_data['Terminal area [m^2]'] >= SP_area]
+    port_list = port_list[port_list['Terminal Load Bearing [t/m^2]'] >= SP_loading]
 
     port['Port list satisfying the minimum requirements'] = port_list
 

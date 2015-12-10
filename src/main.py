@@ -209,7 +209,8 @@ if install['status'] == "pending":
 
            # matching requirements for combinations of port/vessel(s)/equipment
            # install['combi_select'] = compatibility_vp(install, log_phase)
-           install['combi_select'], log_phase = compatibility_ve(install, log_phase)
+           install['combi_select'], log_phase = compatibility_ve(install, log_phase, ports) # requires install_port !!
+           # install['combi_select'], log_phase = compatibility_ve(install, log_phase, install_port)
 
            # schedule assessment of the different operation sequence
            install['schedule'], log_phase = sched(x, install, log_phase, user_inputs, hydrodynamic_outputs, electrical_outputs, MF_outputs)

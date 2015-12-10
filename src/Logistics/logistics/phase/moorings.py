@@ -120,8 +120,8 @@ def initialize_moorings_phase(log_op, vessels, equipments):
     phase.op_ve[4].ve_combination[2] = {'vessel': [(1, vessels['JUP Barge']), (2, vessels['Tugboat'])],
                                         'equipment': [(1, equipments['drilling rigs'], 0)]}
 
-    phase.op_ve[4].ve_combination[3] = {'vessel': [(1, vessels['JUP Vessel'])],
-                                        'equipment': [(1, equipments['drilling rigs'], 0)]}
+    # phase.op_ve[4].ve_combination[3] = {'vessel': [(1, vessels['JUP Vessel'])],
+    #                                     'equipment': [(1, equipments['drilling rigs'], 0)]} # STILL NOT IN DB!!!!!!!!!
 
 
     return phase
