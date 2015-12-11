@@ -133,11 +133,15 @@ if inputs_SV_LD == "save":
     ports = load_port_data(database_file("logisticsDB_ports_python.xlsx"))
 
     #upstream module inputs/outputs
-    user_inputs = load_user_inputs(database_file("inputs_user.xlsx"))
-    hydrodynamic_outputs = load_hydrodynamic_outputs(database_file("ouputs_hydrodynamic.xlsx"))
-    electrical_outputs = load_electrical_outputs(database_file("ouputs_electrical.xlsx"))
-    MF_outputs = load_MF_outputs(database_file("outputs_MF.xlsx"))
-    # OM_outputs = load_OM_outputs(database_file("outputs_OM.xlsx"))
+    site, metocean, device, sub_device, landfall = load_user_inputs(database_file("inputs_user.xlsx"))
+    
+    layout = load_hydrodynamic_outputs(database_file("ouputs_hydrodynamic.xlsx"))
+    
+    cp, dc, sc, cr, connectors, ep, e_config = load_electrical_outputs(database_file("ouputs_electrical.xlsx"))
+    
+    line, found = load_MF_outputs(database_file("outputs_MF.xlsx"))
+
+    # om = load_OM_outputs(database_file("outputs_OM.xlsx"))
 
     with open('objs.pickle', 'w') as f:
         pickle.dump([phase_order, schedule_OLC, vessels, equipments, ports, user_inputs, hydrodynamic_outputs, electrical_outputs, MF_outputs], f)
@@ -145,7 +149,11 @@ if inputs_SV_LD == "save":
 elif inputs_SV_LD == "load":
     # Getting back the objects:
     with open('objs.pickle') as f:
-        phase_order, schedule_OLC, vessels, equipments, ports, user_inputs, hydrodynamic_outputs, electrical_outputs, MF_outputs = pickle.load(f)
+        phase_order, schedule_OLC, vessels, equipments, ports,
+        site, metocean, device, sub_device, landfall,
+        layout,
+        cp, dc, sc, cr, connectors, ep, e_config,
+        line, found = pickle.load(f)
 
 else:
     print 'Invalid saveLoad option'
@@ -167,7 +175,8 @@ logPhase_install = logPhase_install_init(logOp, vessels, equipments)
 Determine the adequate installation logistic phase plan
 
 """
-install_plan = planning.install_plan(user_inputs, electrical_outputs, MF_outputs)
+install_plan = planning.install_plan(phase_order, user_inputs,
+                                     electrical_outputs, MF_outputs)
 
 # DUMMY-TO BE ERASED, install plan is constrained to F_driven because
 # we just have the F_driven characterized for now
@@ -192,7 +201,7 @@ install = {'plan': install_plan,
 
 if install['status'] == "pending":
    # loop over the number of layers of the installation plan
-   for x in range(len(install['plan'])):
+   for x in range(len(install['plan'])): # loop over the number of groups of logistic phases under the same timing assessment
        for y in range(len(install['plan'][x])):
            # extract the LogPhase ID to be evaluated from the installation plan
            log_phase_id = install['plan'][x][y]

@@ -37,15 +37,15 @@ def load_user_inputs(file_path_device):
     sub_device = excel.parse('sub_device', header=0, index_col=0)
     landfall = excel.parse('landfall', header=0, index_col=0)
 
-    # Splits the different dataset through different dict keys()
-    user_inputs = {'site': site,
-                   'metocean': metocean,
-                   'device': device,
-                   'sub_device': sub_device,
-                   'landfall': landfall
-                  }
+#    # Splits the different dataset through different dict keys()
+#    user_inputs = {'site': site,
+#                   'metocean': metocean,
+#                   'device': device,
+#                   'sub_device': sub_device,
+#                   'landfall': landfall
+#                  }
 
-    return user_inputs
+    return site, metocean, device, sub_device, landfall
 
 
 def load_hydrodynamic_outputs(file_path):
@@ -65,9 +65,9 @@ def load_hydrodynamic_outputs(file_path):
     excel = pd.ExcelFile(file_path)
 
     # Collect data from a particular tab
-    hydrodynamic_outputs = excel.parse('Units', header=0, index_col=0)
+    layout = excel.parse('Units', header=0, index_col=0)
 
-    return hydrodynamic_outputs
+    return layout
 
 
 def load_electrical_outputs(file_path):
@@ -87,25 +87,25 @@ def load_electrical_outputs(file_path):
     excel = pd.ExcelFile(file_path)
 
     # Collect data from a particular tab
-    collection_point = excel.parse('collection point', header=0, index_col=0)
-    dynamic_cable = excel.parse('dynamic cable', header=0, index_col=0)
-    static_cable = excel.parse('static cable', header=0, index_col=0)
-    cable_route = excel.parse('cable route', header=0, index_col=0)
+    cp = excel.parse('collection point', header=0, index_col=0)
+    dc = excel.parse('dynamic cable', header=0, index_col=0)
+    sc = excel.parse('static cable', header=0, index_col=0)
+    cr = excel.parse('cable route', header=0, index_col=0)
     connectors = excel.parse('connectors', header=0, index_col=0)
-    external_protection = excel.parse('external protection', header=0, index_col=0)
-    layout = excel.parse('layout', header=0, index_col=0)
+    ep = excel.parse('external protection', header=0, index_col=0)
+    e_config = excel.parse('layout', header=0, index_col=0)
 
-    # Splits the different dataset through different dict keys()
-    electrical_outputs = {'collection point': collection_point,
-                          'dynamic cable': dynamic_cable,
-                          'static cable': static_cable,
-                          'cable route': cable_route,
-                          'connectors': connectors,
-                          'external protection': external_protection,
-                          'layout': layout
-                          }
+#    # Splits the different dataset through different dict keys()
+#    electrical_outputs = {'collection point': collection_point,
+#                          'dynamic cable': dynamic_cable,
+#                          'static cable': static_cable,
+#                          'cable route': cable_route,
+#                          'connectors': connectors,
+#                          'external protection': external_protection,
+#                          'layout': layout
+#                          }
 
-    return electrical_outputs
+    return cp, dc, sc, cr, connectors, ep, e_config
 
 
 def load_MF_outputs(file_path):
@@ -126,14 +126,14 @@ def load_MF_outputs(file_path):
 
     # Collect data from a particular tab
     line = excel.parse('line', header=0, index_col=0)
-    foundation = excel.parse('foundation', header=0, index_col=0)
+    found = excel.parse('foundation', header=0, index_col=0)
 
-    # Splits the different dataset through different dict keys()
-    MF_outputs = {'line': line,
-                  'foundation': foundation,
-                  }
+#    # Splits the different dataset through different dict keys()
+#    MF_outputs = {'line': line,
+#                  'foundation': foundation,
+#                  }
 
-    return MF_outputs
+    return line, found
 
 
 def load_OM_outputs(file_path):
@@ -153,6 +153,6 @@ def load_OM_outputs(file_path):
     excel = pd.ExcelFile(file_path)
 
     # Collect data from a particular tab
-    OM_outputs = excel.parse('OM', header=0, index_col=0)
+    om = excel.parse('OM', header=0, index_col=0)
 
-    return OM_outputs
+    return om
