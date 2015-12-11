@@ -218,53 +218,11 @@ if install['status'] == "pending":
            # cost assessment of the different operation sequenc
            install['cost'], log_phase = cost(install, log_phase)
 
-           # TO DO -> risk and enviromental impact
-
-
-
-
-
-# if __name__ == "__main__":
-#             install = {'plan': install_plan,
-#            'port': install_port,
-#            'requirement': {},
-#            'eq_select': {},
-#            've_select': {},
-#            'combi_select': {},
-#            'schedule': {},
-#            'cost': {},
-#            'risk': {},
-#            'envir': {},
-#            'status': "pending"}
-#
-# if install['status'] == "pending":
-#     # loop over the number of layers of the installation plan
-#     for x in range(len(install['plan'])):
-#         for y in range(len(install['plan'][x])):
-#             # extract the LogPhase ID to be evaluated from the installation plan
-#             log_phase_id = install['plan'][x][y]
-#             log_phase = logPhase_install[log_phase_id]
-#             # characterize the logistic requirements
-#             install['requirement'] = glob_feas(log_phase, log_phase_id,
-#                                                user_inputs, hydrodynamic_outputs,
-#                                                electrical_outputs, MF_outputs)
-#
-#             # selection of the maritime infrastructure
-#             install['eq_select'], log_phase = select_e(install, log_phase)
-#             install['ve_select'], log_phase = select_v(install, log_phase)
-#
-#             # matching requirements for combinations of port/vessel(s)/equipment
-#             # install['combi_select'] = compatibility_vp(install, log_phase)
-#             install['combi_select'], log_phase = compatibility_ve(install, log_phase)
-#
-#             # schedule assessment of the different operation sequence
-#             install['schedule'], log_phase = sched(x, install, log_phase, user_inputs, hydrodynamic_outputs, electrical_outputs, MF_outputs)
-#
-#             # cost assessment of the different operation sequenc
-#             install['cost'], log_phase = cost(install, log_phase)
-#
-#             # TO DO -> risk and enviromental impact
-#
-# #
-# #if __name__ == "__main__":
-# #    run()
+           # TO DO
+               # -> finish Matching
+               # -> Ship Routing Algorithm
+               # -> Port Choice
+               # -> Planning
+               # -> Weather Window
+               # -> Performance Evaluation
+               # -> Risk Analysis
