@@ -160,7 +160,7 @@ else:
 logOp = logOp_init(database_file("operations_time_OLC.xlsx"))
 
 
-logPhase_install = logPhase_install_init(logOp, vessels, equipments)
+logPhase_install = logPhase_install_init(logOp, vessels, equipments, user_inputs, electrical_outputs, MF_outputs)
 #logPhase_OM = logPhase_OM_init(logOp, vessels, equipments)
 
 """

@@ -19,15 +19,17 @@ from .e_export import initialize_e_export_phase
 from .e_array import initialize_e_array_phase
 from .e_cp import initialize_e_cp_phase
 
-from .f_driven import initialize_f_drive_phase
-from .f_gravity import initialize_f_gravity_phase
+from .Driven import initialize_drive_phase
+from .Gravity import initialize_gravity_phase
 
-from .moorings import initialize_moorings_phase
+from .M_Drag import initialize_m_drag_phase
+from .M_Direct import initialize_m_direct_phase
+from .M_Suction import initialize_m_suction_phase
 
 from .devices import initialize_devices_phase
 
 
-def logPhase_install_init(log_op, vessels, equipments):
+def logPhase_install_init(log_op, vessels, equipments, user_inputs, electrical_outputs, MF_outputs):
     """This function initializes and characterizes all logistic phases associated
     with the installation module. The first step uses LogPhase class to initialize
     each class with a key ID and description, the second step uses the DefPhase
@@ -61,15 +63,17 @@ def logPhase_install_init(log_op, vessels, equipments):
     # 1st Level - Initialize the logistic phases through LogPhase classes
 
     logPhase_install = {
-                        'E_export': initialize_e_export_phase(log_op, vessels, equipments)
-                        , 'E_array': initialize_e_array_phase(log_op, vessels, equipments)
-                        , 'E_cp': initialize_e_cp_phase(log_op, vessels, equipments)
+                        'E_export': initialize_e_export_phase(log_op, vessels, equipments, electrical_outputs)
+                        , 'E_array': initialize_e_array_phase(log_op, vessels, equipments, electrical_outputs)
+                        , 'E_cp': initialize_e_cp_phase(log_op, vessels, equipments, electrical_outputs)
 
-                        , 'F_driven': initialize_f_drive_phase(log_op, vessels, equipments)
-                        , 'F_gravity': initialize_f_gravity_phase(log_op, vessels, equipments)
-                        , 'Moorings': initialize_moorings_phase(log_op, vessels, equipments)
+                        , 'Driven': initialize_drive_phase(log_op, vessels, equipments)
+                        , 'Gravity': initialize_gravity_phase(log_op, vessels, equipments, MF_outputs)
+                        , 'M_Drag': initialize_m_drag_phase(log_op, vessels, equipments)
+                        , 'M_Direct': initialize_m_direct_phase(log_op, vessels, equipments, MF_outputs)
+                        , 'M_Suction': initialize_m_suction_phase(log_op, vessels, equipments)
 
-                        , 'Devices': initialize_devices_phase(log_op, vessels, equipments)
+                        , 'Devices': initialize_devices_phase(log_op, vessels, equipments, user_inputs)
                         }
 
     return logPhase_install

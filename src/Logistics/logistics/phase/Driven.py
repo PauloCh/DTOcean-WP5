@@ -1,7 +1,7 @@
 from .classes import DefPhase, LogPhase
 
 
-def initialize_f_drive_phase(log_op, vessels, equipments):
+def initialize_drive_phase(log_op, vessels, equipments):
     phase = LogPhase(110, "Installation of driven piles foundations")
 
     phase.op_ve[0] = DefPhase(1, 'Drilling')

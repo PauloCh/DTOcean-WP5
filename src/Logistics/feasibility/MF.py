@@ -71,7 +71,7 @@ def MF_feas(log_phase, log_phase_id, hydrodynamic_outputs, MF_outputs):
         moo_line_len_u_f = []  # list of area occupied by each foundation per unit
         moo_mass_u_f = []  # list of area occupied by each foundation per unit
         for ind_found in range(fundt_num, fundt_num+found_per_dev):
-            load_u_f[len(load_u_f):] = [MF_outputs['foundation']['length [m]'].ix[ind_found] * MF_outputs['foundation']['width [m]'].ix[ind_found] / MF_outputs['foundation']['dry mass [kg]'].ix[ind_found]]
+            load_u_f[len(load_u_f):] = [MF_outputs['foundation']['dry mass [kg]'].ix[ind_found] / (MF_outputs['foundation']['length [m]'].ix[ind_found] * MF_outputs['foundation']['width [m]'].ix[ind_found])]
             cargo_u_f[len(load_u_f):] = [MF_outputs['foundation']['dry mass [kg]'].ix[ind_found]]
             area_u_f[len(area_u_f):] = [MF_outputs['foundation']['length [m]'].ix[ind_found] * MF_outputs['foundation']['width [m]'].ix[ind_found]]
             diam_u_f[len(diam_u_f):] = [MF_outputs['foundation']['length [m]'].ix[ind_found]]
@@ -98,7 +98,7 @@ def MF_feas(log_phase, log_phase_id, hydrodynamic_outputs, MF_outputs):
     max_moomass = max(moo_mass_u)
 
 
-    if log_phase_id == 'Moorings':
+    if log_phase_id == 'M_Drag' or log_phase_id == 'M_Direct':
 
         # Equipment and vessel feasiblity
 
@@ -188,7 +188,7 @@ def MF_feas(log_phase, log_phase_id, hydrodynamic_outputs, MF_outputs):
 
 
 
-    elif log_phase_id == 'F_gravity':
+    elif log_phase_id == 'Gravity':
 
         # Equipment and vessel feasiblity
 
@@ -258,7 +258,7 @@ def MF_feas(log_phase, log_phase_id, hydrodynamic_outputs, MF_outputs):
 
 
 
-    elif log_phase_id == 'F_driven':
+    elif log_phase_id == 'Driven':
 
         # Equipment and vessel feasiblity
 
@@ -282,7 +282,9 @@ def MF_feas(log_phase, log_phase_id, hydrodynamic_outputs, MF_outputs):
                            ['Crane capacity [t]', 'sup', deck_cargo],
                            ['DP [yes/no]', 'equal', 'yes'],
                            ['ROV inspection [yes/no]', 'equal', 'yes'],
-                           ['ROV workclass [yes/no]', 'equal', 'yes']],
+                           ['ROV workclass [yes/no]', 'equal', 'yes'],
+                           ['JackUp max payload [t]', 'sup', deck_cargo],
+                           ['JackUp max water depth [m]', 'sup', max_depth]],
                   'CSV': [['Deck loading [t/m^2]', 'sup', deck_loading],
                            ['Max. cargo [t]', 'sup', deck_cargo],
                            ['Deck space [m^2]', 'sup', deck_area],
@@ -296,21 +298,24 @@ def MF_feas(log_phase, log_phase_id, hydrodynamic_outputs, MF_outputs):
                            ['Crane capacity [t]', 'sup', deck_cargo],
                            ['DP [yes/no]', 'equal', 'yes'],
                            ['ROV inspection [yes/no]', 'equal', 'yes'],
-                           ['ROV workclass [yes/no]', 'equal', 'yes']],
-                  'Tugboat': [['AH winch rated pull [t]', 'sup', max_linelength],
-                           ['AH drum capacity [m]', 'sup', max_moomass]]}
+                           ['ROV workclass [yes/no]', 'equal', 'yes'],
+                           ['JackUp max payload [t]', 'sup', deck_cargo],
+                           ['JackUp max water depth [m]', 'sup', max_depth]],
+                  'Tugboat': [['Bollard pull [t]', 'sup', max_moomass]]}
 
         # Matching
 
         feas_m_pv = {'JUP Vessel': [['Beam [m]', 'sup', 'Entrance width [m]'],
                           ['Length [m]', 'sup', 'Terminal length [m]'],
-                          ['Max. draft [m]', 'sup', 'Terminal draught [m]']],
+                          ['Max. draft [m]', 'sup', 'Terminal draught [m]'],
+                          ['Jacking capability [yes/no]','equal','yes']],
                      'CSV': [['Beam [m]', 'sup', 'Entrance width [m]'],
                           ['Length [m]', 'sup', 'Terminal length [m]'],
                           ['Max. draft [m]', 'sup', 'Terminal draught [m]']],
                      'JUP Barge': [['Beam [m]', 'sup', 'Entrance width [m]'],
                           ['Length [m]', 'sup', 'Terminal length [m]'],
-                          ['Max. draft [m]', 'sup', 'Terminal draught [m]']],
+                          ['Max. draft [m]', 'sup', 'Terminal draught [m]'],
+                          ['Jacking capability [yes/no]','equal','yes']],
                      'Tugboat': [['Beam [m]', 'sup', 'Entrance width [m]'],
                           ['Length [m]', 'sup', 'Terminal length [m]'],
                           ['Max. draft [m]', 'sup', 'Terminal draught [m]']]}

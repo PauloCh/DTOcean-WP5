@@ -34,9 +34,69 @@ def user_inputs_feas(log_phase, log_phase_id, user_inputs):
      dictionnary containing all logistic requirements associated with every
      vessel type of the logistic phase under consideration
     """    
-    deck_loading = user_inputs['device']['length [m]'].ix[0] * user_inputs['device']['width [m]'].ix[0] / user_inputs['device']['drymass [kg]'].ix[0]
+    deck_cargo = user_inputs['device']['drymass [kg]'].ix[0]
+    deck_loading = user_inputs['device']['drymass [kg]'].ix[0] / (user_inputs['device']['length [m]'].ix[0] * user_inputs['device']['width [m]'].ix[0])
     deck_area = user_inputs['device']['length [m]'].ix[0] * user_inputs['device']['width [m]'].ix[0]
-    feasibility = {'equipment': [],
-                   'vessel': {'Deck loading [t/m^2]': ['Sup', 'all', deck_loading],
-                              'Deck area [m^2]': ['Sup', 'all', deck_area]}}
-    return feasibility
+
+
+    # Equipment and vessel feasiblity
+
+    feas_e = {'rov': [['Depth rating [m]', 'sup', max_depth]],
+                      'divers': [['Max operating depth [m]', 'sup', max_depth]]}
+
+    feas_v = {'JUP Vessel': [['Deck loading [t/m^2]', 'sup', deck_loading],
+                           ['Max. cargo [t]', 'sup', deck_cargo],
+                           ['Deck space [m^2]', 'sup', deck_area],
+                           ['Crane capacity [t]', 'sup', deck_cargo],
+                           ['DP [yes/no]', 'equal', 'yes'],
+                           ['ROV inspection [yes/no]', 'equal', 'yes'],
+                           ['ROV workclass [yes/no]', 'equal', 'yes'],
+                           ['JackUp max payload [t]', 'sup', deck_cargo],
+                           ['JackUp max water depth [m]', 'sup', max_depth]],
+                  'CSV': [['Deck loading [t/m^2]', 'sup', deck_loading],
+                           ['Max. cargo [t]', 'sup', deck_cargo],
+                           ['Deck space [m^2]', 'sup', deck_area],
+                           ['Crane capacity [t]', 'sup', deck_cargo],
+                           ['DP [yes/no]', 'equal', 'yes'],
+                           ['ROV inspection [yes/no]', 'equal', 'yes'],
+                           ['ROV workclass [yes/no]', 'equal', 'yes']],
+                  'JUP Barge': [['Deck loading [t/m^2]', 'sup', deck_loading],
+                           ['Max. cargo [t]', 'sup', deck_cargo],
+                           ['Deck space [m^2]', 'sup', deck_area],
+                           ['Crane capacity [t]', 'sup', deck_cargo],
+                           ['DP [yes/no]', 'equal', 'yes'],
+                           ['ROV inspection [yes/no]', 'equal', 'yes'],
+                           ['ROV workclass [yes/no]', 'equal', 'yes'],
+                           ['JackUp max payload [t]', 'sup', deck_cargo],
+                           ['JackUp max water depth [m]', 'sup', max_depth]],
+                  'Tugboat': [['Bollard pull [t]', 'sup', deck_cargo]]}
+
+
+
+    # Matching
+
+    feas_m_pv = {'JUP Vessel': [['Beam [m]', 'sup', 'Entrance width [m]'],
+                      ['Length [m]', 'sup', 'Terminal length [m]'],
+                      ['Max. draft [m]', 'sup', 'Terminal draught [m]'],
+                      ['Jacking capability [yes/no]','equal','yes']],
+                 'CSV': [['Beam [m]', 'sup', 'Entrance width [m]'],
+                      ['Length [m]', 'sup', 'Terminal length [m]'],
+                      ['Max. draft [m]', 'sup', 'Terminal draught [m]']],
+                 'JUP Barge': [['Beam [m]', 'sup', 'Entrance width [m]'],
+                      ['Length [m]', 'sup', 'Terminal length [m]'],
+                      ['Max. draft [m]', 'sup', 'Terminal draught [m]'],
+                      ['Jacking capability [yes/no]','equal','yes']],
+                 'Tugboat': [['Beam [m]', 'sup', 'Entrance width [m]'],
+                      ['Length [m]', 'sup', 'Terminal length [m]'],
+                      ['Max. draft [m]', 'sup', 'Terminal draught [m]']]}
+
+    feas_m_pe = {'rov': [['Length [m]', 'mul', 'Width [m]', 'plus', 'AE footprint [m^2]', 'sup', 'Terminal area [m^2]'],
+              ['Weight [t]', 'plus', 'AE weight [t]', 'div', 'Length [m]', 'mul', 'Width [m]', 'sup', 'Terminal load bearing [t/m^2]']]}
+
+    feas_m_ve = {'rov': [['Length [m]', 'mul', 'Width [m]', 'plus', 'AE footprint [m^2]', 'sup', 'Deck space [m^2]'],
+              ['Weight [t]', 'plus', 'AE weight [t]', 'sup', 'Max. cargo [t]'],
+              ['Weight [t]', 'plus', 'AE weight [t]', 'div', 'Length [m]', 'mul', 'Width [m]', 'sup', 'Deck loading [t/m^2]'],
+                  ['Weight [t]', 'sup', 'AH winch rated pull [t]']]}
+
+
+    return feas_e, feas_v, feas_m_pv, feas_m_pe, feas_m_ve

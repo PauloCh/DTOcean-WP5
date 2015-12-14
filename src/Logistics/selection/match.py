@@ -275,6 +275,8 @@ def compatibility_ve(install, log_phase, port_data):
                                aux_op = aux_op / m_e_pd[m_eq_ind][m_ev_read[ind_rd+1]]
                            elif m_ev_read[ind_rd] == 'sup':
                                m_ev_sol = m_v_pd[ m_v_pd[m_ves_ind][m_ev_read[ind_rd+1]]  >= aux_op ]
+                           elif m_ev_read[ind_rd] == 'equal':
+                               m_ev_sol = m_v_pd[ m_v_pd[m_ves_ind][m_ev_read[ind_rd+1]]  == aux_op ]
 
 
     for seq in range(len(log_phase.op_ve)):

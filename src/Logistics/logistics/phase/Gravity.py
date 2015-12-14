@@ -1,7 +1,7 @@
 from .classes import DefPhase, LogPhase
 
 
-def initialize_f_gravity_phase(log_op, vessels, equipments):
+def initialize_gravity_phase(log_op, vessels, equipments, MF_outputs):
     phase = LogPhase(112, "Installation of gravity based foundations")
 
     phase.op_ve[0] = DefPhase(1, 'Gravity based anchor installation with on deck transportation')
