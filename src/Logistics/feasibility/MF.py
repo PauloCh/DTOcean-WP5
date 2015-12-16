@@ -98,7 +98,8 @@ def MF_feas(log_phase, log_phase_id, hydrodynamic_outputs, MF_outputs):
     max_moomass = max(moo_mass_u)
 
 
-    if log_phase_id == 'M_Drag' or log_phase_id == 'M_Direct':
+    # ***********************************************************************************************************************
+    if log_phase_id == 'M_Drag' or log_phase_id == 'M_Direct' or log_phase_id == 'M_Suction': # ??!?!?!?!?!??!?!?!?!?!?!?!?!?!?!?
 
         # Equipment and vessel feasiblity
 
@@ -186,8 +187,7 @@ def MF_feas(log_phase, log_phase_id, hydrodynamic_outputs, MF_outputs):
 
 
 
-
-
+    # ***********************************************************************************************************************
     elif log_phase_id == 'Gravity':
 
         # Equipment and vessel feasiblity
@@ -257,7 +257,7 @@ def MF_feas(log_phase, log_phase_id, hydrodynamic_outputs, MF_outputs):
 
 
 
-
+    # ***********************************************************************************************************************
     elif log_phase_id == 'Driven':
 
         # Equipment and vessel feasiblity

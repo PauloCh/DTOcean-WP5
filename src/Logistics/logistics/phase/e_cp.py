@@ -1,7 +1,7 @@
 from .classes import DefPhase, LogPhase
 
 
-def initialize_e_cp_phase(log_op, vessels, equipments):
+def initialize_e_cp_phase(log_op, vessels, equipments, electrical_outputs):
     phase = LogPhase(102, "Installation of offshore electrical collection point")
 
 #    phase.op_ve[0] = DefPhase(1, 'Drilling')

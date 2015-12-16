@@ -1,7 +1,7 @@
 from .classes import DefPhase, LogPhase
 
 
-def initialize_e_array_phase(log_op, vessels, equipments):
+def initialize_e_array_phase(log_op, vessels, equipments, electrical_outputs):
     phase = LogPhase(101, "Installation of static subsea inter-array power cables")
 
 #    phase.op_ve[0] = DefPhase(1, 'Drilling')

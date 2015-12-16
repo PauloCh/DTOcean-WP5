@@ -9,26 +9,27 @@ def initialize_devices_phase(log_op, vessels, equipments, user_inputs):
     trans_methd = user_inputs['device']['transportation method [-]']
     loadout_methd = user_inputs['device']['load out [-]']
 
-    phase.op_ve[0].op_sequence = [log_op["Mob"],
+
+    if dev_type == 'floating':
+
+        phase.op_ve[0] = DefPhase(1, 'Floating Device')
+
+        phase.op_ve[0].op_sequence = [log_op["Mob"],
                                   log_op["AssPort"],
                                   log_op["VessPrep"],
                                   log_op["TranPortSite"],
                                   log_op["SeafloorEquipPrep"],
                                   log_op["DevAssPort"]]
 
-
-
-    if dev_type == 'floating':
-
         if trans_methd == 'on-deck':
 
             if loadout_methd == 'lifted':
 
-                phase.op_ve[0] = DefPhase(1, 'Floating_TransportDeck_Lifted')
-                phase.op_ve[0].op_sequence.apend = [log_op["LoadOut_Lift"],
+                # phase.op_ve[0] = DefPhase(1, 'Floating_TransportDeck_Lifted')
+                phase.op_ve[0].op_sequence.extend([log_op["LoadOut_Lift"],
                                               log_op["DeckTrans"],
                                               log_op["PosFLTdev"],
-                                              ]
+                                              ])
 
                 phase.op_ve[0].ve_combination[0] = {'vessel': [(1, vessels['Crane Vessel']), (1, vessels['Multicat'])],
                                                     'equipment': [(1, equipments['rov'], 0), (1, equipments['divers'], 0)]}
@@ -52,10 +53,10 @@ def initialize_devices_phase(log_op, vessels, equipments, user_inputs):
 
             if loadout_methd == 'skidded':
 
-                    phase.op_ve[0] = DefPhase(1, 'Floating_TransportDeck_Skidded')
-                    phase.op_ve[0].op_sequence.apend = [log_op["LoadOut_Skidded"],
+                    # phase.op_ve[0] = DefPhase(1, 'Floating_TransportDeck_Skidded')
+                    phase.op_ve[0].op_sequence.extend([log_op["LoadOut_Skidded"],
                                                   log_op["DeckTrans"],
-                                                  log_op["PosFLTdev"]]
+                                                  log_op["PosFLTdev"]])
 
                     phase.op_ve[0].ve_combination[0] = {'vessel': [(1, vessels['Crane Vessel']), (1, vessels['Multicat'])],
                                                         'equipment': [(1, equipments['rov'], 0), (1, equipments['divers'], 0)]}
@@ -83,10 +84,10 @@ def initialize_devices_phase(log_op, vessels, equipments, user_inputs):
 
                 if loadout_methd == 'lifted':
 
-                    phase.op_ve[0] = DefPhase(1, 'Floating_TransportTowingQuay_Lifted')
-                    phase.op_ve[0].op_sequence.apend = [log_op["LoadOut_Lift"],
+                    # phase.op_ve[0] = DefPhase(1, 'Floating_TransportTowingQuay_Lifted')
+                    phase.op_ve[0].op_sequence.extend([log_op["LoadOut_Lift"],
                                                   log_op["TowTrans"],
-                                                  log_op["PosFLTdev"]]
+                                                  log_op["PosFLTdev"]])
 
                     phase.op_ve[0].ve_combination[0] = {'vessel': [(1, vessels['AHTS']), (1, vessels['Multicat'])],
                                                         'equipment': [(1, equipments['rov'], 0), (1, equipments['divers'], 0)]}
@@ -101,10 +102,10 @@ def initialize_devices_phase(log_op, vessels, equipments, user_inputs):
 
                 if loadout_methd == 'skidded':
 
-                    phase.op_ve[0] = DefPhase(1, 'Floating_TransportTowingQuay_Skidded')
-                    phase.op_ve[0].op_sequence.apend = [log_op["LoadOut_Skidded"],
+                    # phase.op_ve[0] = DefPhase(1, 'Floating_TransportTowingQuay_Skidded')
+                    phase.op_ve[0].op_sequence.extend([log_op["LoadOut_Skidded"],
                                                   log_op["TowTrans"],
-                                                  log_op["PosFLTdev"]]
+                                                  log_op["PosFLTdev"]])
 
                     phase.op_ve[0].ve_combination[0] = {'vessel': [(1, vessels['AHTS']), (1, vessels['Multicat'])],
                                                         'equipment': [(1, equipments['rov'], 0), (1, equipments['divers'], 0)]}
@@ -119,9 +120,9 @@ def initialize_devices_phase(log_op, vessels, equipments, user_inputs):
 
             if assmbly_methd == 'dry-dock':
 
-                phase.op_ve[0] = DefPhase(1, 'Floating_TransportTowingDryDock')
-                phase.op_ve[0].op_sequence.apend = [log_op["TowTrans"],
-                                              log_op["PosFLTdev"]]
+                # phase.op_ve[0] = DefPhase(1, 'Floating_TransportTowingDryDock')
+                phase.op_ve[0].op_sequence.extend([log_op["TowTrans"],
+                                              log_op["PosFLTdev"]])
 
 
                 phase.op_ve[0].ve_combination[0] = {'vessel': [(1, vessels['AHTS']), (1, vessels['Multicat'])],
@@ -139,13 +140,22 @@ def initialize_devices_phase(log_op, vessels, equipments, user_inputs):
 
     if dev_type == 'fixed':
 
+        phase.op_ve[0] = DefPhase(1, 'Fixed Device')
+
+        phase.op_ve[0].op_sequence = [log_op["Mob"],
+                                  log_op["AssPort"],
+                                  log_op["VessPrep"],
+                                  log_op["TranPortSite"],
+                                  log_op["SeafloorEquipPrep"],
+                                  log_op["DevAssPort"]]
+
         if trans_methd == 'towing':
 
             if assmbly_methd == 'dry-dock':
 
-                phase.op_ve[0] = DefPhase(1, 'BottomFixed_TransportTowingDryDock')
-                phase.op_ve[0].op_sequence.apend = [log_op["TowTrans"],
-                                              log_op["PosBFdev"]]
+                # phase.op_ve[0] = DefPhase(1, 'BottomFixed_TransportTowingDryDock')
+                phase.op_ve[0].op_sequence.extend([log_op["TowTrans"],
+                                              log_op["PosBFdev"]])
 
                 phase.op_ve[0].ve_combination[0] = {'vessel': [(1, vessels['AHTS']), (1, vessels['Multicat'])],
                                                     'equipment': [(1, equipments['rov'], 0), (1, equipments['divers'], 0)]}
@@ -159,9 +169,9 @@ def initialize_devices_phase(log_op, vessels, equipments, user_inputs):
 
             if assmbly_methd == 'quay':
 
-                phase.op_ve[0] = DefPhase(1, 'BottomFixed_TransportTowingQuay')
-                phase.op_ve[0].op_sequence.apend = [log_op["TowTrans"],
-                                              log_op["PosBFdev"]]
+                # phase.op_ve[0] = DefPhase(1, 'BottomFixed_TransportTowingQuay')
+                phase.op_ve[0].op_sequence.extend([log_op["TowTrans"],
+                                              log_op["PosBFdev"]])
 
                 phase.op_ve[0].ve_combination[0] = {'vessel': [(1, vessels['AHTS']), (1, vessels['Multicat'])],
                                                     'equipment': [(1, equipments['rov'], 0), (1, equipments['divers'], 0)]}
@@ -174,11 +184,11 @@ def initialize_devices_phase(log_op, vessels, equipments, user_inputs):
 
 
 
-        if trans_methd == 'deck':
+        if trans_methd == 'on-deck':
 
-            phase.op_ve[0] = DefPhase(1, 'BottomFixed_TransportDeck')
-            phase.op_ve[0].op_sequence.apend = [log_op["DeckTrans"],
-                                          log_op["PosBFdev"]]
+            # phase.op_ve[0] = DefPhase(1, 'BottomFixed_TransportDeck')
+            phase.op_ve[0].op_sequence.extend([log_op["DeckTrans"],
+                                          log_op["PosBFdev"]])
 
             phase.op_ve[0].ve_combination[0] = {'vessel': [(1, vessels['Crane Vessel']), (1, vessels['Multicat'])],
                                                 'equipment': [(1, equipments['rov'], 0), (1, equipments['divers'], 0)]}
@@ -201,9 +211,9 @@ def initialize_devices_phase(log_op, vessels, equipments, user_inputs):
 
 
 
-    phase.op_ve[0].op_sequence.apend = [log_op["TranSiteSite"],
+    phase.op_ve[0].op_sequence.extend([log_op["TranSiteSite"],
                                   log_op["TranSitePort"],
-                                  log_op["Demob"]]
+                                  log_op["Demob"]])
 
 
 

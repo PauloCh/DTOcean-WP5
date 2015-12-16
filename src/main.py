@@ -172,7 +172,7 @@ install_plan = planning.install_plan(user_inputs, electrical_outputs, MF_outputs
 # DUMMY-TO BE ERASED, install plan is constrained to F_driven because
 # we just have the F_driven characterized for now
 # install_plan = {0: ['F_driven']}
-install_plan = {0: ['Moorings']}
+install_plan = {0: ['Devices']}
 
 # Select the most appropriate base installation port
 # install_port = select_port.install_port(user_inputs, electrical_outputs, MF_outputs, ports)

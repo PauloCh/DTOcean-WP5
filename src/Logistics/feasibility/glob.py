@@ -31,7 +31,7 @@ def glob_feas(log_phase, log_phase_id, user_inputs, hydrodynamic_outputs, electr
     
     if any(log_phase_id in s for s in ['E_export', 'E_array', 'E_cp']):
         feasibility = electrical_feas(log_phase, log_phase_id, electrical_outputs)
-    elif any(log_phase_id in s for s in ['F_driven', 'F_gravity', 'Moorings']):
+    elif any(log_phase_id in s for s in ['Driven', 'Gravity', 'M_Drag', 'M_Direct', 'M_Suction']):
         feasibility = MF_feas(log_phase, log_phase_id, hydrodynamic_outputs, MF_outputs)
     elif any(log_phase_id in s for s in ['Devices']):
         feasibility = user_inputs_feas(log_phase, log_phase_id, user_inputs)

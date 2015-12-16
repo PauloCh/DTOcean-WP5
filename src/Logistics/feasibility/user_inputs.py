@@ -34,15 +34,29 @@ def user_inputs_feas(log_phase, log_phase_id, user_inputs):
      dictionnary containing all logistic requirements associated with every
      vessel type of the logistic phase under consideration
     """    
-    deck_cargo = user_inputs['device']['drymass [kg]'].ix[0]
-    deck_loading = user_inputs['device']['drymass [kg]'].ix[0] / (user_inputs['device']['length [m]'].ix[0] * user_inputs['device']['width [m]'].ix[0])
-    deck_area = user_inputs['device']['length [m]'].ix[0] * user_inputs['device']['width [m]'].ix[0]
+
+    # dev_type = user_inputs['device']['type [-]']
+    assmbly_methd = user_inputs['device']['assembly strategy [-]']
+    # trans_methd = user_inputs['device']['transportation method [-]']
+    # loadout_methd = user_inputs['device']['load out [-]']
+
+    if assmbly_methd == '[A,B,C]': # all devices assumed the same
+        deck_area = user_inputs['device']['length [m]'].ix[0] * user_inputs['device']['width [m]'].ix[0]
+        deck_cargo = user_inputs['device']['dry mass [kg]'].ix[0]
+        deck_loading = user_inputs['device']['dry mass [kg]'].ix[0] / (user_inputs['device']['length [m]'].ix[0] * user_inputs['device']['width [m]'].ix[0])
+
+    elif assmbly_methd == '[A,B,C],D':
+        deck_area = sum(user_inputs['sub_device']['length [m]'].ix[0] * user_inputs['sub_device']['width [m]'].ix[0])
+        deck_cargo = sum(user_inputs['sub_device']['dry mass [kg]'].ix[0])
+        deck_loading = sum(user_inputs['sub_device']['dry mass [kg]'].ix[0] / (user_inputs['sub_device']['length [m]'].ix[0] * user_inputs['sub_device']['width [m]'].ix[0]))
+
 
 
     # Equipment and vessel feasiblity
 
-    feas_e = {'rov': [['Depth rating [m]', 'sup', max_depth]],
-                      'divers': [['Max operating depth [m]', 'sup', max_depth]]}
+    feas_e = {}
+    # feas_e = {'rov': [['Depth rating [m]', 'sup', max_depth]], # ????????????????????????????????????????????????????
+    #                   'divers': [['Max operating depth [m]', 'sup', max_depth]]} # ????????????????????????????????????????????????????
 
     feas_v = {'JUP Vessel': [['Deck loading [t/m^2]', 'sup', deck_loading],
                            ['Max. cargo [t]', 'sup', deck_cargo],
@@ -51,8 +65,9 @@ def user_inputs_feas(log_phase, log_phase_id, user_inputs):
                            ['DP [yes/no]', 'equal', 'yes'],
                            ['ROV inspection [yes/no]', 'equal', 'yes'],
                            ['ROV workclass [yes/no]', 'equal', 'yes'],
-                           ['JackUp max payload [t]', 'sup', deck_cargo],
-                           ['JackUp max water depth [m]', 'sup', max_depth]],
+                           ['JackUp max payload [t]', 'sup', deck_cargo]
+                           # , ['JackUp max water depth [m]', 'sup', max_depth] # ????????????????????????????????????????????????????
+                             ],
                   'CSV': [['Deck loading [t/m^2]', 'sup', deck_loading],
                            ['Max. cargo [t]', 'sup', deck_cargo],
                            ['Deck space [m^2]', 'sup', deck_area],
@@ -67,8 +82,9 @@ def user_inputs_feas(log_phase, log_phase_id, user_inputs):
                            ['DP [yes/no]', 'equal', 'yes'],
                            ['ROV inspection [yes/no]', 'equal', 'yes'],
                            ['ROV workclass [yes/no]', 'equal', 'yes'],
-                           ['JackUp max payload [t]', 'sup', deck_cargo],
-                           ['JackUp max water depth [m]', 'sup', max_depth]],
+                           ['JackUp max payload [t]', 'sup', deck_cargo]
+                           # , ['JackUp max water depth [m]', 'sup', max_depth] # ????????????????????????????????????????????????????
+                                ],
                   'Tugboat': [['Bollard pull [t]', 'sup', deck_cargo]]}
 
 
@@ -90,7 +106,7 @@ def user_inputs_feas(log_phase, log_phase_id, user_inputs):
                       ['Length [m]', 'sup', 'Terminal length [m]'],
                       ['Max. draft [m]', 'sup', 'Terminal draught [m]']]}
 
-    feas_m_pe = {'rov': [['Length [m]', 'mul', 'Width [m]', 'plus', 'AE footprint [m^2]', 'sup', 'Terminal area [m^2]'],
+    feas_m_pe = {'rov': [['length [m]', 'mul', 'width [m]', 'plus', 'AE footprint [m^2]', 'sup', 'Terminal area [m^2]'],
               ['Weight [t]', 'plus', 'AE weight [t]', 'div', 'Length [m]', 'mul', 'Width [m]', 'sup', 'Terminal load bearing [t/m^2]']]}
 
     feas_m_ve = {'rov': [['Length [m]', 'mul', 'Width [m]', 'plus', 'AE footprint [m^2]', 'sup', 'Deck space [m^2]'],
