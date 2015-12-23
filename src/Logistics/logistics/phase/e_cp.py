@@ -1,67 +1,52 @@
 from .classes import DefPhase, LogPhase
 
-
 def initialize_e_cp_phase(log_op, vessels, equipments, electrical_outputs):
+
     phase = LogPhase(102, "Installation of offshore electrical collection point")
 
-#    phase.op_ve[0] = DefPhase(1, 'Drilling')
-#    phase.op_ve[0].op_sequence = [log_op["op1"],
-#                                  log_op["op2"],
-#                                  log_op["op3"],
-#                                  log_op["op4"],
-#                                  log_op["op5"],
-#                                  log_op["op_F1"],
-#                                  log_op["op_F7"],
-#                                  log_op["op6"],
-#                                  log_op["op7"],
-#                                  log_op["op8"]]
-#
-#    phase.op_ve[0].ve_combination[0] = {'vessel': [(1, vessels['Crane Barge']), (2, vessels['Tugboat'])],
-#                                        'equipment': [(1, equipments['Drill Rig'], 0)]}
-#
-#    phase.op_ve[0].ve_combination[1] = {'vessel': [(1, vessels['Crane Vessel'])],
-#                                        'equipment': [(1, equipments['Drill Rig'], 0)]}
-#
-#    phase.op_ve[0].ve_combination[2] = {'vessel': [(1, vessels['JUP Barge']), (2, vessels['Tugboat'])],
-#                                        'equipment': [(1, equipments['Drill Rig'], 0)]}
-#
-#    phase.op_ve[0].ve_combination[3] = {'vessel': [(1, vessels['JUP Vessel'])],
-#                                        'equipment': [(1, equipments['Drill Rig'], 0)]}
-#
-#    phase.op_ve[1] = DefPhase(2, 'Hammering')
-#    phase.op_ve[1].op_sequence = [log_op["op1"],
-#                                  log_op["op2"],
-#                                  log_op["op3"],
-#                                  log_op["op4"],
-#                                  log_op["op5"],
-#                                  log_op["op_F2"],
-#                                  log_op["op_F7"],
-#                                  log_op["op6"],
-#                                  log_op["op7"],
-#                                  log_op["op8"]]
-#
-#    phase.op_ve[1].ve_combination[0] = {'vessel': [(1, vessels['Crane Barge']), (2, vessels['Tugboat'])],
-#                                        'equipment': [(1, equipments['Hammer'], 0)]}
-#
-#    phase.op_ve[1].ve_combination[1] = {'vessel': [(1, vessels['Crane Vessel'])],
-#                                        'equipment': [(1, equipments['Hammer'], 0)]}
-#
-#    phase.op_ve[1].ve_combination[2] = {'vessel': [(1, vessels['JUP Barge']), (2, vessels['Tugboat'])],
-#                                        'equipment': [(1, equipments['Hammer'], 0)]}
-#
-#    phase.op_ve[1].ve_combination[3] = {'vessel': [(1, vessels['JUP Vessel'])],
-#                                        'equipment': [(1, equipments['Hammer'], 0)]}
-#
-#    phase.op_ve[2] = DefPhase(3, 'Vibro Pilling')
-#    phase.op_ve[2].op_sequence = [log_op["op1"],
-#                                  log_op["op2"],
-#                                  log_op["op3"],
-#                                  log_op["op4"],
-#                                  log_op["op5"],
-#                                  log_op["op_F3"],
-#                                  log_op["op_F7"],
-#                                  log_op["op6"],
-#                                  log_op["op7"],
-#                                  log_op["op8"]]
+    cp_db = electrical_outputs['device']['collection point']
+    cp_db = cp_db[cp_db['type [-]'] != 'surface piercing']
+    cp_db = cp_db[cp_db['downstream ei type [-]'] != 'hard-wired cable']
+
+    phase.op_ve[0] = DefPhase(1, 'All seabed collection points')
+
+    phase.op_ve[0].ve_combination[0] = {'vessel': [(1, vessels['Crane Vessel']), (1, vessels['Multicat'])],
+                                        'equipment': [(1, equipments['rov'], 0)]}
+
+    phase.op_ve[0].ve_combination[1] = {'vessel': [(1, vessels['Crane Barge']), (2, vessels['Tugboat']), (1, vessels['Multicat'])],
+                                        'equipment': [(1, equipments['rov'], 0)]}
+
+    phase.op_ve[0].ve_combination[2] = {'vessel': [(1, vessels['JUP Vessel']), (1, vessels['Multicat'])],
+                                        'equipment': [(1, equipments['rov'], 0)]}
+
+    phase.op_ve[0].ve_combination[3] = {'vessel': [(1, vessels['JUP Barge']), (2, vessels['Tugboat']), (1, vessels['Multicat'])],
+                                        'equipment': [(1, equipments['rov'], 0)]}
+
+    phase.op_ve[0].ve_combination[4] = {'vessel': [(1, vessels['CSV']), (1, vessels['Multicat'])],
+                                        'equipment': [(1, equipments['rov'], 0)]}
+
+    for index, row in cp_db.iterrows():
+
+        # initialize an empty operation sequence list for the 'index' collection point
+        phase.op_ve[0].op_sequence[index] = []
+
+        if cp_db['type [-]'].ix[index] == 'seabed':
+
+            if cp_db['upstream ei type [-]'].ix[index] == 'dry-mate':
+
+                for x in range(cp_db['upstream ei number [-]'].ix[index]):
+                    phase.op_ve[0].op_sequence[index].extend(log_op["LiftCable"])
+
+            if cp_db['dowstream ei type [-]'].ix[index] == 'dry-mate':
+
+                for x in range(cp_db['upstream ei number [-]'].ix[index]):
+                    phase.op_ve[0].op_sequence[index].extend(log_op["LiftCable"])
+
+            if cp_db['upstream ei type [-]'].ix[index] == 'dry-mate' or cp_db['dowstream ei type [-]'].ix[index] == 'dry-mate':
+                phase.op_ve[0].op_sequence[index].extend([ log_op["DryConnect"],
+                                                           log_op["LowerCP"] ])
+
+            else:  # meaning all electrical interfaces are wet-mate connected
+                phase.op_ve[0].op_sequence[index].extend(log_op["LowerCP"])
 
     return phase

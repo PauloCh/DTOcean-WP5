@@ -4,7 +4,15 @@ from .classes import DefPhase, LogPhase
 def initialize_e_export_phase(log_op, vessels, equipments, electrical_outputs):
     phase = LogPhase(100, "Installation of static subsea export power cables")
 
-    phase.op_ve[0] = DefPhase(1, 'Drilling')
+
+    phase.op_ve[0] = DefPhase(1, 'Surface Laying')
+
+    phase.op_ve[1] = DefPhase(1, 'Simultaneous Lay and Burial')
+
+    phase.op_ve[2] = DefPhase(1, 'Pre-lay Trenching')
+
+    phase.op_ve[3] = DefPhase(1, 'Post-Lay Burial')
+
 #    phase.op_ve[0].op_sequence = [log_op["op1"],
 #                                  log_op["op2"],
 #                                  log_op["op3"],

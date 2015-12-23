@@ -63,17 +63,17 @@ def logPhase_install_init(log_op, vessels, equipments, user_inputs, electrical_o
     # 1st Level - Initialize the logistic phases through LogPhase classes
 
     logPhase_install = {
-                        'E_export': initialize_e_export_phase(log_op, vessels, equipments, electrical_outputs)
-                        , 'E_array': initialize_e_array_phase(log_op, vessels, equipments, electrical_outputs)
-                        , 'E_cp': initialize_e_cp_phase(log_op, vessels, equipments, electrical_outputs)
+                        'E_export': initialize_e_export_phase(log_op, vessels, equipments, electrical_outputs),
+                        'E_array': initialize_e_array_phase(log_op, vessels, equipments, electrical_outputs),
+                        'E_cp': initialize_e_cp_phase(log_op, vessels, equipments, electrical_outputs),
 
-                        , 'Driven': initialize_drive_phase(log_op, vessels, equipments)
-                        , 'Gravity': initialize_gravity_phase(log_op, vessels, equipments, MF_outputs)
-                        , 'M_Drag': initialize_m_drag_phase(log_op, vessels, equipments)
-                        , 'M_Direct': initialize_m_direct_phase(log_op, vessels, equipments, MF_outputs)
-                        , 'M_Suction': initialize_m_suction_phase(log_op, vessels, equipments)
+                        'Driven': initialize_drive_phase(log_op, vessels, equipments),
+                        'Gravity': initialize_gravity_phase(log_op, vessels, equipments, MF_outputs),
+                        'M_Drag': initialize_m_drag_phase(log_op, vessels, equipments),
+                        'M_Direct': initialize_m_direct_phase(log_op, vessels, equipments, MF_outputs),
+                        'M_Suction': initialize_m_suction_phase(log_op, vessels, equipments),
 
-                        , 'Devices': initialize_devices_phase(log_op, vessels, equipments, user_inputs)
+                        'Devices': initialize_devices_phase(log_op, vessels, equipments, user_inputs)
                         }
 
     return logPhase_install

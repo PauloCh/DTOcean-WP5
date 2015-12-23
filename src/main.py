@@ -96,8 +96,6 @@ from Logistics.performance.schedule.schedule import sched
 from Logistics.performance.economic.eco import cost
 
 
-
-
 # # Set directory paths for loading inputs (@Tecanalia)
 mod_path = path.dirname(path.realpath(__file__))
 
@@ -118,7 +116,7 @@ Loading required inputs and database into panda dataframes
 import pickle
 
 # inputs_SV_LD = 'save'
-inputs_SV_LD = 'load'
+inputs_SV_LD = 'save'
 
 if inputs_SV_LD == "save":
     # Saving the objects:
@@ -156,9 +154,7 @@ else:
 
 # logOp = logOp_init()
 
-
 logOp = logOp_init(database_file("operations_time_OLC.xlsx"))
-
 
 logPhase_install = logPhase_install_init(logOp, vessels, equipments, user_inputs, electrical_outputs, MF_outputs)
 #logPhase_OM = logPhase_OM_init(logOp, vessels, equipments)
