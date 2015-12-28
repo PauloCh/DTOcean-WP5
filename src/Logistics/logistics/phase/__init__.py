@@ -18,6 +18,7 @@ from .classes import LogPhase, DefPhase
 from .e_export import initialize_e_export_phase
 from .e_array import initialize_e_array_phase
 from .e_cp import initialize_e_cp_phase
+from .e_dynamic import initialize_e_dynamic_phase
 
 from .Driven import initialize_drive_phase
 from .Gravity import initialize_gravity_phase
@@ -65,7 +66,8 @@ def logPhase_install_init(log_op, vessels, equipments, user_inputs, electrical_o
     logPhase_install = {
                         'E_export': initialize_e_export_phase(log_op, vessels, equipments, electrical_outputs),
                         'E_array': initialize_e_array_phase(log_op, vessels, equipments, electrical_outputs),
-                        'E_cp': initialize_e_cp_phase(log_op, vessels, equipments, electrical_outputs),
+                        'E_dynamic': initialize_e_cp_phase(log_op, vessels, equipments, electrical_outputs),
+                        'E_cp': initialize_e_dynamic_phase(log_op, vessels, equipments, electrical_outputs),
 
                         'Driven': initialize_drive_phase(log_op, vessels, equipments),
                         'Gravity': initialize_gravity_phase(log_op, vessels, equipments, MF_outputs),

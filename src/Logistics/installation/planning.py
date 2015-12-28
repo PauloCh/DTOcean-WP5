@@ -46,6 +46,9 @@ def install_plan(user_inputs, electrical_outputs, MF_outputs):
      the installation of the project plus information about the interphase
      relation and sequence.
     """
+
+    install_seq = {}
+
     if user_inputs['device']['type [-]'].ix[0] == "seabed fixed":
         if electrical_outputs['layout']['Electrical Layout [-]'].ix[0] == "type 1":
             if MF_outputs['foundation']['type [-]'].ix[0] == "shallow foundation":

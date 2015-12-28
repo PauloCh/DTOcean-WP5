@@ -3,8 +3,8 @@
 @author: WavEC Offshore Renewables
 email: boris.teillant@wavec.org; paulo@wavec.org
 
-This module is part of the characterization step in the WP5 methodology. It 
-contains feasibility functions to compute the minimum logistic requirements to 
+This module is part of the characterization step in the WP5 methodology. It
+contains feasibility functions to compute the minimum logistic requirements to
 carry out the different logistic phases. This particular modules includes the
 function related to the installation of devices.
 
@@ -13,9 +13,9 @@ BETA VERSION NOTES: This function is not being used in the current version.
 
 
 def user_inputs_feas(log_phase, log_phase_id, user_inputs):
-    """wp1_feas is a function which determines the logistic requirement 
+    """wp1_feas is a function which determines the logistic requirement
     associated with one logistic phase dealing with the installation of devices
-        
+
     Parameters
     ----------
     log_phase : Class
@@ -24,7 +24,7 @@ def user_inputs_feas(log_phase, log_phase_id, user_inputs):
      string describing the ID of the logistic phase under consideration
     user_inputs : dict
      dictionnary containing all required inputs to WP5 coming from WP1/end-user
-    
+
     Returns
     -------
     feas_e : dict
@@ -33,24 +33,22 @@ def user_inputs_feas(log_phase, log_phase_id, user_inputs):
     feas_v : dict
      dictionnary containing all logistic requirements associated with every
      vessel type of the logistic phase under consideration
-    """    
+    """
 
     # dev_type = user_inputs['device']['type [-]']
-    assmbly_methd = user_inputs['device']['assembly strategy [-]']
+    assembly_method = user_inputs['device']['assembly strategy [-]'].ix[0]
     # trans_methd = user_inputs['device']['transportation method [-]']
     # loadout_methd = user_inputs['device']['load out [-]']
 
-    if assmbly_methd == '[A,B,C]': # all devices assumed the same
+    if assembly_method == '([A,B,C])' or '([A,B])' or '([A])': # all devices assumed the same
         deck_area = user_inputs['device']['length [m]'].ix[0] * user_inputs['device']['width [m]'].ix[0]
         deck_cargo = user_inputs['device']['dry mass [kg]'].ix[0]
         deck_loading = user_inputs['device']['dry mass [kg]'].ix[0] / (user_inputs['device']['length [m]'].ix[0] * user_inputs['device']['width [m]'].ix[0])
 
-    elif assmbly_methd == '[A,B,C],D':
+    elif assembly_method == '([A,B,C],D)':
         deck_area = sum(user_inputs['sub_device']['length [m]'].ix[0] * user_inputs['sub_device']['width [m]'].ix[0])
         deck_cargo = sum(user_inputs['sub_device']['dry mass [kg]'].ix[0])
         deck_loading = sum(user_inputs['sub_device']['dry mass [kg]'].ix[0] / (user_inputs['sub_device']['length [m]'].ix[0] * user_inputs['sub_device']['width [m]'].ix[0]))
-
-
 
     # Equipment and vessel feasiblity
 
@@ -86,8 +84,6 @@ def user_inputs_feas(log_phase, log_phase_id, user_inputs):
                            # , ['JackUp max water depth [m]', 'sup', max_depth] # ????????????????????????????????????????????????????
                                 ],
                   'Tugboat': [['Bollard pull [t]', 'sup', deck_cargo]]}
-
-
 
     # Matching
 

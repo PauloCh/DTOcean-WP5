@@ -123,7 +123,7 @@ if inputs_SV_LD == "save":
 
     #default_values inputs
     phase_order = load_phase_order_data(database_file("Installation_Order.xlsx"))
-    schedule_OLC = load_time_olc_data(database_file("Schedule_OLC.xlsx"))
+    schedule_OLC = load_time_olc_data(database_file("operations_time_OLC.xlsx"))
 
     #Internal logistic module databases
     vessels = load_vessel_data(database_file("logisticsDB_vessel_python.xlsx"))
@@ -168,7 +168,7 @@ install_plan = planning.install_plan(user_inputs, electrical_outputs, MF_outputs
 # DUMMY-TO BE ERASED, install plan is constrained to F_driven because
 # we just have the F_driven characterized for now
 # install_plan = {0: ['F_driven']}
-install_plan = {0: ['Devices']}
+install_plan = {0: ['Devices'] }
 
 # Select the most appropriate base installation port
 # install_port = select_port.install_port(user_inputs, electrical_outputs, MF_outputs, ports)

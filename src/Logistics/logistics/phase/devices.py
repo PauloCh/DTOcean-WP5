@@ -4,13 +4,13 @@ from .classes import DefPhase, LogPhase
 def initialize_devices_phase(log_op, vessels, equipments, user_inputs):
     phase = LogPhase(121, "Installation of devices")
 
-    dev_type = user_inputs['device']['type [-]']
-    assmbly_methd = user_inputs['device']['assembly strategy [-]']
-    trans_methd = user_inputs['device']['transportation method [-]']
-    loadout_methd = user_inputs['device']['load out [-]']
+    dev_type = user_inputs['device']['type [-]'].ix[0]
+    assmbly_methd = user_inputs['device']['assembly strategy [-]'].ix[0]
+    trans_methd = user_inputs['device']['transportation method [-]'].ix[0]
+    loadout_methd = user_inputs['device']['load out [-]'].ix[0]
 
 
-    if dev_type == 'floating':
+    if dev_type == 'float WEC' or dev_type == 'float TEC' :
 
         phase.op_ve[0] = DefPhase(1, 'Floating Device')
 
@@ -21,9 +21,9 @@ def initialize_devices_phase(log_op, vessels, equipments, user_inputs):
                                   log_op["SeafloorEquipPrep"],
                                   log_op["DevAssPort"]]
 
-        if trans_methd == 'on-deck':
+        if trans_methd == 'deck':
 
-            if loadout_methd == 'lifted':
+            if loadout_methd == 'lifted away':
 
                 # phase.op_ve[0] = DefPhase(1, 'Floating_TransportDeck_Lifted')
                 phase.op_ve[0].op_sequence.extend([log_op["LoadOut_Lift"],
@@ -78,7 +78,7 @@ def initialize_devices_phase(log_op, vessels, equipments, user_inputs):
 
 
 
-        if trans_methd == 'towing':
+        if trans_methd == 'tow':
 
             if assmbly_methd == 'quay':
 
@@ -207,14 +207,6 @@ def initialize_devices_phase(log_op, vessels, equipments, user_inputs):
 
             phase.op_ve[0].ve_combination[5] = {'vessel': [(1, vessels['JUP Barge']), (1, vessels['Tugboat']), (1, vessels['Multicat'])],
                                                 'equipment': [(1, equipments['rov'], 0), (1, equipments['divers'], 0)]}
-
-
-
-
-    phase.op_ve[0].op_sequence.extend([log_op["TranSiteSite"],
-                                  log_op["TranSitePort"],
-                                  log_op["Demob"]])
-
 
 
 
