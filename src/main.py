@@ -76,7 +76,6 @@ See also: ...
                    WavEC Offshore Renewables
                     http://www.wavec.org/en
 
-
 """
 
 from os import path
@@ -96,7 +95,7 @@ from Logistics.performance.schedule.schedule import sched
 from Logistics.performance.economic.eco import cost
 
 
-# # Set directory paths for loading inputs (@Tecanalia)
+# # Set directory paths for loading inputs (@Tecnalia)
 mod_path = path.dirname(path.realpath(__file__))
 
 
@@ -110,7 +109,7 @@ def database_file(file):
 
 #def run():
 """
-Loading required inputs and database into panda dataframes
+Load required inputs and database into panda dataframes
 """
 
 import pickle
@@ -156,7 +155,7 @@ else:
 
 logOp = logOp_init(database_file("operations_time_OLC.xlsx"))
 
-logPhase_install = logPhase_install_init(logOp, vessels, equipments, user_inputs, electrical_outputs, MF_outputs)
+logPhase_install = logPhase_install_init(logOp, vessels, equipments, user_inputs, electrical_outputs, MF_outputs, hydrodynamic_outputs)
 #logPhase_OM = logPhase_OM_init(logOp, vessels, equipments)
 
 """
