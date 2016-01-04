@@ -18,6 +18,7 @@ from .classes import LogPhase, DefPhase
 from .e_export import initialize_e_export_phase
 from .e_array import initialize_e_array_phase
 from .e_cp import initialize_e_cp_phase
+from .e_dynamic import initialize_e_dynamic_phase
 
 from .Driven import initialize_drive_phase
 from .Gravity import initialize_gravity_phase
@@ -29,7 +30,7 @@ from .M_Suction import initialize_m_suction_phase
 from .devices import initialize_devices_phase
 
 
-def logPhase_install_init(log_op, vessels, equipments, user_inputs, electrical_outputs, MF_outputs):
+def logPhase_install_init(log_op, vessels, equipments, user_inputs, electrical_outputs, MF_outputs, hydrodynamic_outputs):
     """This function initializes and characterizes all logistic phases associated
     with the installation module. The first step uses LogPhase class to initialize
     each class with a key ID and description, the second step uses the DefPhase
@@ -65,6 +66,7 @@ def logPhase_install_init(log_op, vessels, equipments, user_inputs, electrical_o
     logPhase_install = {
                         'E_export': initialize_e_export_phase(log_op, vessels, equipments, electrical_outputs),
                         'E_array': initialize_e_array_phase(log_op, vessels, equipments, electrical_outputs),
+                        'E_dynamic': initialize_e_dynamic_phase(log_op, vessels, equipments, electrical_outputs),
                         'E_cp': initialize_e_cp_phase(log_op, vessels, equipments, electrical_outputs),
 
                         'Driven': initialize_drive_phase(log_op, vessels, equipments),
@@ -73,7 +75,7 @@ def logPhase_install_init(log_op, vessels, equipments, user_inputs, electrical_o
                         'M_Direct': initialize_m_direct_phase(log_op, vessels, equipments, MF_outputs),
                         'M_Suction': initialize_m_suction_phase(log_op, vessels, equipments),
 
-                        'Devices': initialize_devices_phase(log_op, vessels, equipments, user_inputs)
+                        'Devices': initialize_devices_phase(log_op, vessels, equipments, user_inputs, hydrodynamic_outputs)
                         }
 
     return logPhase_install

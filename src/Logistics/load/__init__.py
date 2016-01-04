@@ -33,7 +33,7 @@ def load_time_olc_data(file_path):
     # Transform time and olc database .xls into panda type
     excel = pd.ExcelFile(file_path)
     # Collect data from a particular tab
-    time_olc = excel.parse('OLC', header=0, index_col=0)
+    time_olc = excel.parse('operations', header=0, index_col=0)
 
     return time_olc
 

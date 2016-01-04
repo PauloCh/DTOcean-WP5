@@ -76,7 +76,6 @@ See also: ...
                    WavEC Offshore Renewables
                     http://www.wavec.org/en
 
-
 """
 
 from os import path
@@ -96,7 +95,7 @@ from Logistics.performance.schedule.schedule import sched
 from Logistics.performance.economic.eco import cost
 
 
-# # Set directory paths for loading inputs (@Tecanalia)
+# # Set directory paths for loading inputs (@Tecnalia)
 mod_path = path.dirname(path.realpath(__file__))
 
 
@@ -110,7 +109,7 @@ def database_file(file):
 
 #def run():
 """
-Loading required inputs and database into panda dataframes
+Load required inputs and database into panda dataframes
 """
 
 import pickle
@@ -123,7 +122,7 @@ if inputs_SV_LD == "save":
 
     #default_values inputs
     phase_order = load_phase_order_data(database_file("Installation_Order.xlsx"))
-    schedule_OLC = load_time_olc_data(database_file("Schedule_OLC.xlsx"))
+    schedule_OLC = load_time_olc_data(database_file("operations_time_OLC.xlsx"))
 
     #Internal logistic module databases
     vessels = load_vessel_data(database_file("logisticsDB_vessel_python.xlsx"))
@@ -156,7 +155,7 @@ else:
 
 logOp = logOp_init(database_file("operations_time_OLC.xlsx"))
 
-logPhase_install = logPhase_install_init(logOp, vessels, equipments, user_inputs, electrical_outputs, MF_outputs)
+logPhase_install = logPhase_install_init(logOp, vessels, equipments, user_inputs, electrical_outputs, MF_outputs, hydrodynamic_outputs)
 #logPhase_OM = logPhase_OM_init(logOp, vessels, equipments)
 
 """
@@ -168,7 +167,7 @@ install_plan = planning.install_plan(user_inputs, electrical_outputs, MF_outputs
 # DUMMY-TO BE ERASED, install plan is constrained to F_driven because
 # we just have the F_driven characterized for now
 # install_plan = {0: ['F_driven']}
-install_plan = {0: ['Devices']}
+install_plan = {0: ['Devices'] }
 
 # Select the most appropriate base installation port
 # install_port = select_port.install_port(user_inputs, electrical_outputs, MF_outputs, ports)
