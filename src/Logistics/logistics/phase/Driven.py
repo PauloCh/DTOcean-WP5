@@ -5,7 +5,7 @@ def initialize_drive_phase(log_op, vessels, equipments):
     phase = LogPhase(110, "Installation of driven piles foundations")
 
     phase.op_ve[0] = DefPhase(1, 'Drilling')
-    phase.op_ve[0].op_sequence = [log_op["Mob"],
+    phase.op_ve[0].op_sequence_elem = [log_op["Mob"],
                                  log_op["AssPort"],
                                  log_op["VessPrep"],
                                  log_op["TranPortSite"],
@@ -34,7 +34,7 @@ def initialize_drive_phase(log_op, vessels, equipments):
 
 
     phase.op_ve[1] = DefPhase(2, 'Hammering')
-    phase.op_ve[1].op_sequence = [log_op["Mob"],
+    phase.op_ve[1].op_sequence_elem = [log_op["Mob"],
                                   log_op["AssPort"],
                                   log_op["VessPrep"],
                                   log_op["TranPortSite"],
@@ -63,7 +63,7 @@ def initialize_drive_phase(log_op, vessels, equipments):
 
 
     phase.op_ve[2] = DefPhase(3, 'Vibro Pilling')
-    phase.op_ve[2].op_sequence = [log_op["Mob"],
+    phase.op_ve[2].op_sequence_elem = [log_op["Mob"],
                                  log_op["AssPort"],
                                  log_op["VessPrep"],
                                  log_op["TranPortSite"],

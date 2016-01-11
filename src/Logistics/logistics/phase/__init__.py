@@ -71,9 +71,9 @@ def logPhase_install_init(log_op, vessels, equipments, user_inputs, electrical_o
 
                         'Driven': initialize_drive_phase(log_op, vessels, equipments),
                         'Gravity': initialize_gravity_phase(log_op, vessels, equipments, MF_outputs),
-                        'M_Drag': initialize_m_drag_phase(log_op, vessels, equipments),
+                        'M_Drag': initialize_m_drag_phase(log_op, vessels, equipments, MF_outputs),
                         'M_Direct': initialize_m_direct_phase(log_op, vessels, equipments, MF_outputs),
-                        'M_Suction': initialize_m_suction_phase(log_op, vessels, equipments),
+                        'M_Suction': initialize_m_suction_phase(log_op, vessels, equipments, MF_outputs),
 
                         'Devices': initialize_devices_phase(log_op, vessels, equipments, user_inputs, hydrodynamic_outputs)
                         }
