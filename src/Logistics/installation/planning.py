@@ -16,9 +16,10 @@ installation sequences) will be updated.
 """
 
 import warnings
+import pandas as pd
 
 
-def install_plan(user_inputs, electrical_outputs, MF_outputs):
+def install_plan(file_path, user_inputs, electrical_outputs, MF_outputs):
     """install_plan receives upstream data providing information to build the
     project case, based on this info the function returns a dictionary containing
     a specific installation sequence, using the following methodology:
@@ -46,6 +47,28 @@ def install_plan(user_inputs, electrical_outputs, MF_outputs):
      the installation of the project plus information about the interphase
      relation and sequence.
     """
+
+    # Transform order database .xls into panda type
+    excel = pd.ExcelFile(file_path)
+
+    # Collect data from a particular tab
+    instal_order_db = excel.parse('InstallationOrder', header=0, index_col=0)
+
+    operation = {0: 'E_export',
+                 1: 'E_array',
+                 2: 'E_dynamic',
+                 3: 'E_cp',
+                 4: 'E_cp',
+                 5: 'Foundations',  # ?!?!
+                 6: 'Moorings',  # ?!?!
+                 7: 'Devices'}  # replace by int(instal_order_db['id'].ix[]) ?????????
+
+    instal_order = {}
+    for ind_instal in range(len(instal_order_db['Default Order'])):
+        instal_order_i = int(instal_order_db['Default Order'].ix[ind_instal])
+        if instal_order_i != 0:
+            instal_order[instal_order_i] = operation[ind_instal]
+
 
     install_seq = {}
 

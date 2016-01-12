@@ -51,7 +51,6 @@ def user_inputs_feas(log_phase, log_phase_id, user_inputs):
         deck_cargo = sum(user_inputs['sub_device']['dry mass [kg]'].ix[0])
         deck_loading = sum(user_inputs['sub_device']['dry mass [kg]'].ix[0] / (user_inputs['sub_device']['length [m]'].ix[0] * user_inputs['sub_device']['width [m]'].ix[0]))
 
-<<<<<<< HEAD
 
     # find_fd_num = 0
     # fundt_num = 0
@@ -81,8 +80,6 @@ def user_inputs_feas(log_phase, log_phase_id, user_inputs):
 
 
 
-=======
->>>>>>> c6c82a06c75d298ab99ca624ff519ab9ecfa4ed3
     # Equipment and vessel feasiblity
 
     feas_e = {}

@@ -280,7 +280,7 @@ def compatibility_ve(install, log_phase, port_data):
 
 
     for seq in range(len(log_phase.op_ve)):
-        log_phase.op_ve[seq].sol = log_phase.op_ve[seq].sol_ves[0]['Series'] # ?!?!?!?!?!?!?!?!
+        log_phase.op_ve[seq].sol = log_phase.op_ve[seq].sol_ves[0]['Series'] # ?!
 
 
 

@@ -115,7 +115,7 @@ Load required inputs and database into panda dataframes
 import pickle
 
 # inputs_SV_LD = 'save'
-inputs_SV_LD = 'save'
+inputs_SV_LD = 'load'
 
 if inputs_SV_LD == "save":
     # Saving the objects:
@@ -145,7 +145,7 @@ elif inputs_SV_LD == "load":
         phase_order, schedule_OLC, vessels, equipments, ports, user_inputs, hydrodynamic_outputs, electrical_outputs, MF_outputs = pickle.load(f)
 
 else:
-    print 'Invalid saveLoad option'
+    print 'Invalid SaveLoad option'
 
 """
  Initialise logistic operations and logistic phases
@@ -162,7 +162,7 @@ logPhase_install = logPhase_install_init(logOp, vessels, equipments, user_inputs
 Determine the adequate installation logistic phase plan
 
 """
-install_plan = planning.install_plan(user_inputs, electrical_outputs, MF_outputs)
+install_plan = planning.install_plan(database_file("Installation_Order.xlsx"), user_inputs, electrical_outputs, MF_outputs)
 
 # DUMMY-TO BE ERASED, install plan is constrained to F_driven because
 # we just have the F_driven characterized for now
