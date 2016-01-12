@@ -26,64 +26,64 @@ def initialize_e_dynamic_phase(log_op, vessels, equipments, electrical_outputs):
     for index, row in dynamic_db.iterrows():
 
         # initialize an empty operation sequence list for the 'index' element
-        phase.op_ve[0].op_sequence[index] = []
+        phase.op_ve[0].op_sequence_elem[index] = []
 
         if dynamic_db['downstream termination type [-]'].ix[index] == 'device':
-            phase.op_ve[0].op_sequence[index].extend([ log_op["LowerCable"] ])
+            phase.op_ve[0].op_sequence_elem[index].extend([ log_op["LowerCable"] ])
 
         elif dynamic_db['downstream termination type [-]'].ix[index] == 'static cable':
 
             if dynamic_db['downstream ei type [-]'].ix[index] == 'wet-mate':
-                phase.op_ve[0].op_sequence[index].extend([ log_op["Term_Static_Wet"] ])
+                phase.op_ve[0].op_sequence_elem[index].extend([ log_op["Term_Static_Wet"] ])
 
             elif dynamic_db['downstream ei type [-]'].ix[index] == 'dry-mate':
-                phase.op_ve[0].op_sequence[index].extend([ log_op["Term_Static_Dry"] ])
+                phase.op_ve[0].op_sequence_elem[index].extend([ log_op["Term_Static_Dry"] ])
 
             elif dynamic_db['downstream ei type [-]'].ix[index] == 'splice':
-                phase.op_ve[0].op_sequence[index].extend([ log_op["Term_Static_Splice"] ])
+                phase.op_ve[0].op_sequence_elem[index].extend([ log_op["Term_Static_Splice"] ])
 
         elif dynamic_db['downstream termination type [-]'].ix[index] == 'Collection Point':
 
             if cp_db['type [-]'].ix[ dynamic_db['downstream termination id [-]'].ix[index] ] == 'seabed':
 
                 if dynamic_db['downstream ei type [-]'].ix[index] == 'dry-mate':
-                    phase.op_ve[0].op_sequence[index].extend([ log_op["LowerCable"] ])
+                    phase.op_ve[0].op_sequence_elem[index].extend([ log_op["LowerCable"] ])
 
                 elif dynamic_db['downstream ei type [-]'].ix[index] == 'wet-mate':
-                    phase.op_ve[0].op_sequence[index].extend([ log_op["Term_CP_Wet"] ])
+                    phase.op_ve[0].op_sequence_elem[index].extend([ log_op["Term_CP_Wet"] ])
 
             elif cp_db['type [-]'].ix[ dynamic_db['downstream termination id [-]'].ix[index] ] == 'seabed with pigtails':
 
                 if dynamic_db['downstream ei type [-]'].ix[index] == 'dry-mate':
-                    phase.op_ve[0].op_sequence[index].extend([ log_op["Term_Static_Dry"] ])
+                    phase.op_ve[0].op_sequence_elem[index].extend([ log_op["Term_Static_Dry"] ])
 
                 elif dynamic_db['downstream ei type [-]'].ix[index] == 'splice':
-                    phase.op_ve[0].op_sequence[index].extend([ log_op["Term_Static_Splice"] ])
+                    phase.op_ve[0].op_sequence_elem[index].extend([ log_op["Term_Static_Splice"] ])
 
                 elif dynamic_db['downstream ei type [-]'].ix[index] == 'wet-mate':
-                    phase.op_ve[0].op_sequence[index].extend([ log_op["Term_Static_Wet"] ])
+                    phase.op_ve[0].op_sequence_elem[index].extend([ log_op["Term_Static_Wet"] ])
 
             elif cp_db['type [-]'].ix[ dynamic_db['downstream termination id [-]'].ix[index] ] == 'surface piercing':
-                phase.op_ve[0].op_sequence[index].extend([ log_op["Term_CP_Jtube"] ])
+                phase.op_ve[0].op_sequence_elem[index].extend([ log_op["Term_CP_Jtube"] ])
 
 
-        phase.op_ve[0].op_sequence[index].extend([ log_op["DynCableLay"] ])
+        phase.op_ve[0].op_sequence_elem[index].extend([ log_op["DynCableLay"] ])
 
 
         if dynamic_db['upstream termination type [-]'].ix[index] == 'device':
-            phase.op_ve[0].op_sequence[index].extend([ log_op["LowerCable"] ])
+            phase.op_ve[0].op_sequence_elem[index].extend([ log_op["LowerCable"] ])
 
         elif dynamic_db['upstream termination type [-]'].ix[index] == 'collection point':
 
             if cp_db['type [-]'].ix[ dynamic_db['downstream termination id [-]'].ix[index] ] == 'seabed' or 'seabed with pigtails':
 
                 if dynamic_db['downstream ei type [-]'].ix[index] == 'dry-mate':
-                    phase.op_ve[0].op_sequence[index].extend([ log_op["LowerCable"] ])
+                    phase.op_ve[0].op_sequence_elem[index].extend([ log_op["LowerCable"] ])
 
                 elif dynamic_db['downstream ei type [-]'].ix[index] == 'wet-mate':
-                    phase.op_ve[0].op_sequence[index].extend([ log_op["Term_CP_Wet"] ])
+                    phase.op_ve[0].op_sequence_elem[index].extend([ log_op["Term_CP_Wet"] ])
 
             elif cp_db['type [-]'].ix[index] == 'surface piercing':
-                phase.op_ve[0].op_sequence[index].extend([ log_op["Term_CP_Jtube"] ])
+                phase.op_ve[0].op_sequence_elem[index].extend([ log_op["Term_CP_Jtube"] ])
 
     return phase

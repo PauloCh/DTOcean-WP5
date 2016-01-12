@@ -82,7 +82,7 @@ def compatibility_ve(install, log_phase, port_data):
                   ves[indx_vec] = ves_class.panda.ix[indx_vec]  # Get info of the feasible vessels
 
                 ves_sol[ves_type] = {'type': type_of_ves, 'quantity': ves_quant,
-                                   'Series': ves, 'indexs': ves_index_vec}  # Store info of the vessels
+                                     'Series': ves, 'indexs': ves_index_vec}  # Store info of the vessels
                 ves_indexs[ves_type] = list(ves_index_vec)  # Vector of indexs of feasible vessels per type
 
 

@@ -11,7 +11,6 @@ function related to the installation of devices.
 BETA VERSION NOTES: This function is not being used in the current version.
 """
 
-
 def user_inputs_feas(log_phase, log_phase_id, user_inputs):
     """wp1_feas is a function which determines the logistic requirement
     associated with one logistic phase dealing with the installation of devices
@@ -41,15 +40,15 @@ def user_inputs_feas(log_phase, log_phase_id, user_inputs):
     # loadout_methd = user_inputs['device']['load out [-]']
     max_bathymetry = max(user_inputs['site']['bathymetry [m]'])
 
-    if assembly_method == '([A,B,C])' or '([A,B])' or '([A])': # all devices assumed the same
+    if assembly_method == '([A,B,C,D])': # all devices assumed the same
         deck_area = user_inputs['device']['length [m]'].ix[0] * user_inputs['device']['width [m]'].ix[0]
-        deck_cargo = user_inputs['device']['dry mass [kg]'].ix[0]
+        deck_cargo = user_inputs['device']['dry mass [kg]'].ix[0]/1000
         deck_loading = user_inputs['device']['dry mass [kg]'].ix[0] / (user_inputs['device']['length [m]'].ix[0] * user_inputs['device']['width [m]'].ix[0])
 
     elif assembly_method == '([A,B,C],D)':
-        deck_area = sum(user_inputs['sub_device']['length [m]'].ix[0] * user_inputs['sub_device']['width [m]'].ix[0])
-        deck_cargo = sum(user_inputs['sub_device']['dry mass [kg]'].ix[0])
-        deck_loading = sum(user_inputs['sub_device']['dry mass [kg]'].ix[0] / (user_inputs['sub_device']['length [m]'].ix[0] * user_inputs['sub_device']['width [m]'].ix[0]))
+        deck_area = max(user_inputs['sub_device']['length [m]']['A':'C'] * user_inputs['sub_device']['width [m]']['A':'C'])
+        deck_cargo = user_inputs['sub_device']['dry mass [kg]']['A':'C'].sum()/1000
+        deck_loading = max(user_inputs['sub_device']['dry mass [kg]']['A':'C'] / (1000 * user_inputs['sub_device']['length [m]']['A':'C'] * user_inputs['sub_device']['width [m]']['A':'C']))
 
 
     # find_fd_num = 0

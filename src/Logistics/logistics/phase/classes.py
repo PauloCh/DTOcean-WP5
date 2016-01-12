@@ -22,7 +22,10 @@ class DefPhase(object):
     def __init__(self, id, description):
         self.id = id
         self.description = description
-        self.op_sequence = {}
+        self.op_sequence_mob = []
+        self.op_sequence_elem = {}
+        self.op_sequence_demob = []
+#        self.op_sequence = {}
         self.ve_combination = {}
         self.sol = {}
 

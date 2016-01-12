@@ -100,9 +100,6 @@ def select_e (install, log_phase):
                 combi = combi + 1
 
 
-
-
-
     return eq, log_phase
 
 
