@@ -179,7 +179,7 @@ def select_v (install, log_phase):
 
                        else:
                             ves[v_key_req] = v_pd
-                            log_phase.op_ve[seq].ve_combination[combi]['vessel'][nr_ves][1].panda = v_sol
+                            log_phase.op_ve[seq].ve_combination[combi]['vessel'][nr_ves][1].panda = v_pd
                             nr_ves = nr_ves + 1
 
                     else:
