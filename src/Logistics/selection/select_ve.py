@@ -185,8 +185,13 @@ def select_v (install, log_phase):
                             break
 
                        else:
+<<<<<<< HEAD
                             ves[v_key_req] = v_sol
                             log_phase.op_ve[seq].ve_combination[combi]['vessel'][nr_ves][1].panda = v_sol
+=======
+                            ves[v_key_req] = v_pd
+                            log_phase.op_ve[seq].ve_combination[combi]['vessel'][nr_ves][1].panda = v_pd
+>>>>>>> 2dfa42258fa25b3139ea14a4a60e1e070a98296d
                             nr_ves = nr_ves + 1
 
                     else:
