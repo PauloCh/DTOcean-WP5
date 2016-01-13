@@ -35,4 +35,6 @@ def glob_feas(log_phase, log_phase_id, user_inputs, hydrodynamic_outputs, electr
         feasibility = MF_feas(log_phase, log_phase_id, hydrodynamic_outputs, MF_outputs)
     elif any(log_phase_id in s for s in ['Devices']):
         feasibility = devices_feas(log_phase, log_phase_id, user_inputs)
+
+
     return feasibility

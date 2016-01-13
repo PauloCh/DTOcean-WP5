@@ -11,6 +11,7 @@ of two logistic phases (one for the installation module and one for the O&M),
 this will be upgraded for the beta version due to october.
 """
 
+import transit_algorithm
 
 def install_port(user_inputs, electrical_outputs, MF_outputs, port_data):
     """install_port function selects the home port used by all logistic phases
@@ -63,15 +64,20 @@ def install_port(user_inputs, electrical_outputs, MF_outputs, port_data):
 
     port['Port list satisfying the minimum requirements'] = port_list
 
-    # Distance ports-site calculation
-    # to be implemented once the transit distance algorithm is available
+    # Distance ports-site calculation to be implemented once the transit distance algorithm is available
     # by making use of the grid coordinate position of the site and the ports
+    site_coords = user_inputs['site'] # NEEDS TO BE CENTER OR MINIMIUM!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    dist_to_port_vec = []
+    for ind_port in range(len(port_list)):
+        port_coords = port_list[ind_port]
+        dist_to_port_i = transit_algorithm(site_coords, port_coords)
+        dist_to_port_vec.append(dist_to_port_i)
+        min_dist_to_port = min(dist_to_port_vec)
+        if min_dist_to_port == dist_to_port_i:
+            port_choice_index = ind_port
 
-    # Nearest port selection
-    # to be modified by making use of port['Distance port-site'] will be
-    # implemented
-
-    port['Selected base port for installation'] = port_list.ix[0]
+    # Nearest port selection to be modified by making use of port['Distance port-site'] will be implemented
+    port['Selected base port for installation'] = port_list.ix[port_choice_index]
 
     return port
 

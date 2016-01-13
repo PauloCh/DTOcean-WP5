@@ -63,6 +63,7 @@ def logPhase_install_init(log_op, vessels, equipments, user_inputs, electrical_o
 
     # 1st Level - Initialize the logistic phases through LogPhase classes
 
+    # TO BE CHANGED IN ORDER TO ONLY INITIALISE THE PHASES THAT ARE REQUESTED ACCORDING TO THE INSTALLATION PLAN (AND/OR OPERATION SEQUENCE)
     logPhase_install = {
                         'E_export': initialize_e_export_phase(log_op, vessels, equipments, electrical_outputs),
                         'E_array': initialize_e_array_phase(log_op, vessels, equipments, electrical_outputs),

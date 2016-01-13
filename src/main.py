@@ -114,8 +114,8 @@ Load required inputs and database into panda dataframes
 
 import pickle
 
-inputs_SV_LD = 'save'
-#inputs_SV_LD = 'load'
+# inputs_SV_LD = 'save'
+inputs_SV_LD = 'load'
 
 if inputs_SV_LD == "save":
     # Saving the objects:
@@ -147,31 +147,31 @@ elif inputs_SV_LD == "load":
 else:
     print 'Invalid SaveLoad option'
 
+
+
 """
  Initialise logistic operations and logistic phases
-
 """
 
 # logOp = logOp_init()
 
 logOp = logOp_init(database_file("operations_time_OLC.xlsx"))
 
-logPhase_install = logPhase_install_init(logOp, vessels, equipments, user_inputs,
-                                         electrical_outputs, MF_outputs, hydrodynamic_outputs)
-#logPhase_OM = logPhase_OM_init(logOp, vessels, equipments)
 
 """
 Determine the adequate installation logistic phase plan
-
 """
-#install_plan = planning.install_plan(database_file("Installation_Order.xlsx"), user_inputs, electrical_outputs, MF_outputs)
+install_plan = planning.install_plan(database_file("Installation_Order.xlsx"), user_inputs, electrical_outputs, MF_outputs)
 
 # DUMMY-TO BE ERASED, install plan is constrained to F_driven because
 # we just have the F_driven characterized for now
 # install_plan = {0: ['F_driven']}
 install_plan = {0: ['Devices'] }
 
-# Select the most appropriate base installation port
+
+"""
+Select the most appropriate base installation port
+"""
 # install_port = select_port.install_port(user_inputs, electrical_outputs, MF_outputs, ports)
 install_port = 0
 
@@ -187,6 +187,12 @@ install = {'plan': install_plan,
           'risk': {},
           'envir': {},
           'status': "pending"}
+
+
+logPhase_install = logPhase_install_init(logOp, vessels, equipments, user_inputs,
+                                         electrical_outputs, MF_outputs, hydrodynamic_outputs)
+#logPhase_OM = logPhase_OM_init(logOp, vessels, equipments)
+
 
 if install['status'] == "pending":
    # loop over the number of layers of the installation plan
@@ -219,8 +225,6 @@ if install['status'] == "pending":
            print install['combi_select']
 
            # install['combi_select'], log_phase = compatibility_ve(install, log_phase, install_port)
-
-           print install['combi_select']
 
            # schedule assessment of the different operation sequence
            install['schedule'], log_phase = sched(x, install, log_phase, user_inputs, hydrodynamic_outputs, electrical_outputs, MF_outputs)

@@ -73,8 +73,14 @@ def select_e (install, log_phase):
                             e_val = req_e[e_key_req][req][2]
 
                             if e_meth == 'sup':
-                                e_sol = e_pd[e_pd[e_para] >= e_val]
+                                e_pd = e_pd[e_pd[e_para] >= e_val]
+                            elif e_meth == 'inf':
+                                e_pd = e_pd[e_pd[e_para] <= e_val]
+                            elif e_meth == 'equal':
+                                e_pd = e_pd[e_pd[e_para] == e_val]
 
+
+                        e_sol = e_pd
                         # Check if no vessel is feasible within the req for this particular ve_combination
                         # if e_sol.empty:
                         if len(e_sol.index)==0:
@@ -159,14 +165,15 @@ def select_v (install, log_phase):
 
                            if v_meth == 'sup':
                                v_pd = v_pd[v_pd[v_para] >= v_val]
+                           # elif v_meth == 'inf':
+                           #     v_pd = v_pd[v_pd[v_para] <= v_val]
                            # elif v_meth == 'equal':
-                           #      if v_para == 'ROV inspection [yes/no]' or v_para == 'ROV workclass [yes/no]':
-                           #          v_sol = v_pd[v_pd[v_para] == v_val]
-                                    # check also max depth for onboard?!?!?!
+                           #     v_pd = v_pd[v_pd[v_para] == v_val]
 
+                       v_sol = v_pd
                        # Check if no vessel is feasible within the req for this particular ve_combination
                        # if v_sol.empty:
-                       if len(v_pd.index)==0:
+                       if len(v_sol.index)==0:
                             del log_phase.op_ve[seq].ve_combination[combi]   # If so, force the combination to be 0
                             for ind_comb in range(combi,LEN_combi-1):
                                 log_phase.op_ve[seq].ve_combination[ind_comb] = log_phase.op_ve[seq].ve_combination[ind_comb+1]
@@ -178,7 +185,7 @@ def select_v (install, log_phase):
                             break
 
                        else:
-                            ves[v_key_req] = v_pd
+                            ves[v_key_req] = v_sol
                             log_phase.op_ve[seq].ve_combination[combi]['vessel'][nr_ves][1].panda = v_sol
                             nr_ves = nr_ves + 1
 
