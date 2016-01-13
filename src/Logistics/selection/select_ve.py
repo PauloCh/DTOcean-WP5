@@ -128,37 +128,27 @@ def select_v (install, log_phase):
 
     import matplotlib.pyplot as plt
 
+    # load the vessel requirements inside a short named variable
     req_v = install['requirement'][1]
-    #Initialize an empty dic with the name of the vessels to be evaluated
+
+    # Initialize an empty dic with the name of the vessels to be evaluated
     ves = dict.fromkeys(req_v.keys())
 
-    for typ in range(len(req_v)):
+    for typ in range(len(req_v)):   # loop over the vessel types in requirements
         v_key_req = req_v.keys()[typ]
 
-        for seq in range(len(log_phase.op_ve)):
-
-            # print 'seq='
-            # print seq
+        for seq in range(len(log_phase.op_ve)): # loop over the number of strategies (op_ve) of the logistic phase in study
 
             LEN_combi = len(log_phase.op_ve[seq].ve_combination)
             combi = 0
-            while combi < LEN_combi:
-
-                # print 'combi='
-                # print combi
+            while combi < LEN_combi: # loop over the number of combinations inside the strategy
 
                 LEN_nr_ves = len(log_phase.op_ve[seq].ve_combination[combi]['vessel'])
                 nr_ves = 0
-                while nr_ves < LEN_nr_ves:
-
-                    # print 'nr_ves='
-                    # print nr_ves
+                while nr_ves < LEN_nr_ves: # loop over the number of vessels inside the combination
 
                     v_key_phase = log_phase.op_ve[seq].ve_combination[combi]['vessel'][nr_ves][1].id
                     v_pd = log_phase.op_ve[seq].ve_combination[combi]['vessel'][nr_ves][1].panda
-
-                    # plt.imshow(v_pd)
-                    # plt.show()
 
                     if v_key_phase == v_key_req:
 
@@ -168,7 +158,7 @@ def select_v (install, log_phase):
                            v_val = req_v[v_key_req][req][2]
 
                            if v_meth == 'sup':
-                               v_sol = v_pd[v_pd[v_para] >= v_val]
+                               v_pd = v_pd[v_pd[v_para] >= v_val]
                            # elif v_meth == 'equal':
                            #      if v_para == 'ROV inspection [yes/no]' or v_para == 'ROV workclass [yes/no]':
                            #          v_sol = v_pd[v_pd[v_para] == v_val]
@@ -176,7 +166,7 @@ def select_v (install, log_phase):
 
                        # Check if no vessel is feasible within the req for this particular ve_combination
                        # if v_sol.empty:
-                       if len(v_sol.index)==0:
+                       if len(v_pd.index)==0:
                             del log_phase.op_ve[seq].ve_combination[combi]   # If so, force the combination to be 0
                             for ind_comb in range(combi,LEN_combi-1):
                                 log_phase.op_ve[seq].ve_combination[ind_comb] = log_phase.op_ve[seq].ve_combination[ind_comb+1]
@@ -188,7 +178,7 @@ def select_v (install, log_phase):
                             break
 
                        else:
-                            ves[v_key_req] = v_sol
+                            ves[v_key_req] = v_pd
                             log_phase.op_ve[seq].ve_combination[combi]['vessel'][nr_ves][1].panda = v_sol
                             nr_ves = nr_ves + 1
 
