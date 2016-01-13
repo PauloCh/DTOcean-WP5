@@ -85,8 +85,8 @@ def load_vessel_data(file_path):
     # the vessel class: VesselType
     vessels = {'Barge': VesselType("Barge", pd_vessel[pd_vessel['Vessel type [-]'] == 'Barge']),
                'Tugboat': VesselType("Tugboat", pd_vessel[pd_vessel['Vessel type [-]'] == 'Tugboat']),
-               'Crane Barge': VesselType("Crane Barge", pd_vessel[pd_vessel['Vessel type [-]'] == 'Crane barge']),
-               'Crane Vessel': VesselType("Crane Vessel", pd_vessel[pd_vessel['Vessel type [-]'] == 'Crane vessel']),
+               'Crane Barge': VesselType("Crane Barge", pd_vessel[pd_vessel['Vessel type [-]'] == 'Crane Barge']),
+               'Crane Vessel': VesselType("Crane Vessel", pd_vessel[pd_vessel['Vessel type [-]'] == 'Crane Vessel']),
                'JUP Barge': VesselType("JUP Barge", pd_vessel[pd_vessel['Vessel type [-]'] == 'JUP Barge']),
                'JUP Vessel': VesselType("JUP Vessel", pd_vessel[pd_vessel['Vessel type [-]'] == 'JUP Vessel']),
                'Anchor Handling': VesselType("AHTS", pd_vessel[pd_vessel['Vessel type [-]'] == 'AHTS']),
