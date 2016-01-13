@@ -17,11 +17,12 @@ import pandas as pd
 
 class LogOp(object):
 
-    def __init__(self, id, description, time_value, time_function, olc):
+    def __init__(self, id, description, time_value, time_function, time_other, olc):
         self.id = id
         self.description = description
         self.time_value = time_value
         self.time_function = time_function
+        self.time_other = time_other
         self.olc = olc
 
 
@@ -64,6 +65,7 @@ def logOp_init(file_path):
                                           op_db.ix[op_nr]['Logitic operation [-]'],
                                           op_db.ix[op_nr]['Time: value [h]'],
                                           op_db.ix[op_nr]['Time: function [-]'],
+                                          op_db.ix[op_nr]['Time: other [-]'],
                                           [op_db.ix[op_nr]['OLC: Hs [m]'],
                                            op_db.ix[op_nr]['OLC: Tp [s]'],
                                            op_db.ix[op_nr]['OLC: Ws [m/s]'],

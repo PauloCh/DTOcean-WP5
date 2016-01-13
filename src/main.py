@@ -195,6 +195,8 @@ if install['status'] == "pending":
            # extract the LogPhase ID to be evaluated from the installation plan
            log_phase_id = install['plan'][x][y]
            log_phase = logPhase_install[log_phase_id]
+           # print log_phase
+
            # characterize the logistic requirements
            install['requirement'] = glob_feas(log_phase, log_phase_id,
                                               user_inputs, hydrodynamic_outputs,
@@ -202,11 +204,16 @@ if install['status'] == "pending":
 
            # selection of the maritime infrastructure
            install['eq_select'], log_phase = select_e(install, log_phase)
+           print install['eq_select']
+
            install['ve_select'], log_phase = select_v(install, log_phase)
+           print install['ve_select']
 
            # matching requirements for combinations of port/vessel(s)/equipment
            # install['combi_select'] = compatibility_vp(install, log_phase)
            install['combi_select'], log_phase = compatibility_ve(install, log_phase, ports) # requires install_port !!
+           print install['combi_select']
+
            # install['combi_select'], log_phase = compatibility_ve(install, log_phase, install_port)
 
            # schedule assessment of the different operation sequence

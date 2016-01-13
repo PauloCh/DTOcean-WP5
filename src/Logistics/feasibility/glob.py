@@ -1,4 +1,4 @@
-from Logistics.feasibility.user_inputs import user_inputs_feas
+from Logistics.feasibility.devices import devices_feas
 from Logistics.feasibility.electrical import electrical_feas
 from Logistics.feasibility.MF import MF_feas
 
@@ -34,5 +34,5 @@ def glob_feas(log_phase, log_phase_id, user_inputs, hydrodynamic_outputs, electr
     elif any(log_phase_id in s for s in ['Driven', 'Gravity', 'M_Drag', 'M_Direct', 'M_Suction']):
         feasibility = MF_feas(log_phase, log_phase_id, hydrodynamic_outputs, MF_outputs)
     elif any(log_phase_id in s for s in ['Devices']):
-        feasibility = user_inputs_feas(log_phase, log_phase_id, user_inputs)
+        feasibility = devices_feas(log_phase, log_phase_id, user_inputs)
     return feasibility
