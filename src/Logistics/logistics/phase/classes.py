@@ -28,6 +28,11 @@ class DefPhase(object):
 #        self.op_sequence = {}
         self.ve_combination = {}
         self.sol = {}
+        # self.sol_combi = {}
+        self.sol_combi_combinations = {}
+        self.sol_combi_ves = {}
+        self.sol_combi_eq = {}
+        # self.sol_seq = {}
 
 
 class VE_solutions(object):

@@ -97,7 +97,7 @@ def load_vessel_data(file_path):
                'CTV': VesselType("CTV", pd_vessel[pd_vessel['Vessel type [-]'] == 'CTV']),
                'Construction Support Vessel': VesselType("Construction Support Vessel", pd_vessel[pd_vessel['Vessel type [-]'] == 'Construction Support Vessel']),
                'Fit for Purpose': VesselType("Fit for Purpose", pd_vessel[pd_vessel['Vessel type [-]'] == 'Fit for Purpose']),
-               'Platform Support Vessel': VesselType("Platform Supply Vessel", pd_vessel[pd_vessel['Vessel type [-]'] == 'PSV']),
+               'Platform Support Vessel': VesselType("Platform Supply Vessel", pd_vessel[pd_vessel['Vessel type [-]'] == 'Platform Support Vessel']),
                'Helicopter': VesselType("Helicopter", pd_vessel[pd_vessel['Vessel type [-]'] == 'Helicopter'])
                }
 

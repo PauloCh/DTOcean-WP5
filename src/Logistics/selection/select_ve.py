@@ -74,16 +74,16 @@ def select_e (install, log_phase):
 
                             if e_meth == 'sup':
                                 e_pd = e_pd[e_pd[e_para] >= e_val]
-                            elif e_meth == 'inf':
-                                e_pd = e_pd[e_pd[e_para] <= e_val]
-                            elif e_meth == 'equal':
-                                e_pd = e_pd[e_pd[e_para] == e_val]
+                            # elif e_meth == 'inf':
+                            #     e_pd = e_pd[e_pd[e_para] <= e_val]
+                            # elif e_meth == 'equal':
+                            #     e_pd = e_pd[e_pd[e_para] == e_val]
 
 
-                        e_sol = e_pd
+                        # e_sol = e_pd
                         # Check if no vessel is feasible within the req for this particular ve_combination
                         # if e_sol.empty:
-                        if len(e_sol.index)==0:
+                        if len(e_pd.index)==0:
                             del log_phase.op_ve[seq].ve_combination[combi]   # If so, force the combination to be 0
                             for ind_comb in range(combi,LEN_combi-1):
                                 log_phase.op_ve[seq].ve_combination[ind_comb] = log_phase.op_ve[seq].ve_combination[ind_comb+1]
@@ -94,8 +94,8 @@ def select_e (install, log_phase):
                                 combi=combi+1
                             break
                         else:
-                            eq[e_key_req] = e_sol
-                            log_phase.op_ve[seq].ve_combination[combi]['equipment'][nr_eq][1].panda = e_sol
+                            eq[e_key_req] = e_pd
+                            log_phase.op_ve[seq].ve_combination[combi]['equipment'][nr_eq][1].panda = e_pd
                             nr_eq = nr_eq + 1
 
                     else:
@@ -170,10 +170,10 @@ def select_v (install, log_phase):
                            # elif v_meth == 'equal':
                            #     v_pd = v_pd[v_pd[v_para] == v_val]
 
-                       v_sol = v_pd
+                       # v_sol = v_pd
                        # Check if no vessel is feasible within the req for this particular ve_combination
                        # if v_sol.empty:
-                       if len(v_sol.index)==0:
+                       if len(v_pd.index)==0:
                             del log_phase.op_ve[seq].ve_combination[combi]   # If so, force the combination to be 0
                             for ind_comb in range(combi,LEN_combi-1):
                                 log_phase.op_ve[seq].ve_combination[ind_comb] = log_phase.op_ve[seq].ve_combination[ind_comb+1]
@@ -185,13 +185,8 @@ def select_v (install, log_phase):
                             break
 
                        else:
-<<<<<<< HEAD
-                            ves[v_key_req] = v_sol
-                            log_phase.op_ve[seq].ve_combination[combi]['vessel'][nr_ves][1].panda = v_sol
-=======
                             ves[v_key_req] = v_pd
                             log_phase.op_ve[seq].ve_combination[combi]['vessel'][nr_ves][1].panda = v_pd
->>>>>>> 2dfa42258fa25b3139ea14a4a60e1e070a98296d
                             nr_ves = nr_ves + 1
 
                     else:
