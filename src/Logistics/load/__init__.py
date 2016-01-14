@@ -59,7 +59,51 @@ def load_phase_order_data(file_path):
 
     return phase_order
 
+def load_eq_rates(file_path):
+    """Imports pile driving penetration rates and cable laying/trenching/burial
+    rates into two panda tables
 
+    Parameters
+    ----------
+    file_path : string
+     the folder path of the phase order table
+
+    Returns
+    -------
+    penet_rates : panda dataFrame table
+     panda table containing the pile driving vertical penetration rates and the
+     cable laying/trenching/burial horizontal progress rates
+    """
+    # Transform equipment performance rates table .xls into panda type
+    excel = pd.ExcelFile(file_path)
+    # Collect data from a particular tab
+    penet_rates = excel.parse('penet', header=0, index_col=0)
+    laying_rates = excel.parse('laying', header=0, index_col=0)
+    
+    return penet_rates, laying_rates
+    
+def load_sf(file_path):
+    """Imports safety factors into a panda table
+
+    Parameters
+    ----------
+    file_path : string
+     the folder path of the phase order table
+
+    Returns
+    -------
+    safety_factors : panda dataFrame table
+     panda table containing the safety factors to apply on the feasiblity
+     functions
+    """
+    # Transform equipment performance rates table .xls into panda type
+    excel = pd.ExcelFile(file_path)
+    # Collect data from a particular tab
+    port_sf = excel.parse('port_sf', header=0, index_col=0)
+    vessel_sf = excel.parse('vessel_sf', header=0, index_col=0)
+    eq_sf = excel.parse('eq_sf', header=0, index_col=0)
+    
+    return port_sf, vessel_sf, eq_sf
 
 def load_vessel_data(file_path):
     """Imports vessel database into panda dataframe and creates a class for each

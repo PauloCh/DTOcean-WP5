@@ -80,7 +80,11 @@ See also: ...
 
 from os import path
 
-from Logistics.load import load_phase_order_data, load_time_olc_data, load_vessel_data, load_equipment_data, load_port_data
+from Logistics.load import load_phase_order_data, load_time_olc_data
+from Logistics.load import load_eq_rates
+from Logistics.load import load_sf
+from Logistics.load import load_vessel_data, load_equipment_data
+from Logistics.load import load_port_data
 from Logistics.load.wp_bom import load_user_inputs, load_hydrodynamic_outputs
 from Logistics.load.wp_bom import load_electrical_outputs, load_MF_outputs
 
@@ -123,6 +127,8 @@ if inputs_SV_LD == "save":
     #default_values inputs
     phase_order = load_phase_order_data(database_file("Installation_Order.xlsx"))
     schedule_OLC = load_time_olc_data(database_file("operations_time_OLC.xlsx"))
+    penet_rates, laying_rates = load_eq_rates(database_file("equipment_perf_rates.xlsx"))
+    port_sf, vessel_sf, eq_sf = load_sf(database_file("safety_factors.xlsx"))
 
     #Internal logistic module databases
     vessels = load_vessel_data(database_file("logisticsDB_vessel_python.xlsx"))
