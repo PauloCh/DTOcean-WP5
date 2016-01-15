@@ -92,7 +92,7 @@ from Logistics.load.wp_bom import load_electrical_outputs, load_MF_outputs
 from Logistics.logistics.operations import logOp_init
 from Logistics.logistics.phase import logPhase_install_init
 from Logistics.installation import planning
-#from Logistics.installation import select_port
+from Logistics.installation import select_port
 from Logistics.feasibility.glob import glob_feas
 from Logistics.selection.select_ve import select_e, select_v
 from Logistics.selection.match import compatibility_ve
