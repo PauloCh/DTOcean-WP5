@@ -13,12 +13,20 @@ the code.
 """
 
 import numpy
+import utm
+import transit_algorithm
 
-def distance(coordinates, map_land):
+def distance(UTM_ini, UTM_fin):
     """
-    distance returns the calculated distance between two points
-    TO BE PROVIDED BY UEDIN (WP3)
+    distance returns the calculated distance (in kms) between two points
+    defined in the UTM coordinate system
     """
+# point_i = (lat_i, long_i)
+#point_if= (lat_f, long_f)
+#        length = great_circle(point_i, point_f).kilometers
+# gives you a distance between two coordinate in dd.dd in kms
+# to get dd.dd from utm you can use:
+# utm.to_latlon(ini_x_utm, ini_y_utm, ini_zone_utm[1], ini_zone_utm[2])
     return 20.0
 
 
@@ -87,11 +95,13 @@ def weatherWindow(user_inputs, olc):
     return ww
 
 
-def sched(x, install, log_phase, user_inputs, hydrodynamic_outputs, electrical_outputs, MF_outputs):
+def sched(x, install, log_phase, user_inputs, hydrodynamic_outputs, electrical_outputs, MF_outputs, log_phase_id):
 
-    for seq in range(len(log_phase.op_ve)):
+    for seq in range(len(log_phase.op_ve)): # loop over the number of operation
+    # sequencing options
 
-        for ind_sol in range(len(log_phase.op_ve[seq].sol)):
+        for ind_sol in range(len(log_phase.op_ve[seq].sol)): # loop over the
+        # number of feasible combinations of port/vessel(s)/equipment(s)
             op_dur_prep = []
             op_dur_sea = []
             olc_sea_Hs = []
@@ -102,6 +112,21 @@ def sched(x, install, log_phase, user_inputs, hydrodynamic_outputs, electrical_o
                    'maxTp': 0,
                    'maxWs': 0,
                    'maxCs': 0}
+            if log_phase_id == 'Devices': # check the nature of the logistic phase
+                if log_phase.op_ve[seq].description == 'On-deck transportation': # check the transportation method
+                    assemb_method = user_inputs['device']['assembly strategy [-]'].ix[0]
+                    if assemb_method == '([A,B,C,D])':
+        elem_area[elem_id] = user_inputs['device']['length [m]'].ix[0] * user_inputs['device']['width [m]'].ix[0]
+        elem_cargo[elem_id] = user_inputs['device']['dry mass [kg]'].ix[0]/1000
+        deck_loading = user_inputs['device']['dry mass [kg]'].ix[0] / (user_inputs['device']['length [m]'].ix[0] * user_inputs['device']['width [m]'].ix[0])
+
+                    elif assemb_method == '([A,B,C],D)':
+        deck_area = max(user_inputs['sub_device']['length [m]']['A':'C'] * user_inputs['sub_device']['width [m]']['A':'C'])
+        deck_cargo = user_inputs['sub_device']['dry mass [kg]']['A':'C'].sum()/1000
+        deck_loading = max(user_inputs['sub_device']['dry mass [kg]']['A':'C'] / (1000 * user_inputs['sub_device']['length [m]']['A':'C'] * user_inputs['sub_device']['width [m]']['A':'C']))
+                    
+                # determine t
+            log_phase.op_ve[seq].op_sequence_mob[2].description # access id of mobilisation 
 
             for op in range(len(log_phase.op_ve[seq].op_sequence)):
                 log_op = log_phase.op_ve[seq].op_sequence
@@ -177,7 +202,7 @@ def sched(x, install, log_phase, user_inputs, hydrodynamic_outputs, electrical_o
                                                       'waiting time': waiting_time}
 
     sol = {}
-    sol[0] = log_phase.op_ve[1].sol[0].schedule
-    sol[1] = log_phase.op_ve[1].sol[1].schedule
+#    sol[0] = log_phase.op_ve[1].sol[0].schedule
+#    sol[1] = log_phase.op_ve[1].sol[1].schedule
 
     return sol, log_phase

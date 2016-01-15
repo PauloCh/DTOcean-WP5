@@ -6,7 +6,7 @@ def initialize_devices_phase(log_op, vessels, equipments, user_inputs, hydrodyna
 
     # save outputs required inside short named variables
     dev_type = user_inputs['device']['type [-]'].ix[0]
-    assmbly_stratg = user_inputs['device']['assembly strategy [-]'].ix[0]
+    assembly_strategy = user_inputs['device']['assembly strategy [-]'].ix[0]
     trans_methd = user_inputs['device']['transportation method [-]'].ix[0]
     loadout_methd = user_inputs['device']['load out [-]'].ix[0]
     hydro_db = hydrodynamic_outputs
@@ -41,7 +41,7 @@ def initialize_devices_phase(log_op, vessels, equipments, user_inputs, hydrodyna
 
     # define initial mobilization and onshore tasks
     phase.op_ve[0].op_sequence_mob = [ log_op["Mob"],
-                                       log_op["DevAssPort"] ]
+                                    log_op["DevAssPort"] ]
     if trans_methd == 'deck':
 
         if loadout_methd == 'lift away':

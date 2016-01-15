@@ -84,8 +84,8 @@ def compatibility_ve(install, log_phase, port_data):
                 #     nr_feas_vess_T = nr_feas_vess_T * nr_feas_vess_i
 
                 for indx_vec in range(nr_feas_vess_i):
-                  ves[indx_vec] = ves_class.panda.ix[indx_vec]  # Get info of the feasible vessels
-
+                  # ves[indx_vec] = ves_class.panda.ix[indx_vec]  # Get info of the feasible vessels
+                  ves[indx_vec] = ves_class.panda.ix[ves_index_vec[indx_vec]]
                 ves_sol[ves_type] = {'type': type_of_ves, 'quantity': ves_quant,
                                      'Series': ves, 'indexs': ves_index_vec}  # Store info of the vessels
                 ves_indexs[ves_type] = list(ves_index_vec)  # Vector of indexs of feasible vessels per type
@@ -115,8 +115,8 @@ def compatibility_ve(install, log_phase, port_data):
                 #     nr_feas_eq_T = nr_feas_eq_T * nr_feas_eq_i
 
                 for indx_vec in range(nr_feas_eq_i):
-                    eq[indx_vec] = eq_class.panda.ix[indx_vec]  # Get info of the feasible equipments
-
+#                    eq[indx_vec] = eq_class.panda.ix[indx_vec]  # Get info of the feasible equipments
+                    eq[indx_vec] = eq_class.panda.ix[eq_index_vec[indx_vec]]
                 # eq_sol[eq_type] = {'type': type_of_eq, 'quantity': eq_quant,
                 #                  'Series': eq, 'indexs': eq_index_vec, 'req_vessel': ves_sol[eq_reltd_ves]['type']}  # Store info of the equipments
                 eq_sol[eq_type] = {'type': type_of_eq, 'quantity': eq_quant,
@@ -337,7 +337,7 @@ def compatibility_ve(install, log_phase, port_data):
                                             LEN_combi = LEN_combi-1
 
 
-        log_phase.op_ve[seq].sol_combi = sols_ve_indxs_combs_inseq
+        log_phase.op_ve[seq].sol = sols_ve_indxs_combs_inseq
         sol = sols_ve_indxs_combs_inseq
 
 

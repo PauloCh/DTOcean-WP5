@@ -119,7 +119,7 @@ Load required inputs and database into panda dataframes
 
 import pickle
 
-# inputs_SV_LD = 'save'
+#inputs_SV_LD = 'save'
 inputs_SV_LD = 'load'
 
 if inputs_SV_LD == "save":
@@ -168,7 +168,7 @@ logOp = logOp_init(database_file("operations_time_OLC.xlsx"))
 """
 Determine the adequate installation logistic phase plan
 """
-# install_plan = planning.install_plan(database_file("Installation_Order.xlsx"), user_inputs, electrical_outputs, MF_outputs)
+install_plan = planning.install_plan(database_file("Installation_Order.xlsx"), user_inputs, electrical_outputs, MF_outputs)
 
 # DUMMY-TO BE ERASED, install plan is constrained to F_driven because
 # we just have the F_driven characterized for now
@@ -179,7 +179,7 @@ install_plan = {0: ['Devices'] }
 """
 Select the most appropriate base installation port
 """
-# install_port = select_port.install_port(user_inputs, electrical_outputs, MF_outputs, ports)
+#install_port = select_port.install_port(user_inputs, electrical_outputs, MF_outputs, ports)
 install_port = 0
 
 # Incremental assessment of all logistic phase forming the the installation process
@@ -229,7 +229,7 @@ if install['status'] == "pending":
            # matching requirements for combinations of port/vessel(s)/equipment
            # install['combi_select'] = compatibility_vp(install, log_phase)
            install['combi_select'], log_phase = compatibility_ve(install, log_phase, ports) # requires install_port !!
-           print install['combi_select']
+#           print install['combi_select']
 
            # install['combi_select'], log_phase = compatibility_ve(install, log_phase, install_port)
 
