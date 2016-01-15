@@ -55,14 +55,14 @@ def compatibility_ve(install, log_phase, port_data):
         for combi in range(len(log_phase.op_ve[seq].ve_combination)):
 
 
-            # initialise solution variables
+            # * initialise solution variables *
             ves_sol = {}
             ves_indexs = {}
             eq_sol = {}
             eq_indexs = {}
 
 
-            #  Go through vessels
+            # * Go through vessels *
             nr_diff_ves = len(log_phase.op_ve[seq].ve_combination[combi]['vessel']) # nr_diff_ves in combination
             for ves_type in range(nr_diff_ves):
 
@@ -76,15 +76,9 @@ def compatibility_ve(install, log_phase, port_data):
                 ves_index_vec = ves_class.panda.index  # Get indexs that correspond to vessel class
                 nr_feas_vess_i = len(ves_index_vec)  # Number of feasible vessels within vessel type
 
-                # # if nr_feas_vess_i>0:
-                # # Quantify number of total feasible vessels regardless of type
-                # if ves_type == 0:
-                #     nr_feas_vess_T = nr_feas_vess_i
-                # else:
-                #     nr_feas_vess_T = nr_feas_vess_T * nr_feas_vess_i
-
                 for indx_vec in range(nr_feas_vess_i):
-                  ves[indx_vec] = ves_class.panda.ix[indx_vec]  # Get info of the feasible vessels
+                    # ves[indx_vec] = ves_class.panda.ix[indx_vec]  # Get info of the feasible vessels
+                    ves[indx_vec] = ves_class.panda.ix[ves_index_vec[indx_vec]]  # Get info of the feasible vessels
 
                 ves_sol[ves_type] = {'type': type_of_ves, 'quantity': ves_quant,
                                      'Series': ves, 'indexs': ves_index_vec}  # Store info of the vessels
@@ -92,7 +86,7 @@ def compatibility_ve(install, log_phase, port_data):
 
 
 
-            #  Go through equips
+            # * Go through equips *
             nr_diff_equi = len(log_phase.op_ve[seq].ve_combination[combi]['equipment'])
             for eq_type in range(nr_diff_equi):
 
@@ -107,15 +101,9 @@ def compatibility_ve(install, log_phase, port_data):
                 eq_index_vec = eq_class.panda.index
                 nr_feas_eq_i = len(eq_index_vec)
 
-                # # if nr_feas_eq_i>0:
-                # # Quantify number of total feasible equipments regardless of type
-                # if eq_type == 0:
-                #     nr_feas_eq_T = nr_feas_eq_i
-                # else:
-                #     nr_feas_eq_T = nr_feas_eq_T * nr_feas_eq_i
-
                 for indx_vec in range(nr_feas_eq_i):
-                    eq[indx_vec] = eq_class.panda.ix[indx_vec]  # Get info of the feasible equipments
+                    # eq[indx_vec] = eq_class.panda.ix[indx_vec]  # Get info of the feasible equipments
+                    eq[indx_vec] = eq_class.panda.ix[eq_index_vec[indx_vec]]  # Get info of the feasible equipments
 
                 # eq_sol[eq_type] = {'type': type_of_eq, 'quantity': eq_quant,
                 #                  'Series': eq, 'indexs': eq_index_vec, 'req_vessel': ves_sol[eq_reltd_ves]['type']}  # Store info of the equipments
@@ -124,16 +112,7 @@ def compatibility_ve(install, log_phase, port_data):
                 eq_indexs[eq_type] = list(eq_index_vec)  # Vector of indexs of feasible equipments per type
 
 
-
-
-            # nr_sol_T = nr_feas_vess_T * nr_feas_eq_T  # Total number of solutions per combination
-
-
-
-
             # Build solutions
-            # sols_ve_indxs = []
-
             sols_ves = []
             for ves_type in range(nr_diff_ves):  # Agregatte vessel type solutions
 
@@ -175,109 +154,76 @@ def compatibility_ve(install, log_phase, port_data):
 
 
         sols_ve_indxs_combs_inseq.append(sols_ve_indxs_combs_incomb)  # Store solution per sequence
-        #
-        #     # # solution = VE_solutions[seq]
-        #     log_phase.op_ve[seq].sol_combi_combinations[combi] = sols_ve_indxs_combs_incomb
-        #     log_phase.op_ve[seq].sol_combi_ves[combi] = ves_sol
-        #     log_phase.op_ve[seq].sol_combi_eq[combi] = eq_sol
-        #
-        #
-        # log_phase.op_ve[seq].sol = sols_ve_indxs_combs_inseq
 
 
 
-        # # Store final solution
-        # sol = VE_solutions(nr_sol) # ??????????????!
-        # sol.sol_combi[seq] = sols_ve_indxs_combs_inseq
-        # sol.sol_ves[seq] = ves_sol
-        # sol.sol_eq[seq] = eq_sol
-        # nr_sol = nr_sol + 1
+    # * Apply MATCHING *
 
-
-
-
-
-
-
-
-
-    # Apply MATCHING
+    port_pd = port_data
 
     # # Port/Vessel
-    # req_m_pv = install['requirement'][2]
-    # match_rq = dict.fromkeys(req_m_pv.keys())
-    #
-    # for typ in range(len(req_m_pv)):
-    #     m_pv_key_req = req_m_pv.keys()[typ]
-    #
-    #     for seq in range(len(log_phase.op_ve)):
-    #
-    #         for m_ves_ind in range(len(log_phase.op_ve[seq].sol_ves)):
-    #
-    #             m_v_key_type = log_phase.op_ve[seq].sol_ves[m_ves_ind]['type']
-    #             m_v_pd = log_phase.op_ve[seq].sol_ves[m_ves_ind]['Series']
-    #
-    #             if m_v_key_type == m_pv_key_req:
-    #
-    #                for req in range(len(req_m_pv[m_pv_key_req])):
-    #                    m_pv_read = req_m_pv[m_pv_key_req][req]
-    #
-    #                    if len(m_v_pd)>0:
-    #                        aux_op = m_v_pd[m_ves_ind][m_pv_read[0]]
-    #                        for ind_rd in range(1,len(m_pv_read)-1,2):
-    #
-    #                            if m_pv_read[ind_rd] == 'plus':
-    #                                aux_op = aux_op + m_v_pd[m_ves_ind][m_pv_read[ind_rd+1]]
-    #                            elif m_pv_read[ind_rd] == 'mul':
-    #                                aux_op = aux_op * m_v_pd[m_ves_ind][m_pv_read[ind_rd+1]]
-    #                            elif m_pv_read[ind_rd] == 'div':
-    #                                aux_op = aux_op / m_v_pd[m_ves_ind][m_pv_read[ind_rd+1]]
-    #                            elif m_pv_read[ind_rd] == 'sup':
-    #                                m_pv_sol = m_v_pd[ port_data[m_pv_read[ind_rd+1]]  <= aux_op ]
+    req_m_pv = install['requirement'][2]
+    match_rq_pv = dict.fromkeys(req_m_pv.keys())
 
+    for typ_req in range(len(req_m_pv)):
+        m_pv_key_req = req_m_pv.keys()[typ_req]
 
+        for seq in range(len(log_phase.op_ve)):
+
+            for combin in range(len(sols_ve_indxs_combs_inseq[0])):
+
+                ve_combinations = sols_ve_indxs_combs_inseq[seq][combin]
+
+                LEN_combi = len(ve_combinations)
+                ind_ve_combi = -1
+                while ind_ve_combi < LEN_combi-1:
+
+                    ind_ve_combi = ind_ve_combi+1
+
+                    ve_comb = ve_combinations[ind_ve_combi]
+                    ve_comb_ves = ve_combinations[ind_ve_combi][0]
+                    ve_comb_eqs = ve_combinations[ind_ve_combi][1]
+
+                    for ind_ves_in_combi in range(len(ve_comb_ves)):
+
+                        m_v_key_type = ve_comb_ves[ind_ves_in_combi][0]
+                        ves_pd = ve_comb_ves[ind_ves_in_combi][2] # panda series data
+
+                        if m_v_key_type == m_pv_key_req:
+
+                            for req in range(len(req_m_pv[m_pv_key_req])):
+                               m_ev_read = req_m_pv[m_pv_key_req][req]
+
+                               aux_op = ves_pd[m_ev_read[0]]
+                               for ind_rd in range(1,len(m_ev_read)-1,2):
+
+                                   if m_ev_read[ind_rd] == 'plus':
+                                       aux_op = aux_op + ves_pd[m_ev_read[ind_rd+1]]
+                                   elif m_ev_read[ind_rd] == 'mul':
+                                       aux_op = aux_op * ves_pd[m_ev_read[ind_rd+1]]
+                                   elif m_ev_read[ind_rd] == 'div':
+                                       aux_op = aux_op / ves_pd[m_ev_read[ind_rd+1]]
+                                   elif m_ev_read[ind_rd] == 'sup':
+                                       if port_pd[m_ev_read[ind_rd+1]] >= aux_op :
+                                           continue
+                                       else:
+                                            del sols_ve_indxs_combs_inseq[seq][combin][ind_ve_combi]
+                                            LEN_combi = LEN_combi-1
+                                   elif m_ev_read[ind_rd] == 'equal':
+                                       if port_pd[m_ev_read[ind_rd+1]] == aux_op :
+                                          continue
+                                       else:
+                                            del sols_ve_indxs_combs_inseq[seq][combin][ind_ve_combi]
+                                            LEN_combi = LEN_combi-1
 
     # # Port/Equipment
     # req_m_pe = install['requirement'][3]
-    # match_rq = dict.fromkeys(req_m_pe.keys())
-    #
-    # for typ in range(len(req_m_pe)):
-    #     m_pe_key_req = req_m_pe.keys()[typ]
-    #
-    #     for seq in range(len(log_phase.op_ve)):
-    #
-    #         for m_ves_ind in range(len(log_phase.op_ve[seq].sol_ves)):
-    #
-    #             m_v_key_type = log_phase.op_ve[seq].sol_ves[m_ves_ind]['type']
-    #             m_v_pd = log_phase.op_ve[seq].sol_ves[m_ves_ind]['Series']
-    #
-    #             for m_eq_ind in range(len(log_phase.op_ve[seq].sol_eq)):
-    #
-    #                 m_e_key_type = log_phase.op_ve[seq].sol_eq[m_eq_ind]['type']
-    #                 m_e_pd = log_phase.op_ve[seq].sol_eq[m_eq_ind]['Series']
-    #
-    #             if m_e_key_type == m_pe_key_req:
-    #
-    #                for req in range(len(req_m_pe[m_pe_key_req])):
-    #                    m_pe_read = req_m_pe[m_pe_key_req][req]
-    #
-    #                    aux_op = m_e_pd[m_eq_ind][m_pe_read[0]]
-    #                    for ind_rd in range(1,len(m_pe_read)-1,2):
-    #
-    #                        if m_pe_read[ind_rd] == 'plus':
-    #                            aux_op = aux_op + m_e_pd[m_eq_ind][m_pe_read[ind_rd+1]]
-    #                        elif m_pe_read[ind_rd] == 'mul':
-    #                            aux_op = aux_op * m_e_pd[m_eq_ind][m_pe_read[ind_rd+1]]
-    #                        elif m_pe_read[ind_rd] == 'div':
-    #                            aux_op = aux_op / m_e_pd[m_eq_ind][m_pe_read[ind_rd+1]]
-    #                        elif m_pe_read[ind_rd] == 'sup':
-    #                            m_pe_sol = m_e_pd[ port_data[m_pe_read[ind_rd+1]]  <= aux_op ]
-
+    # match_rq_pe = dict.fromkeys(req_m_pe.keys())
 
 
     # Vessel/Equipment
     req_m_ev = install['requirement'][4]
-    match_rq = dict.fromkeys(req_m_ev.keys())
+    match_rq_ev = dict.fromkeys(req_m_ev.keys())
 
     for typ_req in range(len(req_m_ev)):
         m_ev_key_req = req_m_ev.keys()[typ_req]
@@ -325,50 +271,23 @@ def compatibility_ve(install, log_phase, port_data):
                                        if ves_pd[m_ev_read[ind_rd+1]] >= aux_op :
                                            continue
                                        else:
-                                            # print ind_ve_combi
                                             del sols_ve_indxs_combs_inseq[seq][combin][ind_ve_combi]
                                             LEN_combi = LEN_combi-1
                                    elif m_ev_read[ind_rd] == 'equal':
                                        if ves_pd[m_ev_read[ind_rd+1]] == aux_op :
                                           continue
                                        else:
-                                           # print ind_ve_combi
                                             del sols_ve_indxs_combs_inseq[seq][combin][ind_ve_combi]
                                             LEN_combi = LEN_combi-1
 
 
-        log_phase.op_ve[seq].sol_combi = sols_ve_indxs_combs_inseq
-        sol = sols_ve_indxs_combs_inseq
+    log_phase.op_ve[seq].sol_combi = sols_ve_indxs_combs_inseq
+    sol = sols_ve_indxs_combs_inseq
 
-
-
-
-#    log_phase.op_ve[1].sol[0] = VE_solutions(0)
-#    log_phase.op_ve[1].sol[1] = VE_solutions(1)
-#
-#    pd_ves0 = log_phase.op_ve[1].ve_combination[0]['vessel'][0][1].panda
-#    pd_ves0_index = pd_ves0.index
-#
-#    pd_ves1 = log_phase.op_ve[1].ve_combination[0]['vessel'][1][1].panda
-#    pd_ves1_index = pd_ves1.index
-#
-
-#    pd_eq = log_phase.op_ve[1].ve_combination[0]['equipment'][0][1].panda
-#    pd_eq_index = pd_eq.index
-#
-#    log_phase.op_ve[1].sol[0].sol_ves[0] = pd_ves0.ix[pd_ves0_index[0]]
-#    log_phase.op_ve[1].sol[0].sol_ves[1] = pd_ves1.ix[pd_ves1_index[0]]
-#    log_phase.op_ve[1].sol[0].sol_eq[0] = pd_eq.ix[pd_eq_index[0]]
-#
-#    log_phase.op_ve[1].sol[1].sol_ves[0] = pd_ves0.ix[pd_ves0_index[1]]
-#    log_phase.op_ve[1].sol[1].sol_ves[1] = pd_ves1.ix[pd_ves1_index[1]]
-#    log_phase.op_ve[1].sol[1].sol_eq[0] = pd_eq.ix[pd_eq_index[0]]
-#
-#    sol = {}
-#    sol[0] = log_phase.op_ve[1].sol[0]
-#    sol[1] = log_phase.op_ve[1].sol[1]
 
     return sol, log_phase
+
+
 
 
 def compatibility_ve_om(install, log_phase):
