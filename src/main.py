@@ -91,7 +91,8 @@ from Logistics.load.wp_bom import load_electrical_outputs, load_MF_outputs
 # from wp5.load.wp_bom import load_OM_outputs
 from Logistics.logistics.operations import logOp_init
 from Logistics.logistics.phase import logPhase_install_init
-from Logistics.installation import planning, select_port
+from Logistics.installation import planning
+#from Logistics.installation import select_port
 from Logistics.feasibility.glob import glob_feas
 from Logistics.selection.select_ve import select_e, select_v
 from Logistics.selection.match import compatibility_ve
@@ -167,7 +168,7 @@ logOp = logOp_init(database_file("operations_time_OLC.xlsx"))
 """
 Determine the adequate installation logistic phase plan
 """
-install_plan = planning.install_plan(database_file("Installation_Order.xlsx"), user_inputs, electrical_outputs, MF_outputs)
+# install_plan = planning.install_plan(database_file("Installation_Order.xlsx"), user_inputs, electrical_outputs, MF_outputs)
 
 # DUMMY-TO BE ERASED, install plan is constrained to F_driven because
 # we just have the F_driven characterized for now
