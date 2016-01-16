@@ -168,7 +168,7 @@ logOp = logOp_init(database_file("operations_time_OLC.xlsx"))
 """
 Determine the adequate installation logistic phase plan
 """
-install_plan = planning.install_plan(database_file("Installation_Order.xlsx"), user_inputs, electrical_outputs, MF_outputs)
+#install_plan = planning.install_plan(database_file("Installation_Order.xlsx"), user_inputs, electrical_outputs, MF_outputs)
 
 # DUMMY-TO BE ERASED, install plan is constrained to F_driven because
 # we just have the F_driven characterized for now
@@ -228,13 +228,19 @@ if install['status'] == "pending":
 
            # matching requirements for combinations of port/vessel(s)/equipment
            # install['combi_select'] = compatibility_vp(install, log_phase)
-           install['combi_select'], log_phase = compatibility_ve(install, log_phase, ports) # requires install_port !!
+           install['combi_select'], log_phase = compatibility_ve(install,
+                                                                 log_phase,
+                                                                 ports) # requires install_port !!
 #           print install['combi_select']
 
            # install['combi_select'], log_phase = compatibility_ve(install, log_phase, install_port)
 
            # schedule assessment of the different operation sequence
-           install['schedule'], log_phase = sched(x, install, log_phase, user_inputs, hydrodynamic_outputs, electrical_outputs, MF_outputs)
+           install['schedule'], log_phase = sched(x, install, log_phase,
+                                                  log_phase_id, user_inputs,
+                                                  hydrodynamic_outputs,
+                                                  electrical_outputs,
+                                                  MF_outputs)
 
            # cost assessment of the different operation sequenc
            install['cost'], log_phase = cost(install, log_phase)

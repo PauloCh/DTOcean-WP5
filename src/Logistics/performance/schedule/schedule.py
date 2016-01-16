@@ -15,6 +15,7 @@ the code.
 import numpy
 import utm
 import transit_algorithm
+from itertools import accumulate 
 
 def distance(UTM_ini, UTM_fin):
     """
@@ -95,7 +96,8 @@ def weatherWindow(user_inputs, olc):
     return ww
 
 
-def sched(x, install, log_phase, user_inputs, hydrodynamic_outputs, electrical_outputs, MF_outputs, log_phase_id):
+def sched(x, install, log_phase, log_phase_id,
+          user_inputs, hydrodynamic_outputs, electrical_outputs, MF_outputs):
 
     for seq in range(len(log_phase.op_ve)): # loop over the number of operation
     # sequencing options
@@ -112,18 +114,62 @@ def sched(x, install, log_phase, user_inputs, hydrodynamic_outputs, electrical_o
                    'maxTp': 0,
                    'maxWs': 0,
                    'maxCs': 0}
-            if log_phase_id == 'Devices': # check the nature of the logistic phase
-                if log_phase.op_ve[seq].description == 'On-deck transportation': # check the transportation method
+            # check the nature of the logistic phase
+            if log_phase_id == 'Devices': 
+                # check the transportation method
+                # (1st branch in the decision making tree)
+                if log_phase.op_ve[seq].description == 'On-deck transportation': 
+                    # check the device assembly strategy
+                    # (2nd and FINAL branch in the decision making tree)
                     assemb_method = user_inputs['device']['assembly strategy [-]'].ix[0]
                     if assemb_method == '([A,B,C,D])':
-        elem_area[elem_id] = user_inputs['device']['length [m]'].ix[0] * user_inputs['device']['width [m]'].ix[0]
-        elem_cargo[elem_id] = user_inputs['device']['dry mass [kg]'].ix[0]/1000
-        deck_loading = user_inputs['device']['dry mass [kg]'].ix[0] / (user_inputs['device']['length [m]'].ix[0] * user_inputs['device']['width [m]'].ix[0])
-
+                        # calculate the number of devices
+                        nb_dev = range(len(hydrodynamic_outputs['device [-]']))
+                        for dev in nb_dev: # loop over the number of devices
+                            # calculate the area and dry mass of all elements
+                            elem_area[dev] = user_inputs['device']['length [m]'].ix[0]*user_inputs['device']['width [m]'].ix[0]
+                            elem_mass[dev] = user_inputs['device']['dry mass [kg]'].ix[0]/1000
+                            
+                        nb_elem_port = nb_dev # initialise the number of elements to be transported that are initially at port
+                        nb_journey = 0 # initialise the number of vessel journeys
+                        nb_el_journey = [] # initialise the list of number of elements per journey
+                        while nb_elem_port > 0:
+                            # extract the panda series of the tranporting vessel
+                            sol_pd_series = log_phase.op_ve[seq].sol[ind_sol][0][0][0][0][2]
+                            # extract the deck area and cargo
+                            deck_area = sol_pd_series.ix['Deck space [m^2]']
+                            deck_cargo = sol_pd_series.ix['Deck cargo [t]']
+                            # determine the cumulative vector of element areas and dry masses
+                            elem_area_accum = list(accumulate(elem_area))
+                            elem_mass_accum = list(accumulate(elem_mass))
+                            # determine the maximum number of elements that can fit on-deck due to max deck area or max deck cargo limitations
+                            nb_dev_area = indices(elem_area_accum, lambda x: x>deck_area)
+                            nb_dev_mass = indices(elem_mass_accum, lambda x: x>deck_cargo)
+                            nb_el_journey[len(nb_el_journey):] = min([nb_dev_area,
+                                                                      nb_dev_mass])
+                            # update the number of elements remaining at port and their areas/masses lists
+                            if nb_el_journey[nb_journey] = nb_elem_port:
+                                nb_elem_port = 0
+                            elif nb_el_journey[nb_journey] = 0:
+                                # error that means not a single element can fit!
+                            else 
+                                nb_elem_port = nb_elem_port - nb_el_journey[nb_journey]
+                                elem_area = elem_area[nb_el_journey:]
+                                elem_mass = elem_mass[nb_el_journey:]
+                            nb_journey = nb_journey + 1
+                            
+                            # number of operation sequence in the preparation phase
+                            nb_op_prep = range(len(log_phase.op_ve[seq].op_sequence_mob))                            
+                            # determine the duration of the logistic phase preparation before departure of the vessel(s)
+                            for op_prep in nb_op_prep:
+                                # discriminate between the time assessment methods
+                                if log_phase.op_ve[seq].op_sequence_mob[op_prep].time_function == ?
+                                op_dur_prep.append(log_phase.op_ve[seq].op_sequence_mob)
+                            # determine the sea duration
+                            
+                            # add demobilisation time to finalise the logistic phase
                     elif assemb_method == '([A,B,C],D)':
-        deck_area = max(user_inputs['sub_device']['length [m]']['A':'C'] * user_inputs['sub_device']['width [m]']['A':'C'])
-        deck_cargo = user_inputs['sub_device']['dry mass [kg]']['A':'C'].sum()/1000
-        deck_loading = max(user_inputs['sub_device']['dry mass [kg]']['A':'C'] / (1000 * user_inputs['sub_device']['length [m]']['A':'C'] * user_inputs['sub_device']['width [m]']['A':'C']))
+                        
                     
                 # determine t
             log_phase.op_ve[seq].op_sequence_mob[2].description # access id of mobilisation 
