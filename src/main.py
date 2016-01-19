@@ -179,7 +179,7 @@ install_plan = {0: ['Devices'] }
 """
 Select the most appropriate base installation port
 """
-# install_port = select_port.install_port(user_inputs, electrical_outputs, MF_outputs, ports)
+install_port = select_port.install_port(user_inputs, hydrodynamic_outputs, electrical_outputs, MF_outputs, ports)
 install_port_index = 0 # CHANGE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 # Incremental assessment of all logistic phase forming the the installation process

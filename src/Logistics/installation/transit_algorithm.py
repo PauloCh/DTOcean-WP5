@@ -18,8 +18,18 @@ import utm
 def transit_algorithm(point_INI, point_FIN):
 
 
-    ini_x_utm = point_INI[0], ini_y_utm = point_INI[1], ini_zone_utm = point_INI[2,:]
-    fin_x_utm = point_FIN[0], fin_y_utm = point_FIN[1], fin_zone_utm = point_FIN[2,:]
+    ini_x_utm = point_INI[0]
+    ini_y_utm = point_INI[1]
+    ini_zone_utm = point_INI[2]
+
+    fin_x_utm = point_FIN[0]
+    fin_y_utm = point_FIN[1]
+    fin_zone_utm = point_FIN[2]
+
+
+    # [LAT_INI, LONG_INI] = utm.to_latlon(ini_x_utm, ini_y_utm, int(ini_zone_utm[0:2]), str(ini_zone_utm[3]))
+    # [LAT_FIN, LONG_FIN] = utm.to_latlon(fin_x_utm, fin_y_utm, int(fin_zone_utm[0:2]), str(fin_zone_utm[3]))
+
 
 
     num_points = 1
@@ -201,7 +211,7 @@ def transit_algorithm(point_INI, point_FIN):
     ### coordinates of the locations to graph points!
     ERROR_POINTS = delt_long/2
 
-    [LAT_INI, LONG_INI] = utm.to_latlon(ini_x_utm, ini_y_utm, ini_zone_utm[1], ini_zone_utm[2])
+    [LAT_INI, LONG_INI] = utm.to_latlon(ini_x_utm, ini_y_utm, int(ini_zone_utm[0:2]), str(ini_zone_utm[3]))
     for point_vec in range(len(lat_i)):
 
         LAT_ini = lat_i[point_vec]
@@ -216,7 +226,7 @@ def transit_algorithm(point_INI, point_FIN):
                     break
 
 
-    [LAT_FIN, LONG_FIN] = utm.to_latlon(fin_x_utm, fin_y_utm, fin_zone_utm[1], fin_zone_utm[2])
+    [LAT_FIN, LONG_FIN] = utm.to_latlon(fin_x_utm, fin_y_utm, int(fin_zone_utm[0:2]), str(fin_zone_utm[3]))
     for point_vec in range(len(lat_i)):
 
         LAT_fin = lat_i[point_vec]

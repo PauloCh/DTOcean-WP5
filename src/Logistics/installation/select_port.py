@@ -11,9 +11,10 @@ of two logistic phases (one for the installation module and one for the O&M),
 this will be upgraded for the beta version due to october.
 """
 
-import transit_algorithm
+from transit_algorithm import transit_algorithm
 
-def install_port(user_inputs, electrical_outputs, MF_outputs, port_data):
+
+def install_port(user_inputs, hydrodynamic_outputs, electrical_outputs, MF_outputs, ports):
     """install_port function selects the home port used by all logistic phases
     during installation. This selection is based on a 2 step process: 
         1 - the port feasibility functions from all logistic phases are taken
@@ -35,41 +36,51 @@ def install_port(user_inputs, electrical_outputs, MF_outputs, port_data):
     Returns
     -------
     port : dict
-     dictionnary containing the results of the port selection
+     dictionnary containing the results port_listof the port selection
     """    
     # initialisation
-    port = {'Terminal load bearing [t/m^2]': 0,
-            'Terminal area [m2]': 0,
-            'Port list satisfying the minimum requirements': 0,
-            'Distance port-site': 0,
-            'Selected base port for installation': 0}
-    # calculate loading and projected area of foundations/anchors
-    load = []
-    area = []
-    if user_inputs['device']['type [-]'].ix[0] == "seabed fixed":
-        for x in range(MF_outputs['quantity'].ix[0]):
-            key1 = "diameter foundation " + str(x) + " [m]"
-            key2 = "length foundation " + str(x) + " [m]"
-            key3 = "weight foundation " + str(x) + " [kg]"
-            load[len(load):] = [MF_outputs[key1].ix[0] * MF_outputs[key2].ix[0] / MF_outputs[key3].ix[0]]
-            area[len(area):] = [MF_outputs[key1].ix[0] * MF_outputs[key2].ix[0]]
-
-    # terminal load bearing minimum requirement
-    port['Terminal load bearing [t/m^2]'] = max(user_inputs['device']['length [m]'].ix[0] * user_inputs['device']['width [m]'].ix[0] / user_inputs['device']['dry mass [kg]'].ix[0],
-                                                   max(load))
-    port_list = port_data[ port_data['Terminal load bearing [t/m^2]'] >= port['Terminal load bearing [t/m^2]'] ]
-
-    port['Terminal area [m^2]'] = max(user_inputs['device']['length [m]'].ix[0] * user_inputs['device']['width [m]'].ix[0], sum(area))
-    port_list = port_list[ port_list['Terminal area [m^2]'] >= port['Terminal area [m^2]'] ]
-
-    port['Port list satisfying the minimum requirements'] = port_list
+    # port = {'Terminal load bearing [t/m^2]': 0,
+    #         'Terminal area [m2]': 0,
+    #         'Port list satisfying the minimum requirements': 0,
+    #         'Distance port-site': 0,
+    #         'Selected base port for installation': 0}
+    # # calculate loading and projected area of foundations/anchors
+    # load = []
+    # area = []
+    # if user_inputs['device']['type [-]'].ix[0] == "seabed fixed":
+    #     for x in range(MF_outputs['quantity'].ix[0]):
+    #         key1 = "diameter foundation " + str(x) + " [m]"
+    #         key2 = "length foundation " + str(x) + " [m]"
+    #         key3 = "weight foundation " + str(x) + " [kg]"
+    #         load[len(load):] = [MF_outputs[key1].ix[0] * MF_outputs[key2].ix[0] / MF_outputs[key3].ix[0]]
+    #         area[len(area):] = [MF_outputs[key1].ix[0] * MF_outputs[key2].ix[0]]
+    #
+    # # terminal load bearing minimum requirement
+    # port['Terminal load bearing [t/m^2]'] = max(user_inputs['device']['length [m]'].ix[0] * user_inputs['device']['width [m]'].ix[0] / user_inputs['device']['dry mass [kg]'].ix[0],
+    #                                                max(load))
+    # port_list = port_data[ port_data['Terminal load bearing [t/m^2]'] >= port['Terminal load bearing [t/m^2]'] ]
+    #
+    # port['Terminal area [m^2]'] = max(user_inputs['device']['length [m]'].ix[0] * user_inputs['device']['width [m]'].ix[0], sum(area))
+    # port_list = port_list[ port_list['Terminal area [m^2]'] >= port['Terminal area [m^2]'] ]
+    #
+    # port['Port list satisfying the minimum requirements'] = port_list
 
     # Distance ports-site calculation to be implemented once the transit distance algorithm is available
     # by making use of the grid coordinate position of the site and the ports
-    site_coords = user_inputs['site'] # NEEDS TO BE CENTER OR MINIMIUM!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+
+    index_dev = 0  # USING POSITION OF FIRST DEVICE!!!
+    site_coords_x = hydrodynamic_outputs['x coord [m]'][index_dev]
+    site_coords_y = hydrodynamic_outputs['y coord [m]'][index_dev]
+    site_coords_zone = hydrodynamic_outputs['zone [-]'][index_dev]
+    site_coords = [site_coords_x, site_coords_y, site_coords_zone]
     dist_to_port_vec = []
-    for ind_port in range(len(port_list)):
-        port_coords = port_list[ind_port]
+    for ind_port in range(len(ports)):
+        port_coords_x = ports['UTM x [m]'][ind_port]
+        port_coords_y = ports['UTM y [m]'][ind_port]
+        port_coords_zone = ports['UTM zone [-]'][ind_port]
+        port_coords = [port_coords_x, port_coords_y, port_coords_zone]
         dist_to_port_i = transit_algorithm(site_coords, port_coords)
         dist_to_port_vec.append(dist_to_port_i)
         min_dist_to_port = min(dist_to_port_vec)
@@ -77,9 +88,9 @@ def install_port(user_inputs, electrical_outputs, MF_outputs, port_data):
             port_choice_index = ind_port
 
     # Nearest port selection to be modified by making use of port['Distance port-site'] will be implemented
-    port['Selected base port for installation'] = port_list.ix[port_choice_index]
+    ports['Selected base port for installation'] = ports.ix[port_choice_index]
 
-    return port
+    return ports
 
 
 
