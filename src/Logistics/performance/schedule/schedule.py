@@ -15,7 +15,8 @@ the code.
 import numpy
 import utm
 import transit_algorithm
-from itertools import accumulate 
+# transit_algoritm((x_coord_ini, y_coord_ini, zone_ini), (x_coord_ini, y_coord_ini, zone_ini))
+import itertools
 
 def distance(UTM_ini, UTM_fin):
     """
@@ -103,7 +104,9 @@ def sched(x, install, log_phase, log_phase_id,
     # sequencing options
 
         for ind_sol in range(len(log_phase.op_ve[seq].sol)): # loop over the
-        # number of feasible combinations of port/vessel(s)/equipment(s)
+        # number of solutions, i.e feasible combinations of 
+        # port/vessel(s)/equipment(s)
+    
             op_dur_prep = []
             op_dur_sea = []
             olc_sea_Hs = []
@@ -135,6 +138,7 @@ def sched(x, install, log_phase, log_phase_id,
                         nb_el_journey = [] # initialise the list of number of elements per journey
                         while nb_elem_port > 0:
                             # extract the panda series of the tranporting vessel
+                            # assumption: the first vessel is always the transporting vessel 
                             sol_pd_series = log_phase.op_ve[seq].sol[ind_sol][0][0][0][0][2]
                             # extract the deck area and cargo
                             deck_area = sol_pd_series.ix['Deck space [m^2]']
@@ -148,31 +152,41 @@ def sched(x, install, log_phase, log_phase_id,
                             nb_el_journey[len(nb_el_journey):] = min([nb_dev_area,
                                                                       nb_dev_mass])
                             # update the number of elements remaining at port and their areas/masses lists
-                            if nb_el_journey[nb_journey] = nb_elem_port:
+                            if nb_el_journey[nb_journey] == nb_elem_port:
                                 nb_elem_port = 0
-                            elif nb_el_journey[nb_journey] = 0:
+                            elif nb_el_journey[nb_journey] == 0:
                                 # error that means not a single element can fit!
-                            else 
+                                print 'not a single device can fit in the deck!' 
+                            else:
                                 nb_elem_port = nb_elem_port - nb_el_journey[nb_journey]
                                 elem_area = elem_area[nb_el_journey:]
                                 elem_mass = elem_mass[nb_el_journey:]
+                            # update the number of vessel journeys
                             nb_journey = nb_journey + 1
                             
                             # number of operation sequence in the preparation phase
-                            nb_op_prep = range(len(log_phase.op_ve[seq].op_sequence_mob))                            
+                            nb_op_prep = range(len(log_phase.op_ve[seq].op_seq_prep))                            
                             # determine the duration of the logistic phase preparation before departure of the vessel(s)
                             for op_prep in nb_op_prep:
+                                log_op_prep = log_phase.op_ve[seq].op_seq_prep[op_prep]
                                 # discriminate between the time assessment methods
-                                if log_phase.op_ve[seq].op_sequence_mob[op_prep].time_function == ?
-                                op_dur_prep.append(log_phase.op_ve[seq].op_sequence_mob)
+                            
+                                if not log_op_prep.time_value:
+                                    op_dur_prep.append(log_op_prep.time_value)
+#                                elif not log_op_prep.time_function:
+#                                    if log_op_prep.time_function == "transit_algorithm(UTM_i, UTM_f) * vesselDB['vessel transit speed']"
+#                                        port_2_site_t = transit_algorithm() 
+#                                        op_dur_prep.append(log_op_prep.time_function)
+#                                    
                             # determine the sea duration
                             
                             # add demobilisation time to finalise the logistic phase
-                    elif assemb_method == '([A,B,C],D)':
-                        
-                    
-                # determine t
-            log_phase.op_ve[seq].op_sequence_mob[2].description # access id of mobilisation 
+                            
+#                    elif assemb_method == '([A,B,C],D)':
+#                        
+#                    
+#                # determine t
+#            log_phase.op_ve[seq].op_seq_prep[2].description # access id of mobilisation 
 
             for op in range(len(log_phase.op_ve[seq].op_sequence)):
                 log_op = log_phase.op_ve[seq].op_sequence

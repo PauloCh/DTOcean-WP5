@@ -18,7 +18,7 @@ def initialize_m_suction_phase(log_op, vessels, equipments, MF_outputs):
 
     # define vessel and equipment combinations suited for this strategy
 
-    phase.op_ve[0].op_sequence_elem = [log_op["Mob"],
+    phase.op_ve[0].op_seq_sea = [log_op["Mob"],
                                        log_op["AssPort"],
                                        log_op["VessPrep"],
                                        log_op["TranPortSite"],

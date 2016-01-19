@@ -336,9 +336,8 @@ def compatibility_ve(install, log_phase, port_data):
                                             del sols_ve_indxs_combs_inseq[seq][combin][ind_ve_combi]
                                             LEN_combi = LEN_combi-1
 
-
-        log_phase.op_ve[seq].sol = sols_ve_indxs_combs_inseq
-        sol = sols_ve_indxs_combs_inseq
+        log_phase.op_ve[seq].sol = sols_ve_indxs_combs_inseq[seq]
+        sol = sols_ve_indxs_combs_inseq[seq]
 
 
 

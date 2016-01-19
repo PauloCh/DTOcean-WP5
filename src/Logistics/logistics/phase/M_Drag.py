@@ -33,9 +33,9 @@ def initialize_m_drag_phase(log_op, vessels, equipments, MF_outputs):
         drag_id = index
 
         # initialize an empty operation sequence list for the 'index' element
-        phase.op_ve[0].op_sequence_elem[drag_id] = []
+        phase.op_ve[0].op_seq_sea[drag_id] = []
 
-        phase.op_ve[0].op_sequence_elem[drag_id].extend([ log_op["SeafloorEquipPrep"],
+        phase.op_ve[0].op_seq_sea[drag_id].extend([ log_op["SeafloorEquipPrep"],
                                                           log_op["DragEmbed"],
                                                           log_op["PreLay"] ])
 
