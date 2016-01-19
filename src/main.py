@@ -119,7 +119,7 @@ Load required inputs and database into panda dataframes
 
 import pickle
 
-#inputs_SV_LD = 'save'
+# inputs_SV_LD = 'save'
 inputs_SV_LD = 'load'
 
 if inputs_SV_LD == "save":
@@ -179,8 +179,8 @@ install_plan = {0: ['Devices'] }
 """
 Select the most appropriate base installation port
 """
-install_port = select_port.install_port(user_inputs, hydrodynamic_outputs, electrical_outputs, MF_outputs, ports)
-install_port_index = 0 # CHANGE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ports, install_port, install_port_index = select_port.install_port(user_inputs, hydrodynamic_outputs, electrical_outputs, MF_outputs, ports)
+# install_port_index = 0 # CHANGE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 # Incremental assessment of all logistic phase forming the the installation process
 install = {'plan': install_plan,
@@ -211,8 +211,7 @@ if install['status'] == "pending":
            # print log_phase
 
            # characterize the logistic requirements
-           install['requirement'] = glob_feas(log_phase, log_phase_id,
-                                              user_inputs, hydrodynamic_outputs,
+           install['requirement'] = glob_feas(log_phase, log_phase_id, user_inputs, hydrodynamic_outputs,
                                               electrical_outputs, MF_outputs)
            print install['requirement']
 
@@ -227,13 +226,8 @@ if install['status'] == "pending":
            print install['ve_select']
 
            # matching requirements for combinations of port/vessel(s)/equipment
-           # install['combi_select'] = compatibility_vp(install, log_phase)
-           install['combi_select'], log_phase = compatibility_ve(install,
-                                                                 log_phase,
-                                                                 ports) # requires install_port !!
+           install['combi_select'], log_phase = compatibility_ve(install, log_phase, install_port) # requires install_port !!
 #           print install['combi_select']
-
-           # install['combi_select'], log_phase = compatibility_ve(install, log_phase, install_port)
 
            # schedule assessment of the different operation sequence
            install['schedule'], log_phase = sched(x, install, log_phase,

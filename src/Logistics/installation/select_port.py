@@ -12,6 +12,36 @@ this will be upgraded for the beta version due to october.
 """
 
 from transit_algorithm import transit_algorithm
+from geopy.distance import great_circle
+import utm
+import math
+
+
+def distance(UTM_ini, UTM_fin):
+    """
+    distance returns the calculated distance (in kms) between two points
+    defined in the UTM coordinate system
+    """
+
+    UTM_ini_x = UTM_ini[0]
+    UTM_ini_y = UTM_ini[1]
+    UTM_ini_zone = UTM_ini[2]
+
+    UTM_fin_x = UTM_fin[0]
+    UTM_fin_y = UTM_fin[1]
+    UTM_fin_zone = UTM_fin[2]
+
+    [LAT_INI, LONG_INI] = utm.to_latlon(UTM_ini_x, UTM_ini_y, int(UTM_ini_zone[0:2]), str(UTM_ini_zone[3]))  # to get dd.dd from utm
+    [LAT_FIN, LONG_FIN] = utm.to_latlon(UTM_fin_x, UTM_fin_y, int(UTM_fin_zone[0:2]), str(UTM_fin_zone[3]))  # to get dd.dd from utm
+
+    point_i = (LAT_INI, LONG_INI)
+    point_f = (LAT_FIN, LONG_FIN)
+
+    distance = great_circle(point_i, point_f).kilometers # gives you a distance (in kms) between two coordinate in dd.dd
+
+    return distance
+
+
 
 
 def install_port(user_inputs, hydrodynamic_outputs, electrical_outputs, MF_outputs, ports):
@@ -81,7 +111,11 @@ def install_port(user_inputs, hydrodynamic_outputs, electrical_outputs, MF_outpu
         port_coords_y = ports['UTM y [m]'][ind_port]
         port_coords_zone = ports['UTM zone [-]'][ind_port]
         port_coords = [port_coords_x, port_coords_y, port_coords_zone]
-        dist_to_port_i = transit_algorithm(site_coords, port_coords)
+
+        if math.isnan(port_coords_x):
+            continue
+        # dist_to_port_i = transit_algorithm(site_coords, port_coords)
+        dist_to_port_i = distance(site_coords, port_coords)  # simplification just for testing
         dist_to_port_vec.append(dist_to_port_i)
         min_dist_to_port = min(dist_to_port_vec)
         if min_dist_to_port == dist_to_port_i:
@@ -90,7 +124,7 @@ def install_port(user_inputs, hydrodynamic_outputs, electrical_outputs, MF_outpu
     # Nearest port selection to be modified by making use of port['Distance port-site'] will be implemented
     ports['Selected base port for installation'] = ports.ix[port_choice_index]
 
-    return ports
+    return ports, ports.ix[port_choice_index], port_choice_index
 
 
 

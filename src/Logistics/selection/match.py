@@ -17,7 +17,7 @@ from ..logistics.phase.classes import VE_solutions
 import itertools
 import  numpy
 
-def compatibility_ve(install, log_phase, port_data):
+def compatibility_ve(install, log_phase, port_chosen_data):
     """This function is currently limited to the selection of the first two
     feasible solutions for the installation logistic phase in analysis.
 
@@ -39,8 +39,6 @@ def compatibility_ve(install, log_phase, port_data):
      equipments within each vessel and equipment combinations dataframes
     """
 
-
-    sol = {}
     sols_ve_indxs_combs_inseq = []
 
     # Go through different sequence options
@@ -161,7 +159,7 @@ def compatibility_ve(install, log_phase, port_data):
 
     # Apply MATCHING
 
-    port_pd = port_data
+    port_pd = port_chosen_data
 
     # Port/Vessel
     req_m_pv = install['requirement'][2]
@@ -285,6 +283,20 @@ def compatibility_ve(install, log_phase, port_data):
         sol = sols_ve_indxs_combs_inseq[seq]
 
 
+    # # Shape solution for performance:
+    # sol = {}
+    # for seq in range(len(sols_ve_indxs_combs_inseq)):
+    #     for combi in range(len(sols_ve_indxs_combs_inseq[seq])):
+    #         for sols in range(len(sols_ve_indxs_combs_inseq[seq][combi])):
+    #
+    #             sol_i = sols_ve_indxs_combs_inseq[seq][combi][sols]
+    #
+    #             for ves_nr in range(len(sol_i[0])):
+    #                 sol.append({ 'port': port_chosen_data, str(sols): [sol_i[0][ves_nr]] })
+    #
+    #             # continue
+    #
+    # log_phase.op_ve[seq].sol = sol
 
     return sol, log_phase
 

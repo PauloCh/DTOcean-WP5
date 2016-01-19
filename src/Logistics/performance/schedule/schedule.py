@@ -14,22 +14,11 @@ the code.
 
 import numpy
 import utm
-import transit_algorithm
-# transit_algoritm((x_coord_ini, y_coord_ini, zone_ini), (x_coord_ini, y_coord_ini, zone_ini))
+from geopy.distance import great_circle
+from transit_algorithm import transit_algorithm
 import itertools
+from Logistics.installation.select_port import distance
 
-def distance(UTM_ini, UTM_fin):
-    """
-    distance returns the calculated distance (in kms) between two points
-    defined in the UTM coordinate system
-    """
-# point_i = (lat_i, long_i)
-#point_if= (lat_f, long_f)
-#        length = great_circle(point_i, point_f).kilometers
-# gives you a distance between two coordinate in dd.dd in kms
-# to get dd.dd from utm you can use:
-# utm.to_latlon(ini_x_utm, ini_y_utm, ini_zone_utm[1], ini_zone_utm[2])
-    return 20.0
 
 
 def indices(a, func):

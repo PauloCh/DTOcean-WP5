@@ -98,15 +98,17 @@ def devices_feas(log_phase, log_phase_id, user_inputs):
 
     feas_m_pv = {'JUP Vessel': [['Beam [m]', 'sup', 'Entrance width [m]'],
                       ['Length [m]', 'sup', 'Terminal length [m]'],
-                      ['Max. draft [m]', 'sup', 'Terminal draught [m]'],
-                      ['Jacking capability [yes/no]','equal','yes']],
+                      ['Max. draft [m]', 'sup', 'Terminal draught [m]']
+                      # ['Jacking capability [yes/no]','equal','yes']
+                                ],
                  'Construction Support Vessel': [['Beam [m]', 'sup', 'Entrance width [m]'],
                       ['Length [m]', 'sup', 'Terminal length [m]'],
                       ['Max. draft [m]', 'sup', 'Terminal draught [m]']],
                  'JUP Barge': [['Beam [m]', 'sup', 'Entrance width [m]'],
                       ['Length [m]', 'sup', 'Terminal length [m]'],
-                      ['Max. draft [m]', 'sup', 'Terminal draught [m]'],
-                      ['Jacking capability [yes/no]','equal','yes']],
+                      ['Max. draft [m]', 'sup', 'Terminal draught [m]']
+                      # ['Jacking capability [yes/no]','equal','yes']
+                               ],
                  'Tugboat': [['Beam [m]', 'sup', 'Entrance width [m]'],
                       ['Length [m]', 'sup', 'Terminal length [m]'],
                       ['Max. draft [m]', 'sup', 'Terminal draught [m]']]}
