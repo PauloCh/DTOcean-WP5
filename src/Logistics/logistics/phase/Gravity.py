@@ -42,9 +42,9 @@ def initialize_gravity_phase(log_op, vessels, equipments, MF_outputs):
         gravity_id = gravity_db['foundations [-]'].ix[index]
 
         # initialize an empty operation sequence list for the 'index' element
-        phase.op_ve[0].op_sequence_elem[gravity_id] = []
+        phase.op_ve[0].op_seq_sea[gravity_id] = []
 
-        phase.op_ve[0].op_sequence_elem[gravity_id].extend([ log_op["GBS_deck_pos"] ])
+        phase.op_ve[0].op_seq_sea[gravity_id].extend([ log_op["GBS_deck_pos"] ])
 
     '''Tow Transportation Strategy'''
 
@@ -69,9 +69,9 @@ def initialize_gravity_phase(log_op, vessels, equipments, MF_outputs):
         gravity_id = gravity_db['foundations [-]'].ix[index]
 
         # initialize an empty operation sequence list for the 'index' element
-        phase.op_ve[0].op_sequence_elem[gravity_id] = []
+        phase.op_ve[0].op_seq_sea[gravity_id] = []
 
-        phase.op_ve[0].op_sequence_elem[gravity_id].extend([ log_op["GBS_tow_pos"] ])
+        phase.op_ve[0].op_seq_sea[gravity_id].extend([ log_op["GBS_tow_pos"] ])
 
 
     return phase

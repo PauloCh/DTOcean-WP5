@@ -6,7 +6,7 @@ def initialize_devices_phase(log_op, vessels, equipments, user_inputs, hydrodyna
 
     # save outputs required inside short named variables
     dev_type = user_inputs['device']['type [-]'].ix[0]
-    assmbly_stratg = user_inputs['device']['assembly strategy [-]'].ix[0]
+    assembly_strategy = user_inputs['device']['assembly strategy [-]'].ix[0]
     trans_methd = user_inputs['device']['transportation method [-]'].ix[0]
     loadout_methd = user_inputs['device']['load out [-]'].ix[0]
     hydro_db = hydrodynamic_outputs
@@ -39,27 +39,28 @@ def initialize_devices_phase(log_op, vessels, equipments, user_inputs, hydrodyna
     phase.op_ve[0].ve_combination[5] = {'vessel': [ (1, vessels['JUP Barge']), (1, vessels['Tugboat']), (1, vessels['Multicat']) ],
                                         'equipment': [ (1, equipments['rov'], 0), (1, equipments['divers'], 0) ]}
 
-    # define initial mobilization and onshore tasks
-    phase.op_ve[0].op_sequence_mob = [ log_op["Mob"],
-                                       log_op["DevAssPort"] ]
+    # define initial mobilization and onshore preparation tasks
+    phase.op_ve[0].op_seq_prep = [log_op["Mob"], log_op["DevAssPort"]]
+    # check the transportation method
+    # (1st branch in the decision making tree)
     if trans_methd == 'deck':
-
+        # check the device loadout strategy
+        # (2nd branch in the decision making tree)
         if loadout_methd == 'lift away':
-            phase.op_ve[0].op_sequence_mob.extend([ log_op["LoadOut_Lift"],
-                                                    log_op["Seafast"] ])
+            phase.op_ve[0].op_seq_prep.extend([log_op["LoadOut_Lift"]])
         elif loadout_methd == 'skidded':
-            phase.op_ve[0].op_sequence_mob.extend([ log_op["LoadOut_Skidded"],
-                                                    log_op["Seafast"] ])
+            phase.op_ve[0].op_seq_prep.extend([log_op["LoadOut_Skidded"]])
     elif trans_methd == 'tow':
-
+        # check the device loadout strategy
+        # (2nd branch in the decision making tree)
         if loadout_methd == 'lift away':
-            phase.op_ve[0].op_sequence_mob.extend([ log_op["LoadOut_Lift"] ])
+            phase.op_ve[0].op_seq_prep.extend([log_op["LoadOut_Lift"]])
 
         elif loadout_methd == 'skidded' or 'trailer':
-            phase.op_ve[0].op_sequence_mob.extend([ log_op["LoadOut_Skidded"] ])
+            phase.op_ve[0].op_seq_prep.extend([log_op["LoadOut_Skidded"]])
 
         elif loadout_methd == 'float away':
-            phase.op_ve[0].op_sequence_mob.extend([ log_op["LoadOut_Float"] ])
+            phase.op_ve[0].op_seq_prep.extend([log_op["LoadOut_Float"]])
 
     # iterate over the list of elements to be installed.
     # each element is associated with a customized operation sequence depending on it's characteristics,.
@@ -68,18 +69,18 @@ def initialize_devices_phase(log_op, vessels, equipments, user_inputs, hydrodyna
         device_id = hydro_db['device [-]'].ix[index]
 
         # initialize an empty operation sequence list for the 'index' element
-        phase.op_ve[0].op_sequence_elem[device_id] = []
+        phase.op_ve[0].op_seq_sea[device_id] = []
 
         if dev_type == 'float WEC' or 'float TEC':
 
-            phase.op_ve[0].op_sequence_elem[device_id].extend([ log_op["PosFLTdev"] ])
+            phase.op_ve[0].op_seq_sea[device_id].extend([log_op["PosFLTdev"]])
 
         elif dev_type == 'fixed WEC' or 'fixed TEC':
 
-             phase.op_ve[0].op_sequence_elem[device_id].extend([ log_op["PosBFdev"] ])
+             phase.op_ve[0].op_seq_sea[device_id].extend([log_op["PosBFdev"]])
 
     # define final demobilization tasks
-    phase.op_ve[0].op_sequence_demob = [ log_op["Demob"] ]
+    phase.op_ve[0].op_seq_demob = [log_op["Demob"]]
 
     ''' Tow Transportation Strategy '''
 
@@ -98,26 +99,23 @@ def initialize_devices_phase(log_op, vessels, equipments, user_inputs, hydrodyna
                                         'equipment': [(1, equipments['rov'], 0), (1, equipments['divers'], 0)]}
 
     # define initial mobilization and onshore tasks
-    phase.op_ve[1].op_sequence_mob = [ log_op["Mob"],
-                                       log_op["DevAssPort"] ]
+    phase.op_ve[1].op_seq_prep = [log_op["Mob"], log_op["DevAssPort"]]
     if trans_methd == 'deck':
 
         if loadout_methd == 'lift away':
-            phase.op_ve[1].op_sequence_mob.extend([ log_op["LoadOut_Lift"],
-                                                    log_op["Seafast"] ])
+            phase.op_ve[1].op_seq_prep.extend([log_op["LoadOut_Lift"]])
         elif loadout_methd == 'skidded':
-            phase.op_ve[1].op_sequence_mob.extend([ log_op["LoadOut_Skidded"],
-                                                    log_op["Seafast"] ])
+            phase.op_ve[1].op_seq_prep.extend([log_op["LoadOut_Skidded"]])
     elif trans_methd == 'tow':
 
         if loadout_methd == 'lift away':
-            phase.op_ve[1].op_sequence_mob.extend([ log_op["LoadOut_Lift"] ])
+            phase.op_ve[1].op_seq_prep.extend([log_op["LoadOut_Lift"]])
 
         elif loadout_methd == 'skidded' or 'trailer':
-            phase.op_ve[1].op_sequence_mob.extend([ log_op["LoadOut_Skidded"] ])
+            phase.op_ve[1].op_seq_prep.extend([log_op["LoadOut_Skidded"]])
 
         elif loadout_methd == 'float away':
-            phase.op_ve[1].op_sequence_mob.extend([ log_op["LoadOut_Float"] ])
+            phase.op_ve[1].op_seq_prep.extend([log_op["LoadOut_Float"]])
 
     # iterate over the list of elements to be installed.
     # each element is associated with a customized operation sequence depending on it's characteristics,.
@@ -126,17 +124,17 @@ def initialize_devices_phase(log_op, vessels, equipments, user_inputs, hydrodyna
         device_id = hydro_db['device [-]'].ix[index]
 
         # initialize an empty operation sequence list for the 'index' element
-        phase.op_ve[1].op_sequence_elem[device_id] = []
+        phase.op_ve[1].op_seq_sea[device_id] = []
 
         if dev_type == 'float WEC' or 'float TEC':
-            phase.op_ve[1].op_sequence_elem[device_id].extend([ log_op["PosFLTdev"] ])
+            phase.op_ve[1].op_seq_sea[device_id].extend([log_op["PosFLTdev"]])
 
         elif dev_type == 'fixed WEC' or 'fixed TEC':
-             phase.op_ve[1].op_sequence_elem[device_id].extend([ log_op["PosBFdev"] ])
+             phase.op_ve[1].op_seq_sea[device_id].extend([log_op["PosBFdev"]])
 
 
     # define final demobilization tasks
-    phase.op_ve[0].op_sequence_demob = [ log_op["Demob"] ]
+    phase.op_ve[1].op_seq_demob = [log_op["Demob"]]
 
     ''' Selection of suitable strategies '''
 

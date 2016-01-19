@@ -55,14 +55,14 @@ def compatibility_ve(install, log_phase, port_data):
         for combi in range(len(log_phase.op_ve[seq].ve_combination)):
 
 
-            # * initialise solution variables *
+            # initialise solution variables
             ves_sol = {}
             ves_indexs = {}
             eq_sol = {}
             eq_indexs = {}
 
 
-            # * Go through vessels *
+            #  Go through vessels
             nr_diff_ves = len(log_phase.op_ve[seq].ve_combination[combi]['vessel']) # nr_diff_ves in combination
             for ves_type in range(nr_diff_ves):
 
@@ -77,16 +77,15 @@ def compatibility_ve(install, log_phase, port_data):
                 nr_feas_vess_i = len(ves_index_vec)  # Number of feasible vessels within vessel type
 
                 for indx_vec in range(nr_feas_vess_i):
-                    # ves[indx_vec] = ves_class.panda.ix[indx_vec]  # Get info of the feasible vessels
-                    ves[indx_vec] = ves_class.panda.ix[ves_index_vec[indx_vec]]  # Get info of the feasible vessels
-
+                  # ves[indx_vec] = ves_class.panda.ix[indx_vec]  # Get info of the feasible vessels
+                  ves[indx_vec] = ves_class.panda.ix[ves_index_vec[indx_vec]]
                 ves_sol[ves_type] = {'type': type_of_ves, 'quantity': ves_quant,
                                      'Series': ves, 'indexs': ves_index_vec}  # Store info of the vessels
                 ves_indexs[ves_type] = list(ves_index_vec)  # Vector of indexs of feasible vessels per type
 
 
 
-            # * Go through equips *
+            #  Go through equips
             nr_diff_equi = len(log_phase.op_ve[seq].ve_combination[combi]['equipment'])
             for eq_type in range(nr_diff_equi):
 
@@ -102,9 +101,8 @@ def compatibility_ve(install, log_phase, port_data):
                 nr_feas_eq_i = len(eq_index_vec)
 
                 for indx_vec in range(nr_feas_eq_i):
-                    # eq[indx_vec] = eq_class.panda.ix[indx_vec]  # Get info of the feasible equipments
-                    eq[indx_vec] = eq_class.panda.ix[eq_index_vec[indx_vec]]  # Get info of the feasible equipments
-
+#                    eq[indx_vec] = eq_class.panda.ix[indx_vec]  # Get info of the feasible equipments
+                    eq[indx_vec] = eq_class.panda.ix[eq_index_vec[indx_vec]]
                 # eq_sol[eq_type] = {'type': type_of_eq, 'quantity': eq_quant,
                 #                  'Series': eq, 'indexs': eq_index_vec, 'req_vessel': ves_sol[eq_reltd_ves]['type']}  # Store info of the equipments
                 eq_sol[eq_type] = {'type': type_of_eq, 'quantity': eq_quant,
@@ -112,7 +110,11 @@ def compatibility_ve(install, log_phase, port_data):
                 eq_indexs[eq_type] = list(eq_index_vec)  # Vector of indexs of feasible equipments per type
 
 
+
+
             # Build solutions
+            # sols_ve_indxs = []
+
             sols_ves = []
             for ves_type in range(nr_diff_ves):  # Agregatte vessel type solutions
 
@@ -157,11 +159,11 @@ def compatibility_ve(install, log_phase, port_data):
 
 
 
-    # * Apply MATCHING *
+    # Apply MATCHING
 
     port_pd = port_data
 
-    # # Port/Vessel
+    # Port/Vessel
     req_m_pv = install['requirement'][2]
     match_rq_pv = dict.fromkeys(req_m_pv.keys())
 
@@ -185,10 +187,8 @@ def compatibility_ve(install, log_phase, port_data):
                     ve_comb_eqs = ve_combinations[ind_ve_combi][1]
 
                     for ind_ves_in_combi in range(len(ve_comb_ves)):
-
                         m_v_key_type = ve_comb_ves[ind_ves_in_combi][0]
                         ves_pd = ve_comb_ves[ind_ves_in_combi][2] # panda series data
-
                         if m_v_key_type == m_pv_key_req:
 
                             for req in range(len(req_m_pv[m_pv_key_req])):
@@ -216,6 +216,7 @@ def compatibility_ve(install, log_phase, port_data):
                                             del sols_ve_indxs_combs_inseq[seq][combin][ind_ve_combi]
                                             LEN_combi = LEN_combi-1
 
+
     # # Port/Equipment
     # req_m_pe = install['requirement'][3]
     # match_rq_pe = dict.fromkeys(req_m_pe.keys())
@@ -223,7 +224,7 @@ def compatibility_ve(install, log_phase, port_data):
 
     # Vessel/Equipment
     req_m_ev = install['requirement'][4]
-    match_rq_ev = dict.fromkeys(req_m_ev.keys())
+    match_rq = dict.fromkeys(req_m_ev.keys())
 
     for typ_req in range(len(req_m_ev)):
         m_ev_key_req = req_m_ev.keys()[typ_req]
@@ -280,9 +281,9 @@ def compatibility_ve(install, log_phase, port_data):
                                             del sols_ve_indxs_combs_inseq[seq][combin][ind_ve_combi]
                                             LEN_combi = LEN_combi-1
 
+        log_phase.op_ve[seq].sol = sols_ve_indxs_combs_inseq[seq]
+        sol = sols_ve_indxs_combs_inseq[seq]
 
-    log_phase.op_ve[seq].sol_combi = sols_ve_indxs_combs_inseq[seq]
-    sol = sols_ve_indxs_combs_inseq
 
 
     return sol, log_phase
@@ -330,61 +331,3 @@ def compatibility_ve_om(install, log_phase):
     sol[1] = log_phase.op_ve[0].sol[1]
 
     return sol, log_phase
-
-#    for seq in log_phase.op_ve.keys():
-#        for combi in log_phase.op_ve[seq].ve_combination.keys():
-#
-# log_phase.op_ve[seq].ve_combination[combi]['vessel']
-           # log_phase.op_ve[seq].ve_combination[combi]['equipment']
-#
-#            for nr_ves in range(len(log_phase.op_ve[seq].ve_combination[combi]['vessel'])):
-#                pd_ves = log_phase.op_ve[seq].ve_combination[combi]['vessel'][nr_ves][1].panda
-#                pd_ves_index = pd_ves.index
-#
-#                for nr_ves in range(len(pd_ves_index))
-#
-#                log_phase.op_ve[seq].sol[0] =
-#
-#            for nr_eq in log_phase.op_ve[seq].ve_combination[combi]['equipment'].keys():
-#                pd_eq = log_phase.op_ve[seq].ve_combination[combi]['equipment'][nr_eq][1].panda
-#                pd_eq_index = pd_eq.index
-#
-##                for ves in len(pd_index):
-##
-##                    sol[0] =
-##
-##                    log_phase.op_ve[seq].ve_combination[combi].sol[ves] = VE_solutions(ves)
-##
-##                    log_phase.op_ve[seq].ve_combination[combi].sol[ves].sol_ve[ = pd.ix[pd_index[ves]]
-##
-##                    sol[0] = {'sol_ve': 0: panda
-##                                        1: panda
-##                              'sol_eq': 0: panda}
-##
-#                pass
-
-
-
-#    def compatibility_ve (install, log_phase):
-#
-#    req_e = install['requirement'][0]
-#    for typ in range(len(req_e)):
-#        e_key_req = req_e.keys()[typ]
-#
-#        for seq in range(len(log_phase.op_ve)):
-#            for combi in range(len(log_phase.op_ve[seq].ve_combination)):
-#                for nr_eq in range(len(log_phase.op_ve[seq].ve_combination[combi]['equipment'])):
-#
-#                    e_key_phase = log_phase.op_ve[seq].ve_combination[combi]['equipment'][nr_eq][1].id
-#
-#                    if e_key_phase == e_key_req:
-#
-#                        for req in range(len(req_e[e_key_req][nr_eq])/3):
-#                            e_para = req_e[e_key_req][nr_eq][0]
-#                            e_meth = req_e[e_key_req][nr_eq][1]
-#                            e_val = req_e[e_key_req][nr_eq][2]
-#
-#                            if e_meth == 'sup':
-#                                pd = log_phase.op_ve[seq].ve_combination[combi]['equipment'][nr_eq][1].panda
-#                                eq = pd[pd[e_para] >= e_val]
-#    return eq
