@@ -162,11 +162,27 @@ def sched(x, install, log_phase, log_phase_id,
                             
                                 if not log_op_prep.time_value:
                                     op_dur_prep.append(log_op_prep.time_value)
-#                                elif not log_op_prep.time_function:
-#                                    if log_op_prep.time_function == "transit_algorithm(UTM_i, UTM_f) * vesselDB['vessel transit speed']"
-#                                        port_2_site_t = transit_algorithm() 
-#                                        op_dur_prep.append(log_op_prep.time_function)
-#                                    
+                                elif not log_op_prep.time_function:
+                                    if log_op_prep.time_function == "transit_algorithm":
+                                        port_pd = log_phase.op_ve[seq].sol[ind_sol]['port']
+                                        UTM_port = [port_pd.ix['UTM x [m]'],
+                                                    port_pd.ix['UTM y [m]'],
+                                                    port_pd.ix['UTM zone [-]']]
+                                        site = user_inputs['site']
+                                        UTM_site = [site['x coord [m]'].ix[0],
+                                                    site['y coord [m]'].ix[0],
+                                                    site['zone [-]'].ix[0]]
+                                        port_2_site_dist = transit_algorithm(UTM_port, UTM_site)
+                                        nb_ves_type = range(len(log_phase.op_ve[seq].sol[ind_sol]['VEs']))
+                                        # loop over the nb of vessel types                                        
+                                        for vt in nb_ves_type:
+                                            ves_speed[vt] = log_phase.op_ve[seq].sol[ind_sol]['VEs'][vt][2].ix['Transit speed [m/s]']
+                                        ves_slow = min(ves_speed)
+                                        port_2_site_time = port_2_site_dist*ves_slow
+                                        # append transit time to the preparation time
+                                        op_dur_prep.append(port_2_site_time)
+                                elif not log_op_prep.time_other:
+                                    
                             # determine the sea duration
                             
                             # add demobilisation time to finalise the logistic phase
