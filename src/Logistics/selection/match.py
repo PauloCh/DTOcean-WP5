@@ -279,26 +279,45 @@ def compatibility_ve(install, log_phase, port_chosen_data):
                                             del sols_ve_indxs_combs_inseq[seq][combin][ind_ve_combi]
                                             LEN_combi = LEN_combi-1
 
-        log_phase.op_ve[seq].sol = sols_ve_indxs_combs_inseq[seq]
-        sol = sols_ve_indxs_combs_inseq[seq]
+        # log_phase.op_ve[seq].sol = sols_ve_indxs_combs_inseq[seq]
+        # sol = sols_ve_indxs_combs_inseq[seq]
 
 
-    # # Shape solution for performance:
-    # sol = {}
-    # for seq in range(len(sols_ve_indxs_combs_inseq)):
-    #     for combi in range(len(sols_ve_indxs_combs_inseq[seq])):
-    #         for sols in range(len(sols_ve_indxs_combs_inseq[seq][combi])):
-    #
-    #             sol_i = sols_ve_indxs_combs_inseq[seq][combi][sols]
-    #
-    #             for ves_nr in range(len(sol_i[0])):
-    #                 sol.append({ 'port': port_chosen_data, str(sols): [sol_i[0][ves_nr]] })
-    #
-    #             # continue
-    #
-    # log_phase.op_ve[seq].sol = sol
+    # Shape solution for performance:
+    for seq in range(len(sols_ve_indxs_combs_inseq)):
+        sol = {}
+        sols_iter = 0
+        for combi in range(len(sols_ve_indxs_combs_inseq[seq])):
+            for sols in range(len(sols_ve_indxs_combs_inseq[seq][combi])):
 
-    return sol, log_phase
+                sol_i = sols_ve_indxs_combs_inseq[seq][combi][sols]
+                vels = sol_i[0]
+                equips = sol_i[1]
+
+                # sol[sols_iter] = { 'port': port_chosen_data, str(sols): [list(vels), list(equips)] }
+                # OR
+                ve_sols=[]
+                for ind_ves_sol in range(len(vels)):
+                    sol[sols_iter] = { 'port': port_chosen_data}
+                    ve_sol = []
+                    ve_sol = list(vels[ind_ves_sol])
+                    for ind_eq_sol in range(len(equips)):
+                        ves_dpend = equips[ind_eq_sol][3]
+                        if ves_dpend==ind_ves_sol:
+                            ve_sol.append( list(equips[ind_eq_sol]) )
+                    ve_sols.append(ve_sol)
+                sol[sols_iter].update (  {'VEs': ve_sols} )
+
+                sols_iter = sols_iter + 1
+
+                # continue
+
+        log_phase.op_ve[seq].sol = sol
+
+
+    final_sol = log_phase.op_ve[seq].sol
+
+    return final_sol, log_phase
 
 
 
