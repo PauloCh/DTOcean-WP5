@@ -55,8 +55,7 @@ def devices_feas(log_phase, log_phase_id, user_inputs):
     # and the requirements always a list of lists e.g. 'vessel': [ ['parameter', 'evaluation', value] ]
 
     feas_e = {'rov': [ ['Depth rating [m]', 'sup', max_bathymetry],
-                       ['ROV class [-]', 'equal', 'Inspection class']
-                       ]}
+                       ['ROV class [-]', 'equal', 'Inspection class'] ]}
 
     feas_v = {'JUP Vessel': [['Deck loading [t/m^2]', 'sup', deck_loading],
                            ['Max. cargo [t]', 'sup', deck_cargo],

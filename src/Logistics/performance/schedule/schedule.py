@@ -93,9 +93,9 @@ def sched(x, install, log_phase, log_phase_id,
     # sequencing options
 
         for ind_sol in range(len(log_phase.op_ve[seq].sol)): # loop over the
-        # number of solutions, i.e feasible combinations of 
+        # number of solutions, i.e feasible combinations of
         # port/vessel(s)/equipment(s)
-    
+
             op_dur_prep = []
             op_dur_sea = []
             olc_sea_Hs = []
@@ -107,10 +107,10 @@ def sched(x, install, log_phase, log_phase_id,
                    'maxWs': 0,
                    'maxCs': 0}
             # check the nature of the logistic phase
-            if log_phase_id == 'Devices': 
+            if log_phase_id == 'Devices':
                 # check the transportation method
                 # (1st branch in the decision making tree)
-                if log_phase.op_ve[seq].description == 'On-deck transportation': 
+                if log_phase.op_ve[seq].description == 'On-deck transportation':
                     # check the device assembly strategy
                     # (2nd and FINAL branch in the decision making tree)
                     assemb_method = user_inputs['device']['assembly strategy [-]'].ix[0]
@@ -121,13 +121,13 @@ def sched(x, install, log_phase, log_phase_id,
                             # calculate the area and dry mass of all elements
                             elem_area[dev] = user_inputs['device']['length [m]'].ix[0]*user_inputs['device']['width [m]'].ix[0]
                             elem_mass[dev] = user_inputs['device']['dry mass [kg]'].ix[0]/1000
-                            
+
                         nb_elem_port = nb_dev # initialise the number of elements to be transported that are initially at port
                         nb_journey = 0 # initialise the number of vessel journeys
                         nb_el_journey = [] # initialise the list of number of elements per journey
                         while nb_elem_port > 0:
                             # extract the panda series of the tranporting vessel
-                            # assumption: the first vessel is always the transporting vessel 
+                            # assumption: the first vessel is always the transporting vessel
                             sol_pd_series = log_phase.op_ve[seq].sol[ind_sol][0][0][0][0][2]
                             # extract the deck area and cargo
                             deck_area = sol_pd_series.ix['Deck space [m^2]']
@@ -145,21 +145,21 @@ def sched(x, install, log_phase, log_phase_id,
                                 nb_elem_port = 0
                             elif nb_el_journey[nb_journey] == 0:
                                 # error that means not a single element can fit!
-                                print 'not a single device can fit in the deck!' 
+                                print 'not a single device can fit in the deck!'
                             else:
                                 nb_elem_port = nb_elem_port - nb_el_journey[nb_journey]
                                 elem_area = elem_area[nb_el_journey:]
                                 elem_mass = elem_mass[nb_el_journey:]
                             # update the number of vessel journeys
                             nb_journey = nb_journey + 1
-                            
+
                             # number of operation sequence in the preparation phase
-                            nb_op_prep = range(len(log_phase.op_ve[seq].op_seq_prep))                            
+                            nb_op_prep = range(len(log_phase.op_ve[seq].op_seq_prep))
                             # determine the duration of the logistic phase preparation before departure of the vessel(s)
                             for op_prep in nb_op_prep:
                                 log_op_prep = log_phase.op_ve[seq].op_seq_prep[op_prep]
                                 # discriminate between the time assessment methods
-                            
+
                                 if not log_op_prep.time_value:
                                     op_dur_prep.append(log_op_prep.time_value)
                                 elif not log_op_prep.time_function:
@@ -174,7 +174,7 @@ def sched(x, install, log_phase, log_phase_id,
                                                     site['zone [-]'].ix[0]]
                                         port_2_site_dist = transit_algorithm(UTM_port, UTM_site)
                                         nb_ves_type = range(len(log_phase.op_ve[seq].sol[ind_sol]['VEs']))
-                                        # loop over the nb of vessel types                                        
+                                        # loop over the nb of vessel types
                                         for vt in nb_ves_type:
                                             ves_speed[vt] = log_phase.op_ve[seq].sol[ind_sol]['VEs'][vt][2].ix['Transit speed [m/s]']
                                         ves_slow = min(ves_speed)
@@ -182,16 +182,16 @@ def sched(x, install, log_phase, log_phase_id,
                                         # append transit time to the preparation time
                                         op_dur_prep.append(port_2_site_time)
                                 elif not log_op_prep.time_other:
-                                    
+
                             # determine the sea duration
-                            
+
                             # add demobilisation time to finalise the logistic phase
-                            
+
 #                    elif assemb_method == '([A,B,C],D)':
-#                        
-#                    
+#
+#
 #                # determine t
-#            log_phase.op_ve[seq].op_seq_prep[2].description # access id of mobilisation 
+#            log_phase.op_ve[seq].op_seq_prep[2].description # access id of mobilisation
 
             for op in range(len(log_phase.op_ve[seq].op_sequence)):
                 log_op = log_phase.op_ve[seq].op_sequence
