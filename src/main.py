@@ -168,7 +168,7 @@ logOp = logOp_init(database_file("operations_time_OLC.xlsx"))
 """
 Determine the adequate installation logistic phase plan
 """
-#install_plan = planning.install_plan(database_file("Installation_Order.xlsx"), user_inputs, electrical_outputs, MF_outputs)
+install_plan, instal_order = planning.install_plan(database_file("Installation_Order.xlsx"), user_inputs, electrical_outputs, MF_outputs)
 
 # DUMMY-TO BE ERASED, install plan is constrained to F_driven because
 # we just have the F_driven characterized for now
@@ -179,12 +179,12 @@ install_plan = {0: ['Devices'] }
 """
 Select the most appropriate base installation port
 """
-ports, install_port, install_port_index = select_port.install_port(user_inputs, hydrodynamic_outputs, electrical_outputs, MF_outputs, ports)
+installation_port = select_port.install_port(user_inputs, hydrodynamic_outputs, electrical_outputs, MF_outputs, ports, instal_order)
 # install_port_index = 0 # CHANGE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 # Incremental assessment of all logistic phase forming the the installation process
 install = {'plan': install_plan,
-          'port': install_port,
+          'port': installation_port,
           'requirement': {},
           'eq_select': {},
           've_select': {},
@@ -213,20 +213,17 @@ if install['status'] == "pending":
            # characterize the logistic requirements
            install['requirement'] = glob_feas(log_phase, log_phase_id, user_inputs, hydrodynamic_outputs,
                                               electrical_outputs, MF_outputs)
-           print install['requirement']
+           # print install['requirement']
 
            # selection of the maritime infrastructure
            install['eq_select'], log_phase = select_e(install, log_phase)
-           print install['eq_select']
+           # print install['eq_select']
 
            install['ve_select'], log_phase = select_v(install, log_phase)
-           print install['ve_select']
-
-           print install['eq_select']
-           print install['ve_select']
+           # print install['ve_select']
 
            # matching requirements for combinations of port/vessel(s)/equipment
-           install['combi_select'], log_phase = compatibility_ve(install, log_phase, install_port) # requires install_port !!
+           install['combi_select'], log_phase = compatibility_ve(install, log_phase, installation_port['Selected base port for installation'])
 #           print install['combi_select']
 
            # schedule assessment of the different operation sequence

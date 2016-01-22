@@ -54,14 +54,9 @@ def install_plan(file_path, user_inputs, electrical_outputs, MF_outputs):
     # Collect data from a particular tab
     instal_order_db = excel.parse('InstallationOrder', header=0, index_col=0)
 
-    operation = {0: 'E_export',
-                 1: 'E_array',
-                 2: 'E_dynamic',
-                 3: 'E_cp',
-                 4: 'E_cp',
-                 5: 'Foundations',  # ?!?!
-                 6: 'Moorings',  # ?!?!
-                 7: 'Devices'}  # replace by int(instal_order_db['id'].ix[]) ?????????
+    operation = {0: ['Electrical', 1],
+                 1: ['Moorings', 2],  # ?!?!
+                 2: ['Devices', 3]}  # replace by int(instal_order_db['id'].ix[]) ?????????
 
     instal_order = {}
     for ind_instal in range(len(instal_order_db['Default Order'])):
@@ -202,6 +197,6 @@ def install_plan(file_path, user_inputs, electrical_outputs, MF_outputs):
     else:
         warnings.warn("unknown device type")
 
-    return install_seq
+    return install_seq, instal_order
 
 # see = selectSeq(end_user_inputs, WP3_outputs, WP4_outputs)
