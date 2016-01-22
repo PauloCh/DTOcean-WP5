@@ -13,10 +13,10 @@ the code.
 """
 
 import numpy
-import utm
-from geopy.distance import great_circle
+#import utm
+#from geopy.distance import great_circle
 from transit_algorithm import transit_algorithm
-import itertools
+#import itertools
 from Logistics.installation.select_port import distance
 
 
@@ -39,7 +39,7 @@ def differences(a):
 def weatherWindow(user_inputs, olc):
     """
     this functions returns the starting times and the durations of all weather
-    windows found in the met-ocean data for the given operational limit
+    windows found in the met-ocean data for the given set of operational limit
     conditions (olc)
     """
     # Initialisation
@@ -117,12 +117,12 @@ def sched(x, install, log_phase, log_phase_id,
                     if assemb_method == '([A,B,C,D])':
                         # calculate the number of devices
                         nb_dev = len(hydrodynamic_outputs['device [-]'])
-#                        elem_area = []
-#                        elem_mass = []
+                        elem_area = [0]*nb_dev
+                        elem_mass = [0]*nb_dev
                         for dev in range(nb_dev): # loop over the number of devices
                             # calculate the area and dry mass of all elements
-                            elem_area[dev] = user_inputs['device']['length [m]'].ix[dev]*user_inputs['device']['width [m]'].ix[dev] # [m^2]
-                            elem_mass[dev] = user_inputs['device']['dry mass [kg]'].ix[dev]/1000 # [ton]
+                            elem_area[dev] = user_inputs['device']['length [m]'].ix[0]*user_inputs['device']['width [m]'].ix[0] # [m^2]
+                            elem_mass[dev] = user_inputs['device']['dry mass [kg]'].ix[0]/1000 # [ton]
                             
                         nb_elem_port = nb_dev # initialise the number of elements to be transported that are initially at port
                         nb_journey = 0 # initialise the number of vessel journeys
@@ -133,15 +133,22 @@ def sched(x, install, log_phase, log_phase_id,
                             sol_pd_series = log_phase.op_ve[seq].sol[ind_sol]['VEs'][0][2]
                             # extract the deck area and cargo
                             deck_area = sol_pd_series.ix['Deck space [m^2]']
-                            deck_cargo = sol_pd_series.ix['Deck cargo [t]']
+                            deck_cargo = sol_pd_series.ix['Max. cargo [t]']
                             # determine the cumulative vector of element areas and dry masses
-                            elem_area_accum = list(accumulate(elem_area))
-                            elem_mass_accum = list(accumulate(elem_mass))
+                            elem_area_accum = list(numpy.cumsum(elem_area))
+                            elem_mass_accum = list(numpy.cumsum(elem_mass))
                             # determine the maximum number of elements that can fit on-deck due to max deck area or max deck cargo limitations
                             nb_dev_area = indices(elem_area_accum, lambda x: x>deck_area)
+                            if not nb_dev_area:
+                                nb_dev_area = len(elem_area_accum)
+                            else:
+                                nb_dev_area = min(nb_dev_area)
                             nb_dev_mass = indices(elem_mass_accum, lambda x: x>deck_cargo)
-                            nb_el_journey[len(nb_el_journey):] = min([nb_dev_area,
-                                                                      nb_dev_mass])
+                            if not nb_dev_mass:
+                                nb_dev_mass = len(elem_mass_accum)
+                            else:
+                                nb_dev_mass = min(nb_dev_mass)
+                            nb_el_journey.append(min([nb_dev_area,nb_dev_mass]))
                             # update the number of elements remaining at port and their areas/masses lists
                             if nb_el_journey[nb_journey] == nb_elem_port:
                                 nb_elem_port = 0
@@ -150,22 +157,22 @@ def sched(x, install, log_phase, log_phase_id,
                                 print 'not a single device can fit in the deck!' 
                             else:
                                 nb_elem_port = nb_elem_port - nb_el_journey[nb_journey]
-                                elem_area = elem_area[nb_el_journey:]
-                                elem_mass = elem_mass[nb_el_journey:]
+                                elem_area = elem_area[nb_el_journey[-1]:]
+                                elem_mass = elem_mass[nb_el_journey[-1]:]
                             # update the number of vessel journeys
                             nb_journey = nb_journey + 1
                             
                             ind_el = 0
                         for jour in range(nb_journey):
                             # number of operation sequence in the preparation phase
-                            nb_op_prep = range(len(log_phase.op_ve[seq].op_seq_prep))                            
+                            nb_op_prep = len(log_phase.op_ve[seq].op_seq_prep)                            
                             # determine the duration of the logistic phase preparation before departure of the vessel(s)
-                            for op_prep in nb_op_prep: # loop over the nb of onshore logistic operations
+                            for op_prep in range(nb_op_prep): # loop over the nb of onshore logistic operations
                                 log_op_prep = log_phase.op_ve[seq].op_seq_prep[op_prep]
                                 # discriminate between the time assessment methods
-                                if not log_op_prep.time_value: # direct value
+                                if log_op_prep.time_value: # direct value
                                     op_dur_prep.append(log_op_prep.time_value)
-                                elif not log_op_prep.time_function: # function
+                                elif log_op_prep.time_function: # function
                                     # type of function
                                     if log_op_prep.time_function == "transit_algorithm":
                                         port_pd = log_phase.op_ve[seq].sol[ind_sol]['port']
@@ -198,7 +205,7 @@ def sched(x, install, log_phase, log_phase_id,
                                             dist_el[el] = distance(UTM_el_i,UTM_el_f)
                                             dist_tot = dist_tot + dist_el[el]  
                                         
-                                elif not log_op_prep.time_other:
+                                elif log_op_prep.time_other:
                                     if log_op_prep.time_other == "vesselDB['Mob time [h]']":
                                         mob_time = 0
                                         op_dur_prep.append(mob_time)  
