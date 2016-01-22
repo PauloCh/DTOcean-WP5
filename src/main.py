@@ -119,8 +119,8 @@ Load required inputs and database into panda dataframes
 
 import pickle
 
-# inputs_SV_LD = 'save'
-inputs_SV_LD = 'load'
+inputs_SV_LD = 'save'
+#inputs_SV_LD = 'load'
 
 if inputs_SV_LD == "save":
     # Saving the objects:
@@ -180,7 +180,6 @@ install_plan = {0: ['Devices'] }
 Select the most appropriate base installation port
 """
 installation_port = select_port.install_port(user_inputs, hydrodynamic_outputs, electrical_outputs, MF_outputs, ports, instal_order)
-# install_port_index = 0 # CHANGE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 # Incremental assessment of all logistic phase forming the the installation process
 install = {'plan': install_plan,
@@ -234,7 +233,7 @@ if install['status'] == "pending":
                                                   MF_outputs)
 
            # cost assessment of the different operation sequenc
-           install['cost'], log_phase = cost(install, log_phase)
+#           install['cost'], log_phase = cost(install, log_phase)
 
            # TO DO
                # -> finish Matching
