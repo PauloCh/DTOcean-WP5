@@ -38,7 +38,7 @@ def initialize_drive_phase(log_op, vessels, equipments, MF_outputs):
         # initialize an empty operation sequence list for the 'index' element
         phase.op_ve[0].op_seq_sea[index] = []
 
-        phase.op_ve[0].op_seq_sea[index].extend([ log_op["Positioning"],
+        phase.op_ve[0].op_seq_sea[index].extend([ log_op["VesPos"],
                                                   log_op["PileDrill"],
                                                   log_op["Grout"],
                                                   log_op["GroutRemov"]])

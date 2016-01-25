@@ -274,7 +274,7 @@ def compatibility_ve(install, log_phase, port_chosen_data):
                                             LEN_combi = LEN_combi-1
                                    elif m_ev_read[ind_rd] == 'equal':
                                        if ves_pd[m_ev_read[ind_rd+1]] == aux_op :
-                                          continue
+                                            continue
                                        else:
                                             del sols_ve_indxs_combs_inseq[seq][combin][ind_ve_combi]
                                             LEN_combi = LEN_combi-1
@@ -299,7 +299,6 @@ def compatibility_ve(install, log_phase, port_chosen_data):
                 ve_sols=[]
                 for ind_ves_sol in range(len(vels)):
                     sol[sols_iter] = { 'port': port_chosen_data}
-                    ve_sol = []
                     ve_sol = list(vels[ind_ves_sol])
                     for ind_eq_sol in range(len(equips)):
                         ves_dpend = equips[ind_eq_sol][3]
