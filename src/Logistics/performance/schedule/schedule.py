@@ -224,7 +224,9 @@ def sched(x, install, log_phase, log_phase_id,
                             # calculate the area and dry mass of all elements
                             elem_area[dev] = user_inputs['device']['length [m]'].ix[0]*user_inputs['device']['width [m]'].ix[0]
                             elem_mass[dev] = user_inputs['device']['dry mass [kg]'].ix[0]/1000
-                            
+
+
+
                         nb_elem_port = nb_dev # initialise the number of elements to be transported that are initially at port
                         nb_journey = 0 # initialise the number of vessel journeys
                         nb_el_journey = [] # initialise the list of number of elements per journey
