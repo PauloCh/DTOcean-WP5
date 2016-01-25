@@ -87,15 +87,16 @@ from Logistics.load import load_vessel_data, load_equipment_data
 from Logistics.load import load_port_data
 from Logistics.load.wp_bom import load_user_inputs, load_hydrodynamic_outputs
 from Logistics.load.wp_bom import load_electrical_outputs, load_MF_outputs
+from Logistics.load.wp_bom import load_OM_outputs
 
-# from wp5.load.wp_bom import load_OM_outputs
-from Logistics.logistics.operations import logOp_init
-from Logistics.logistics.phase import logPhase_install_init
+from Logistics.phases.operations import logOp_init
+from Logistics.phases.install import logPhase_install_init
+from Logistics.phases.om import logPhase_om_init         # FOR OM ONLY!!!!!!!!
 from Logistics.installation import planning
 from Logistics.installation import select_port
 from Logistics.feasibility.glob import glob_feas
 from Logistics.selection.select_ve import select_e, select_v
-from Logistics.selection.match import compatibility_ve
+#from Logistics.selection.match import compatibility_ve
 #from Logistics.performance.schedule.schedule import sched
 #from Logistics.performance.economic.eco import cost
 
@@ -138,7 +139,7 @@ if inputs_SV_LD == "save":
     hydrodynamic_outputs = load_hydrodynamic_outputs(database_file("ouputs_hydrodynamic.xlsx"))
     electrical_outputs = load_electrical_outputs(database_file("ouputs_electrical.xlsx"))
     MF_outputs = load_MF_outputs(database_file("outputs_MF.xlsx"))
-    # OM_outputs = load_OM_outputs(database_file("outputs_OM.xlsx"))
+    OM_outputs = load_OM_outputs(database_file("outputs_OM.xlsx"))
 
     with open('objs.pickle', 'w') as f:
         pickle.dump([phase_order, schedule_OLC, vessels, equipments, ports, user_inputs, hydrodynamic_outputs, electrical_outputs, MF_outputs], f)
@@ -194,7 +195,8 @@ install = {'plan': install_plan,
 
 logPhase_install = logPhase_install_init(logOp, vessels, equipments, user_inputs,
                                          electrical_outputs, MF_outputs, hydrodynamic_outputs)
-#logPhase_OM = logPhase_OM_init(logOp, vessels, equipments)
+
+logPhase_om = logPhase_om_init(logOp, vessels, equipments, user_inputs, OM_outputs)
 
 if install['status'] == "pending":
    # loop over the number of layers of the installation plan
@@ -215,7 +217,7 @@ if install['status'] == "pending":
            install['ve_select'], log_phase = select_v(install, log_phase)
 
            # matching requirements for combinations of port/vessel(s)/equipment
-           install['combi_select'], log_phase = compatibility_ve(install, log_phase, install_port) # requires install_port !!
+#           install['combi_select'], log_phase = compatibility_ve(install, log_phase, install_port) # requires install_port !!
 #           print install['combi_select']
 
 #           # schedule assessment of the different operation sequence
