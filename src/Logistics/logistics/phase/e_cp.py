@@ -38,29 +38,27 @@ def initialize_e_cp_seabed_phase(log_op, vessels, equipments, electrical_outputs
     # check the collection point type
     for index, row in cp_db.iterrows():
 
-        cp_id = cp_db['id [-]'].ix[index] #saves the cp id, to be used in the op_seq_sea
-
         # initialize an empty operation sequence list for the 'index' element
-        phase.op_ve[0].op_seq_sea[cp_id] = []
+        phase.op_ve[0].op_seq_sea[index] = []
 
         if cp_db['type [-]'].ix[index] == 'seabed':
 
             if 'dry-mate' in cp_db['upstream ei type [-]'].ix[index]: #checks whether 'dry-mate' is inside the list
 
                 for x in range(cp_db['upstream ei type [-]'].ix[index].count('dry-mate')): #counts how may 'dry-mate' types exist and loops over the number
-                    phase.op_ve[0].op_seq_sea[cp_id].extend([ log_op["LiftCable"] ])
+                    phase.op_ve[0].op_seq_sea[index].extend([ log_op["LiftCable"] ])
 
             if 'dry-mate' in cp_db['downstream ei type [-]'].ix[index]:
 
                 for x in range(cp_db['downstream ei type [-]'].ix[index].count('dry-mate')):
-                    phase.op_ve[0].op_seq_sea[cp_id].extend([ log_op["LiftCable"] ])
+                    phase.op_ve[0].op_seq_sea[index].extend([ log_op["LiftCable"] ])
 
             if 'dry-mate' in cp_db['upstream ei type [-]'].ix[index] or 'dry-mate' in cp_db['downstream ei type [-]'].ix[index]:
-                phase.op_ve[0].op_seq_sea[cp_id].extend([ log_op["DryConnect"],
+                phase.op_ve[0].op_seq_sea[index].extend([ log_op["DryConnect"],
                                                           log_op["LowerCP"] ])
 
             elif all(x in 'wet-mate' for x in cp_db['upstream ei type [-]'].ix[index]) and all(x in 'wet-mate' for x in cp_db['downstream ei type [-]'].ix[index]):
-                 phase.op_ve[0].op_seq_sea[cp_id].extend([ log_op["LowerCP"] ])
+                 phase.op_ve[0].op_seq_sea[index].extend([ log_op["LowerCP"] ])
 
             else:
                 print 'CP: Wrong Inputs'
@@ -70,13 +68,13 @@ def initialize_e_cp_seabed_phase(log_op, vessels, equipments, electrical_outputs
             if 'dry-mate' in cp_db['downstream ei type [-]'].ix[index]:
 
                 for x in range(cp_db['downstream ei type [-]'].ix[index].count('dry-mate')):
-                    phase.op_ve[0].op_seq_sea[cp_id].extend([ log_op["LiftCable"] ])
+                    phase.op_ve[0].op_seq_sea[index].extend([ log_op["LiftCable"] ])
 
-                phase.op_ve[0].op_seq_sea[cp_id].extend([ log_op["DryConnect"],
+                phase.op_ve[0].op_seq_sea[index].extend([ log_op["DryConnect"],
                                                            log_op["LowerCP"] ])
 
             elif all(x in 'wet-mate' for x in cp_db['downstream ei type [-]'].ix[index]):
-                  phase.op_ve[0].op_seq_sea[cp_id].extend([ log_op["LowerCP"]] )
+                  phase.op_ve[0].op_seq_sea[index].extend([ log_op["LowerCP"]] )
 
             else:
                 print 'CP: Wrong Inputs'

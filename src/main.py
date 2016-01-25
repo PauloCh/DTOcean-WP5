@@ -174,8 +174,9 @@ install_plan = {0: ['Devices'] }
 """
 Select the most appropriate base installation port
 """
-ports, install_port, install_port_index = select_port.install_port(user_inputs, hydrodynamic_outputs, electrical_outputs, MF_outputs, ports)
-# install_port_index = 0 # CHANGE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#ports, install_port, install_port_index = select_port.install_port(user_inputs, hydrodynamic_outputs, electrical_outputs, MF_outputs, ports)
+#install_port_index = 0 # CHANGE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+install_port = 0
 
 # Incremental assessment of all logistic phase forming the the installation process
 install = {'plan': install_plan,
@@ -207,17 +208,11 @@ if install['status'] == "pending":
            # characterize the logistic requirements
            install['requirement'] = glob_feas(log_phase, log_phase_id, user_inputs, hydrodynamic_outputs,
                                               electrical_outputs, MF_outputs)
-           print install['requirement']
 
            # selection of the maritime infrastructure
            install['eq_select'], log_phase = select_e(install, log_phase)
-           print install['eq_select']
 
            install['ve_select'], log_phase = select_v(install, log_phase)
-           print install['ve_select']
-
-           print install['eq_select']
-           print install['ve_select']
 
            # matching requirements for combinations of port/vessel(s)/equipment
            install['combi_select'], log_phase = compatibility_ve(install, log_phase, install_port) # requires install_port !!

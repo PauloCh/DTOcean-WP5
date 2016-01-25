@@ -16,8 +16,7 @@ def initialize_devices_phase(log_op, vessels, equipments, user_inputs, hydrodyna
 
     ''' On-deck Transportation Strategy '''
 
-    # initialize strategy (all strategies will be individually assessed by the
-    # performance functions, with the lowest costs on being choosen)
+    # initialize strategy
     phase.op_ve[0] = DefPhase(1, 'On-deck transportation')
 
     # define vessel and equipment combinations suited for this strategy
@@ -89,8 +88,7 @@ def initialize_devices_phase(log_op, vessels, equipments, user_inputs, hydrodyna
 
     ''' Tow Transportation Strategy '''
 
-    # initialize strategy (all strategies will be individually assessed by the
-    # performance functions, with the lowest costs on being choosen)
+    # initialize strategy
     phase.op_ve[1] = DefPhase(1, 'Towing transportation')
 
     # define vessel and equipment combinations suited for this strategy

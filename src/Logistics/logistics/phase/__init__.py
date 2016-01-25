@@ -27,6 +27,7 @@ from .Gravity import initialize_gravity_phase
 from .M_Drag import initialize_m_drag_phase
 from .M_Direct import initialize_m_direct_phase
 from .M_Suction import initialize_m_suction_phase
+from .M_Pile import initialize_m_pile_phase
 
 from .devices import initialize_devices_phase
 
@@ -66,16 +67,17 @@ def logPhase_install_init(log_op, vessels, equipments, user_inputs, electrical_o
 
     # TO BE CHANGED IN ORDER TO ONLY INITIALISE THE PHASES THAT ARE REQUESTED ACCORDING TO THE INSTALLATION PLAN (AND/OR OPERATION SEQUENCE)
     logPhase_install = {
-                        'E_export': initialize_e_export_phase(log_op, vessels, equipments, electrical_outputs),
+                        'E_export': initialize_e_export_phase(log_op, vessels, equipments, electrical_outputs, user_inputs),
                         'E_array': initialize_e_array_phase(log_op, vessels, equipments, electrical_outputs),
                         'E_dynamic': initialize_e_dynamic_phase(log_op, vessels, equipments, electrical_outputs),
                         'E_cp_seabed': initialize_e_cp_seabed_phase(log_op, vessels, equipments, electrical_outputs),
 
-                        'Driven': initialize_drive_phase(log_op, vessels, equipments),
+                        'Driven': initialize_drive_phase(log_op, vessels, equipments, MF_outputs),
                         'Gravity': initialize_gravity_phase(log_op, vessels, equipments, MF_outputs),
                         'M_Drag': initialize_m_drag_phase(log_op, vessels, equipments, MF_outputs),
                         'M_Direct': initialize_m_direct_phase(log_op, vessels, equipments, MF_outputs),
                         'M_Suction': initialize_m_suction_phase(log_op, vessels, equipments, MF_outputs),
+                        'M_Pile': initialize_m_pile_phase(log_op, vessels, equipments, MF_outputs),
 
                         'Devices': initialize_devices_phase(log_op, vessels, equipments, user_inputs, hydrodynamic_outputs)
                         }

@@ -6,9 +6,9 @@ def initialize_gravity_phase(log_op, vessels, equipments, MF_outputs):
     # save outputs required inside short named variables
     found_db = MF_outputs['foundation']
     gravity_db = found_db[found_db['type [-]'] == 'gravity foundation']
-    gravity_db.append(found_db[found_db['type [-]'] == 'gravity anchor'])
-    gravity_db.append(found_db[found_db['type [-]'] == 'shallow foundation'])
-    gravity_db.append(found_db[found_db['type [-]'] == 'shallow anchor'])
+    gravity_db = gravity_db.append(found_db[found_db['type [-]'] == 'gravity anchor'])
+    gravity_db = gravity_db.append(found_db[found_db['type [-]'] == 'shallow foundation'])
+    gravity_db = gravity_db.append(found_db[found_db['type [-]'] == 'shallow anchor'])
 
     # initialize logistic phase
     phase = LogPhase(112, "Installation of gravity based foundations")
@@ -47,17 +47,14 @@ def initialize_gravity_phase(log_op, vessels, equipments, MF_outputs):
     # each element is associated with a customized operation sequence depending on it's characteristics,
     for index, row in gravity_db.iterrows():
 
-        gravity_id = gravity_db['id [-]'].ix[index]
-
         # initialize an empty operation sequence list for the 'index' element
-        phase.op_ve[0].op_seq_sea[gravity_id] = []
+        phase.op_ve[0].op_seq_sea[index] = []
 
-        phase.op_ve[0].op_seq_sea[gravity_id].extend([ log_op["GBSpos"],
-                                                       log_op["GBSlower"] ])
+        phase.op_ve[0].op_seq_sea[index].extend([ log_op["GBSpos"],
+                                                  log_op["GBSlower"] ])
 
         if gravity_db['type [-]'].ix[index] == 'gravity anchor' or gravity_db['type [-]'].ix[index] == 'shallow anchor':
-            phase.op_ve[0].op_seq_sea[gravity_id].extend([ log_op["PreLay"] ])
-
+            phase.op_ve[0].op_seq_sea[index].extend([ log_op["PreLay"] ])
 
     # define final demobilization tasks
     phase.op_ve[0].op_seq_demob = [log_op["Demob"]]

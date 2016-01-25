@@ -12,8 +12,7 @@ def initialize_m_drag_phase(log_op, vessels, equipments, MF_outputs):
 
     ''' Deploy drag-embedment anchor installation strategy'''
 
-    # initialize strategy (all strategies will be individually assessed by the
-    # performance functions, with the lowest costs on being choosen)
+    # initialize strategy
     phase.op_ve[0] = DefPhase(1, 'Deploy drag-embedment anchor')
 
     # define vessel and equipment combinations suited for this strategy
@@ -23,20 +22,23 @@ def initialize_m_drag_phase(log_op, vessels, equipments, MF_outputs):
     phase.op_ve[0].ve_combination[1] = {'vessel': [(1, vessels['Multicat'])],
                                         'equipment': [(1, equipments['rov'], 0)]}
 
-    phase.op_ve[0].ve_combination[2] = {'vessel': [(1, vessels['Tugboat'])],
-                                        'equipment': [(1, equipments['rov'], 0)]}
+    # define initial mobilization and onshore preparation tasks
+    phase.op_ve[0].op_seq_prep = [log_op["Mob"],
+                                  log_op["AssPort"],
+                                  log_op["VessPrep"]]
 
     # iterate over the list of elements to be installed.
     # each element is associated with a customized operation sequence depending on it's characteristics
     for index, row in drag_db.iterrows():
 
-        drag_id = index
-
         # initialize an empty operation sequence list for the 'index' element
-        phase.op_ve[0].op_seq_sea[drag_id] = []
+        phase.op_ve[0].op_seq_sea[index] = []
 
-        phase.op_ve[0].op_seq_sea[drag_id].extend([ log_op["SeafloorEquipPrep"],
-                                                          log_op["DragEmbed"],
-                                                          log_op["PreLay"] ])
+        phase.op_ve[0].op_seq_sea[index].extend([ log_op["SeafloorEquipPrep"],
+                                                  log_op["DragEmbed"],
+                                                  log_op["PreLay"] ])
+
+    # define final demobilization tasks
+    phase.op_ve[0].op_seq_demob = [log_op["Demob"]]
 
     return phase
