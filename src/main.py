@@ -87,22 +87,21 @@ from Logistics.load import load_vessel_data, load_equipment_data
 from Logistics.load import load_port_data
 from Logistics.load.wp_bom import load_user_inputs, load_hydrodynamic_outputs
 from Logistics.load.wp_bom import load_electrical_outputs, load_MF_outputs
+from Logistics.load.wp_bom import load_OM_outputs
 
-# from wp5.load.wp_bom import load_OM_outputs
-from Logistics.logistics.operations import logOp_init
-from Logistics.logistics.phase import logPhase_install_init
+from Logistics.phases.operations import logOp_init
+from Logistics.phases.install import logPhase_install_init
+from Logistics.phases.om import logPhase_om_init         # FOR OM ONLY!!!!!!!!
 from Logistics.installation import planning
 from Logistics.installation import select_port
 from Logistics.feasibility.glob import glob_feas
 from Logistics.selection.select_ve import select_e, select_v
-from Logistics.selection.match import compatibility_ve
-from Logistics.performance.schedule.schedule import sched
-from Logistics.performance.economic.eco import cost
-
+#from Logistics.selection.match import compatibility_ve
+#from Logistics.performance.schedule.schedule import sched
+#from Logistics.performance.economic.eco import cost
 
 # # Set directory paths for loading inputs (@Tecnalia)
 mod_path = path.dirname(path.realpath(__file__))
-
 
 def database_file(file):
     """shortcut function to load files from the database folder
@@ -111,7 +110,6 @@ def database_file(file):
     db_path = path.join(mod_path, fpath)
     return db_path
 
-
 #def run():
 """
 Load required inputs and database into panda dataframes
@@ -119,8 +117,8 @@ Load required inputs and database into panda dataframes
 
 import pickle
 
-#inputs_SV_LD = 'save'
-inputs_SV_LD = 'load'
+inputs_SV_LD = 'save'
+#inputs_SV_LD = 'load'
 
 if inputs_SV_LD == "save":
     # Saving the objects:
@@ -141,7 +139,7 @@ if inputs_SV_LD == "save":
     hydrodynamic_outputs = load_hydrodynamic_outputs(database_file("ouputs_hydrodynamic.xlsx"))
     electrical_outputs = load_electrical_outputs(database_file("ouputs_electrical.xlsx"))
     MF_outputs = load_MF_outputs(database_file("outputs_MF.xlsx"))
-    # OM_outputs = load_OM_outputs(database_file("outputs_OM.xlsx"))
+    OM_outputs = load_OM_outputs(database_file("outputs_OM.xlsx"))
 
     with open('objs.pickle', 'w') as f:
         pickle.dump([phase_order, schedule_OLC, vessels, equipments, ports, user_inputs, hydrodynamic_outputs, electrical_outputs, MF_outputs], f)
@@ -153,8 +151,6 @@ elif inputs_SV_LD == "load":
 
 else:
     print 'Invalid SaveLoad option'
-
-
 
 """
  Initialise logistic operations and logistic phases
@@ -168,7 +164,7 @@ logOp = logOp_init(database_file("operations_time_OLC.xlsx"))
 """
 Determine the adequate installation logistic phase plan
 """
-install_plan, instal_order = planning.install_plan(database_file("Installation_Order.xlsx"), user_inputs, electrical_outputs, MF_outputs)
+#install_plan = planning.install_plan(database_file("Installation_Order.xlsx"), user_inputs, electrical_outputs, MF_outputs)
 
 # DUMMY-TO BE ERASED, install plan is constrained to F_driven because
 # we just have the F_driven characterized for now
@@ -179,8 +175,11 @@ install_plan = {0: ['Devices'] }
 """
 Select the most appropriate base installation port
 """
-#install_port = select_port.install_port(user_inputs, hydrodynamic_outputs, electrical_outputs, MF_outputs, ports, instal_order)
-install_port = ports.ix[1]
+
+#ports, install_port, install_port_index = select_port.install_port(user_inputs, hydrodynamic_outputs, electrical_outputs, MF_outputs, ports)
+#install_port_index = 0 # CHANGE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+install_port = 0
+
 # Incremental assessment of all logistic phase forming the the installation process
 install = {'plan': install_plan,
           'port': install_port,
@@ -197,8 +196,8 @@ install = {'plan': install_plan,
 
 logPhase_install = logPhase_install_init(logOp, vessels, equipments, user_inputs,
                                          electrical_outputs, MF_outputs, hydrodynamic_outputs)
-#logPhase_OM = logPhase_OM_init(logOp, vessels, equipments)
 
+logPhase_om = logPhase_om_init(logOp, vessels, equipments, user_inputs, OM_outputs)
 
 if install['status'] == "pending":
    # loop over the number of layers of the installation plan
@@ -212,27 +211,25 @@ if install['status'] == "pending":
            # characterize the logistic requirements
            install['requirement'] = glob_feas(log_phase, log_phase_id, user_inputs, hydrodynamic_outputs,
                                               electrical_outputs, MF_outputs)
-           # print install['requirement']
 
            # selection of the maritime infrastructure
            install['eq_select'], log_phase = select_e(install, log_phase)
-           # print install['eq_select']
 
            install['ve_select'], log_phase = select_v(install, log_phase)
-           # print install['ve_select']
 
            # matching requirements for combinations of port/vessel(s)/equipment
            install['combi_select'], log_phase = compatibility_ve(install, log_phase, install_port)
+
 #           print install['combi_select']
 
-           # schedule assessment of the different operation sequence
-           install['schedule'], log_phase = sched(x, install, log_phase,
-                                                  log_phase_id, user_inputs,
-                                                  hydrodynamic_outputs,
-                                                  electrical_outputs,
-                                                  MF_outputs)
-
-           # cost assessment of the different operation sequenc
+#           # schedule assessment of the different operation sequence
+#           install['schedule'], log_phase = sched(x, install, log_phase,
+#                                                  log_phase_id, user_inputs,
+#                                                  hydrodynamic_outputs,
+#                                                  electrical_outputs,
+#                                                  MF_outputs)
+#
+#           # cost assessment of the different operation sequenc
 #           install['cost'], log_phase = cost(install, log_phase)
 
            # TO DO

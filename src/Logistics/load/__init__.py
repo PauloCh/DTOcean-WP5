@@ -13,8 +13,8 @@ and .csv files to the final SQL solution.
 
 import pandas as pd
 
-from ..logistics import VesselType
-from ..logistics import EquipmentType
+from ..phases import VesselType
+from ..phases import EquipmentType
 
 
 def load_time_olc_data(file_path):
@@ -79,9 +79,9 @@ def load_eq_rates(file_path):
     # Collect data from a particular tab
     penet_rates = excel.parse('penet', header=0, index_col=0)
     laying_rates = excel.parse('laying', header=0, index_col=0)
-    
+
     return penet_rates, laying_rates
-    
+
 def load_sf(file_path):
     """Imports safety factors into a panda table
 
@@ -102,7 +102,7 @@ def load_sf(file_path):
     port_sf = excel.parse('port_sf', header=0, index_col=0)
     vessel_sf = excel.parse('vessel_sf', header=0, index_col=0)
     eq_sf = excel.parse('eq_sf', header=0, index_col=0)
-    
+
     return port_sf, vessel_sf, eq_sf
 
 def load_vessel_data(file_path):
@@ -133,15 +133,15 @@ def load_vessel_data(file_path):
                'Crane Vessel': VesselType("Crane Vessel", pd_vessel[pd_vessel['Vessel type [-]'] == 'Crane Vessel']),
                'JUP Barge': VesselType("JUP Barge", pd_vessel[pd_vessel['Vessel type [-]'] == 'JUP Barge']),
                'JUP Vessel': VesselType("JUP Vessel", pd_vessel[pd_vessel['Vessel type [-]'] == 'JUP Vessel']),
-               'Anchor Handling': VesselType("AHTS", pd_vessel[pd_vessel['Vessel type [-]'] == 'AHTS']),
+               'AHTS': VesselType("AHTS", pd_vessel[pd_vessel['Vessel type [-]'] == 'AHTS']),
                'Multicat': VesselType("Multicat", pd_vessel[pd_vessel['Vessel type [-]'] == 'Multicat']),
                'AHTS': VesselType("AHTS", pd_vessel[pd_vessel['Vessel type [-]'] == 'AHTS']),
                'CLV': VesselType("CLV", pd_vessel[pd_vessel['Vessel type [-]'] == 'CLV']),
                'CLB': VesselType("CLB", pd_vessel[pd_vessel['Vessel type [-]'] == 'CLB']),
                'CTV': VesselType("CTV", pd_vessel[pd_vessel['Vessel type [-]'] == 'CTV']),
-               'Construction Support Vessel': VesselType("Construction Support Vessel", pd_vessel[pd_vessel['Vessel type [-]'] == 'Construction Support Vessel']),
+               'CSV': VesselType("Construction Support Vessel", pd_vessel[pd_vessel['Vessel type [-]'] == 'Construction Support Vessel']),
                'Fit for Purpose': VesselType("Fit for Purpose", pd_vessel[pd_vessel['Vessel type [-]'] == 'Fit for Purpose']),
-               'Platform Support Vessel': VesselType("Platform Supply Vessel", pd_vessel[pd_vessel['Vessel type [-]'] == 'Platform Support Vessel']),
+               'PSV': VesselType("Platform Supply Vessel", pd_vessel[pd_vessel['Vessel type [-]'] == 'Platform Support Vessel']),
                'Helicopter': VesselType("Helicopter", pd_vessel[pd_vessel['Vessel type [-]'] == 'Helicopter'])
                }
 
