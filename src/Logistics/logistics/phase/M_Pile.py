@@ -1,19 +1,20 @@
 from .classes import DefPhase, LogPhase
 
 
-def initialize_m_drag_phase(log_op, vessels, equipments, MF_outputs):
+def initialize_m_pile_phase(log_op, vessels, equipments, MF_outputs):
 
     # save outputs required inside short named variables
     found_db = MF_outputs['foundation']
-    drag_db = found_db[found_db['type [-]'] == 'drag-embedment anchor']
+    m_pile_db = found_db[found_db['type [-]'] == 'pile anchor']
 
     # initialize logistic phase
-    phase = LogPhase(113, "Installation of mooring systems with drag-embedment anchors")
+    phase = LogPhase(115, "Installation of mooring systems with pile anchors")
 
-    ''' Deploy drag-embedment anchor installation strategy'''
+    ''' Connect mooring line to pre-installed pile anchor installation strategy'''
 
-    # initialize strategy
-    phase.op_ve[0] = DefPhase(1, 'Deploy drag-embedment anchor')
+    # initialize strategy (all strategies will be individually assessed by the
+    # performance functions, with the lowest costs on being choosen)
+    phase.op_ve[0] = DefPhase(1, 'Connect mooring line to pile anchor')
 
     # define vessel and equipment combinations suited for this strategy
     phase.op_ve[0].ve_combination[0] = {'vessel': [(1, vessels['AHTS'])],
@@ -29,16 +30,17 @@ def initialize_m_drag_phase(log_op, vessels, equipments, MF_outputs):
 
     # iterate over the list of elements to be installed.
     # each element is associated with a customized operation sequence depending on it's characteristics
-    for index, row in drag_db.iterrows():
+    for index, row in m_pile_db.iterrows():
 
         # initialize an empty operation sequence list for the 'index' element
         phase.op_ve[0].op_seq_sea[index] = []
 
         phase.op_ve[0].op_seq_sea[index].extend([ log_op["SeafloorEquipPrep"],
-                                                  log_op["DragEmbed"],
+                                                  log_op["ConnectPile"],
                                                   log_op["PreLay"] ])
 
     # define final demobilization tasks
     phase.op_ve[0].op_seq_demob = [log_op["Demob"]]
+
 
     return phase

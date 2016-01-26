@@ -1,93 +1,119 @@
 from .classes import DefPhase, LogPhase
 
 
-def initialize_drive_phase(log_op, vessels, equipments):
-    phase = LogPhase(110, "Installation of driven piles foundations")
+def initialize_drive_phase(log_op, vessels, equipments, MF_outputs):
 
-    phase.op_ve[0] = DefPhase(1, 'Drilling')
-    phase.op_ve[0].op_seq_sea = [log_op["Mob"],
-                                 log_op["AssPort"],
-                                 log_op["VessPrep"],
-                                 log_op["TranPortSite"],
-                                 log_op["SeafloorEquipPrep"],
-                                 log_op["PileDrill"],
-                                 log_op["Grout"],
-                                 log_op["GroutRemov"],
-                                 log_op["TranSiteSite"],
-                                 log_op["TranSitePort"],
-                                 log_op["Demob"]]
+    # save outputs required inside short named variables
+    found_db = MF_outputs['foundation']
+    driven_db = found_db[found_db['type [-]'] == 'pile foundation']
+    driven_db = driven_db.append(driven_db[found_db['type [-]'] == 'pile anchor'])
 
-    phase.op_ve[0].ve_combination[0] = {'vessel': [(1, vessels['Crane Barge']), (2, vessels['Tugboat'])],
-                                       'equipment': [(1, equipments['drilling rigs'], 0)]}
+    # initialize logistic phase
+    phase = LogPhase(110, "Installation of driven piles anchors/foundations")
 
-    phase.op_ve[0].ve_combination[1] = {'vessel': [(1, vessels['Crane Vessel'])],
-                                       'equipment': [(1, equipments['drilling rigs'], 0)]}
+    ''' Drilling Installation Strategy (Pre-Piling) '''
 
-    phase.op_ve[0].ve_combination[2] = {'vessel': [(1, vessels['JUP Barge']), (2, vessels['Tugboat'])],
-                                       'equipment': [(1, equipments['drilling rigs'], 0)]}
+    # initialize strategy
+    phase.op_ve[0] = DefPhase(1, 'Drilling (Pre-Piling)')
 
-    phase.op_ve[0].ve_combination[3] = {'vessel': [(1, vessels['JUP Vessel'])],
-                                       'equipment': [(1, equipments['drilling rigs'], 0)]}
+    # define vessel and equipment combinations suited for this strategy
+    phase.op_ve[0].ve_combination[0] = {'vessel': [(1, vessels['CSV'])],
+                                       'equipment': [(1, equipments['drilling rigs'], 0), (1, equipments['rov'], 0)]}
 
+    phase.op_ve[0].ve_combination[1] = {'vessel': [(1, vessels['JUP Barge']), (1, vessels['Tugboat'])],
+                                       'equipment': [(1, equipments['drilling rigs'], 0), (1, equipments['rov'], 0)]}
 
-#-------------------------------------------------------------------------------------------------
+    phase.op_ve[0].ve_combination[2] = {'vessel': [(1, vessels['JUP Vessel'])],
+                                       'equipment': [(1, equipments['drilling rigs'], 0), (1, equipments['rov'], 0)]}
 
-
-    phase.op_ve[1] = DefPhase(2, 'Hammering')
-    phase.op_ve[1].op_seq_sea = [log_op["Mob"],
+    # define initial mobilization and onshore preparation tasks
+    phase.op_ve[0].op_seq_prep = [log_op["Mob"],
                                   log_op["AssPort"],
-                                  log_op["VessPrep"],
-                                  log_op["TranPortSite"],
-                                  log_op["SeafloorEquipPrep"],
-                                  log_op["PileHamm"],
-                                  log_op["Grout"],
-                                  log_op["GroutRemov"],
-                                  log_op["TranSiteSite"],
-                                  log_op["TranSitePort"],
-                                  log_op["Demob"]]
+                                  log_op["VessPrep"]]
 
-    phase.op_ve[1].ve_combination[0] = {'vessel': [(1, vessels['Crane Barge']), (2, vessels['Tugboat'])],
-                                        'equipment': [(1, equipments['hammer'], 0)]}
+    # iterate over the list of elements to be installed.
+    # each element is associated with a customized operation sequence depending on it's characteristics
+    for index, row in driven_db.iterrows():
 
-    phase.op_ve[1].ve_combination[1] = {'vessel': [(1, vessels['Crane Vessel'])],
-                                        'equipment': [(1, equipments['hammer'], 0)]}
+        # initialize an empty operation sequence list for the 'index' element
+        phase.op_ve[0].op_seq_sea[index] = []
 
-    phase.op_ve[1].ve_combination[2] = {'vessel': [(1, vessels['JUP Barge']), (2, vessels['Tugboat'])],
-                                        'equipment': [(1, equipments['hammer'], 0)]}
+        phase.op_ve[0].op_seq_sea[index].extend([ log_op["VesPos"],
+                                                  log_op["PileDrill"],
+                                                  log_op["Grout"],
+                                                  log_op["GroutRemov"]])
 
-    phase.op_ve[1].ve_combination[3] = {'vessel': [(1, vessels['JUP Vessel'])],
-                                        'equipment': [(1, equipments['hammer'], 0)]}
+    # define final demobilization tasks
+    phase.op_ve[1].op_seq_demob = [log_op["Demob"]]
 
+    ''' Hammering Installation Strategy (Pre-Piling) '''
 
-#-------------------------------------------------------------------------------------------------
+    # initialize strategy
+    phase.op_ve[1] = DefPhase(1, 'Hammering (Pre-Piling)')
 
+    # define vessel and equipment combinations suited for this strategy
+    phase.op_ve[1].ve_combination[0] = {'vessel': [(1, vessels['CSV'])],
+                                       'equipment': [(1, equipments['hammer'], 0), (1, equipments['rov'], 0)]}
 
-    phase.op_ve[2] = DefPhase(3, 'Vibro Pilling')
-    phase.op_ve[2].op_seq_sea = [log_op["Mob"],
-                                 log_op["AssPort"],
-                                 log_op["VessPrep"],
-                                 log_op["TranPortSite"],
-                                 log_op["SeafloorEquipPrep"],
-                                 log_op["PileVibro"],
-                                 log_op["Grout"],
-                                 log_op["GroutRemov"],
-                                 log_op["TranSiteSite"],
-                                 log_op["TranSitePort"],
-                                 log_op["Demob"]]
+    phase.op_ve[1].ve_combination[1] = {'vessel': [(1, vessels['JUP Barge']), (1, vessels['Tugboat'])],
+                                       'equipment': [(1, equipments['hammer'], 0), (1, equipments['rov'], 0)]}
 
+    phase.op_ve[1].ve_combination[2] = {'vessel': [(1, vessels['JUP Vessel'])],
+                                       'equipment': [(1, equipments['hammer'], 0), (1, equipments['rov'], 0)]}
 
-    phase.op_ve[2].ve_combination[0] = {'vessel': [(1, vessels['Crane Barge']), (2, vessels['Tugboat'])],
-                                       'equipment': [(1, equipments['vibro driver'], 0)]}
+    # define initial mobilization and onshore preparation tasks
+    phase.op_ve[1].op_seq_prep = [log_op["Mob"],
+                                  log_op["AssPort"],
+                                  log_op["VessPrep"]]
 
-    phase.op_ve[2].ve_combination[1] = {'vessel': [(1, vessels['Crane Vessel'])],
-                                       'equipment': [(1, equipments['vibro driver'], 0)]}
+    # iterate over the list of elements to be installed.
+    # each element is associated with a customized operation sequence depending on it's characteristics
+    for index, row in driven_db.iterrows():
 
-    phase.op_ve[2].ve_combination[2] = {'vessel': [(1, vessels['JUP Barge']), (2, vessels['Tugboat'])],
-                                       'equipment': [(1, equipments['vibro driver'], 0)]}
+        # initialize an empty operation sequence list for the 'index' element
+        phase.op_ve[1].op_seq_sea[index] = []
 
-    phase.op_ve[2].ve_combination[3] = {'vessel': [(1, vessels['JUP Vessel'])],
-                                       'equipment': [(1, equipments['vibro driver'], 0)]}
+        phase.op_ve[1].op_seq_sea[index].extend([ log_op["Positioning"],
+                                                  log_op["PileHamm"],
+                                                  log_op["Grout"],
+                                                  log_op["GroutRemov"]])
 
+    # define final demobilization tasks
+    phase.op_ve[1].op_seq_demob = [log_op["Demob"]]
 
+    ''' Vibro-Piling Installation Strategy (Pre-Piling) '''
+
+    # initialize strategy
+    phase.op_ve[2] = DefPhase(1, 'Vibro-Piling (Pre-Piling)')
+
+    # define vessel and equipment combinations suited for this strategy
+    phase.op_ve[2].ve_combination[0] = {'vessel': [(1, vessels['CSV'])],
+                                       'equipment': [(1, equipments['vibro driver'], 0), (1, equipments['rov'], 0)]}
+
+    phase.op_ve[2].ve_combination[1] = {'vessel': [(1, vessels['JUP Barge']), (1, vessels['Tugboat'])],
+                                       'equipment': [(1, equipments['vibro driver'], 0), (1, equipments['rov'], 0)]}
+
+    phase.op_ve[2].ve_combination[2] = {'vessel': [(1, vessels['JUP Vessel'])],
+                                       'equipment': [(1, equipments['vibro driver'], 0), (1, equipments['rov'], 0)]}
+
+    # define initial mobilization and onshore preparation tasks
+    phase.op_ve[2].op_seq_prep = [log_op["Mob"],
+                                  log_op["AssPort"],
+                                  log_op["VessPrep"]]
+
+    # iterate over the list of elements to be installed.
+    # each element is associated with a customized operation sequence depending on it's characteristics
+    for index, row in driven_db.iterrows():
+
+        # initialize an empty operation sequence list for the 'index' element
+        phase.op_ve[2].op_seq_sea[index] = []
+
+        phase.op_ve[2].op_seq_sea[index].extend([ log_op["Positioning"],
+                                                  log_op["PileVibro"],
+                                                  log_op["Grout"],
+                                                  log_op["GroutRemov"]])
+
+    # define final demobilization tasks
+    phase.op_ve[2].op_seq_demob = [log_op["Demob"]]
 
     return phase

@@ -1,6 +1,6 @@
 from .classes import DefPhase, LogPhase
 
-def initialize_e_cp_phase(log_op, vessels, equipments, electrical_outputs):
+def initialize_e_cp_seabed_phase(log_op, vessels, equipments, electrical_outputs):
 
     # save outputs required inside short named variables
     cp_db = electrical_outputs['collection point']
@@ -30,8 +30,12 @@ def initialize_e_cp_phase(log_op, vessels, equipments, electrical_outputs):
     phase.op_ve[0].ve_combination[4] = {'vessel': [(1, vessels['Construction Support Vessel']), (1, vessels['Multicat'])],
                                         'equipment': [(1, equipments['rov'], 0)]}
 
-    # iterate over the list of elements to be installed.
-    # each element is associated with a customized operation sequence depending on it's characteristics,.
+    # define initial mobilization and onshore preparation tasks
+    phase.op_ve[0].op_seq_prep = [log_op["Mob"],
+                                  log_op["AssPort"],
+                                  log_op["VessPrep"]]
+
+    # check the collection point type
     for index, row in cp_db.iterrows():
 
         # initialize an empty operation sequence list for the 'index' element
@@ -39,35 +43,51 @@ def initialize_e_cp_phase(log_op, vessels, equipments, electrical_outputs):
 
         if cp_db['type [-]'].ix[index] == 'seabed':
 
-            if cp_db['upstream ei type [-]'].ix[index] == 'dry-mate':
+            if 'dry-mate' in cp_db['upstream ei type [-]'].ix[index]: #checks whether 'dry-mate' is inside the list
 
-                for x in range(cp_db['upstream ei number [-]'].ix[index]):
+                for x in range(cp_db['upstream ei type [-]'].ix[index].count('dry-mate')): #counts how may 'dry-mate' types exist and loops over the number
                     phase.op_ve[0].op_seq_sea[index].extend([ log_op["LiftCable"] ])
 
-            if cp_db['downstream ei type [-]'].ix[index] == 'dry-mate':
+            if 'dry-mate' in cp_db['downstream ei type [-]'].ix[index]:
 
-                for x in range(cp_db['upstream ei number [-]'].ix[index]):
+                for x in range(cp_db['downstream ei type [-]'].ix[index].count('dry-mate')):
                     phase.op_ve[0].op_seq_sea[index].extend([ log_op["LiftCable"] ])
 
-            if cp_db['upstream ei type [-]'].ix[index] == 'dry-mate' or cp_db['downstream ei type [-]'].ix[index] == 'dry-mate':
+            if 'dry-mate' in cp_db['upstream ei type [-]'].ix[index] or 'dry-mate' in cp_db['downstream ei type [-]'].ix[index]:
                 phase.op_ve[0].op_seq_sea[index].extend([ log_op["DryConnect"],
-                                                           log_op["LowerCP"] ])
+                                                          log_op["LowerCP"] ])
 
-            else:  # meaning all electrical interfaces are wet-mate connected
-                phase.op_ve[0].op_seq_sea[index].extend([ log_op["LowerCP"] ])
+            elif all(x in 'wet-mate' for x in cp_db['upstream ei type [-]'].ix[index]) and all(x in 'wet-mate' for x in cp_db['downstream ei type [-]'].ix[index]):
+                 phase.op_ve[0].op_seq_sea[index].extend([ log_op["LowerCP"] ])
 
+            else:
+                print 'CP: Wrong Inputs'
 
         if cp_db['type [-]'].ix[index] == 'seabed with pigtails':
 
-            if cp_db['downstream ei type [-]'].ix[index] == 'dry-mate':
+            if 'dry-mate' in cp_db['downstream ei type [-]'].ix[index]:
 
-                for x in range(cp_db['upstream ei number [-]'].ix[index]):
+                for x in range(cp_db['downstream ei type [-]'].ix[index].count('dry-mate')):
                     phase.op_ve[0].op_seq_sea[index].extend([ log_op["LiftCable"] ])
 
                 phase.op_ve[0].op_seq_sea[index].extend([ log_op["DryConnect"],
                                                            log_op["LowerCP"] ])
 
-            else:  # meaning all electrical interfaces are wet-mate connected
-                phase.op_ve[0].op_seq_sea[index].extend([ log_op["LowerCP"]] )
+            elif all(x in 'wet-mate' for x in cp_db['downstream ei type [-]'].ix[index]):
+                  phase.op_ve[0].op_seq_sea[index].extend([ log_op["LowerCP"]] )
+
+            else:
+                print 'CP: Wrong Inputs'
+
+        else:
+            print 'CP: Wrong Inputs'
+
+    # define final demobilization tasks
+    phase.op_ve[0].op_seq_demob = [log_op["Demob"]]
 
     return phase
+
+
+def initialize_e_cp_surface_phase(log_op, vessels, equipments, electrical_outputs):
+
+    return
