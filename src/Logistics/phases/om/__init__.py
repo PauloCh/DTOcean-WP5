@@ -13,10 +13,9 @@ one related to Moorings and Foundation Installation: Driven Pile, and another
 related to Operation and Maintenance: Offshore Inspection.
 """
 
-from .classes import LogPhase, DefPhase
-
 from .LpM1 import initialize_LpM1_phase
-
+from .LpM2 import initialize_LpM2_phase
+from .LpM3 import initialize_LpM3_phase
 
 def logPhase_om_init(log_op, vessels, equipments, user_inputs, OM_outputs):
     """This function initializes and characterizes all logistic phases associated
@@ -45,8 +44,8 @@ def logPhase_om_init(log_op, vessels, equipments, user_inputs, OM_outputs):
 
     Returns
     -------
-    logPhase_install : dict
-     dictionnary containing all classes defining the logistic phases for installation
+    logPhase_om : dict
+     dictionnary containing all classes defining the logistic phases for operation and maintenance
     """
 
     # 1st Level - Initialize the logistic phases through LogPhase classes
@@ -54,8 +53,8 @@ def logPhase_om_init(log_op, vessels, equipments, user_inputs, OM_outputs):
     # TO BE CHANGED IN ORDER TO ONLY INITIALISE THE PHASES THAT ARE REQUESTED ACCORDING TO THE INSTALLATION PLAN (AND/OR OPERATION SEQUENCE)
     logPhase_om = {
                     'LpM1': initialize_LpM1_phase(log_op, vessels, equipments, OM_outputs),
-#                    'LpM2': initialize_e_array_phase(log_op, vessels, equipments, OM_outputs),
-#                    'LpM3': initialize_e_dynamic_phase(log_op, vessels, equipments, OM_outputs),
+                    'LpM2': initialize_LpM2_phase(log_op, vessels, equipments, OM_outputs),
+                    'LpM3': initialize_e_dynamic_phase(log_op, vessels, equipments, OM_outputs),
 #                    'LpM4': initialize_e_cp_seabed_phase(log_op, vessels, equipments, OM_outputs),
 #                    'LpM5': initialize_drive_phase(log_op, vessels, equipments, OM_outputs),
 #                    'LpM6': initialize_gravity_phase(log_op, vessels, equipments, OM_outputs),
