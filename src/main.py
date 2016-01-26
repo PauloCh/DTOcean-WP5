@@ -117,12 +117,8 @@ Load required inputs and database into panda dataframes
 
 import pickle
 
-<<<<<<< HEAD
-# inputs_SV_LD = 'save'
-=======
-#inputs_SV_LD = 'save'
->>>>>>> 589bf62a3545f9674767c94075da855a0179e66d
-inputs_SV_LD = 'load'
+inputs_SV_LD = 'save'
+# inputs_SV_LD = 'load'
 
 if inputs_SV_LD == "save":
     # Saving the objects:
