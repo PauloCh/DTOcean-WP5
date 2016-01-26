@@ -185,11 +185,12 @@ def install_port(user_inputs, hydrodynamic_outputs, electrical_outputs, MF_outpu
     #     # if min_dist_to_port == dist_to_port_i:
     #     #     port_choice_index = ind_port
     # closest_ports_all = dist_to_port_vec.sort()
-    ## furthest_ports_all = closest_ports_all.reverse()
+    # # furthest_ports_all = closest_ports_all.reverse()
     # closest_ports_n = closest_ports_all[:num_ports_consider]
 
-    # for ind_port in range(len(port_data)):
+
     dist_to_port_vec = []
+    # for ind_port in range(len(port_data)):
     for ind_port, row in port_data.iterrows():
         port_coords_x = port_data['UTM x [m]'][ind_port]
         port_coords_y = port_data['UTM y [m]'][ind_port]
@@ -211,7 +212,7 @@ def install_port(user_inputs, hydrodynamic_outputs, electrical_outputs, MF_outpu
     port['Selected base port for installation'] = port_data.ix[port_choice_index]
     port['Distance port-site [km]'] = min_dist_to_port
 
-    return port, port_data.ix[port_choice_index]
+    return port
 
 
 
@@ -249,11 +250,15 @@ def OM_port(wp6_outputs, port_data):
             'Selected base port for installation': 0}
 
 
-    if wp6_outputs['ID [-]'].ix[0] == 'Insp1' or wp6_outputs['ID [-]'].ix[0] == 'Insp2' or wp6_outputs['ID [-]'].ix[0] == 'Insp3' or wp6_outputs['ID [-]'].ix[0] == 'Insp4':
+    # ASSUMES it is only called if a call to the logitics has been done with the ID = INS_PORT or OM_PORT (names to be agreed on!)
 
-        print 'Will use the closest port'
+    if wp6_outputs['ID [-]'].ix[0] == 'INS_PORT':
+
+        print 'Inspection only, will use the closest port'
 
     else:
+
+        print 'Will use the closest feasible port'
 
         # Calculate loading and projeted area of Spare Parts
 

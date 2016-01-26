@@ -117,8 +117,8 @@ Load required inputs and database into panda dataframes
 
 import pickle
 
-inputs_SV_LD = 'save'
-# inputs_SV_LD = 'load'
+# inputs_SV_LD = 'save'
+inputs_SV_LD = 'load'
 
 if inputs_SV_LD == "save":
     # Saving the objects:
@@ -142,12 +142,12 @@ if inputs_SV_LD == "save":
     OM_outputs = load_OM_outputs(database_file("outputs_OM.xlsx"))
 
     with open('objs.pickle', 'w') as f:
-        pickle.dump([phase_order, schedule_OLC, vessels, equipments, ports, user_inputs, hydrodynamic_outputs, electrical_outputs, MF_outputs], f)
+        pickle.dump([phase_order, schedule_OLC, penet_rates, port_sf, vessel_sf, eq_sf, vessels, equipments, ports, user_inputs, hydrodynamic_outputs, electrical_outputs, MF_outputs], f)
 
 elif inputs_SV_LD == "load":
     # Getting back the objects:
     with open('objs.pickle') as f:
-        phase_order, schedule_OLC, vessels, equipments, ports, user_inputs, hydrodynamic_outputs, electrical_outputs, MF_outputs = pickle.load(f)
+        phase_order, schedule_OLC, penet_rates, port_sf, vessel_sf, eq_sf, vessels, equipments, ports, user_inputs, hydrodynamic_outputs, electrical_outputs, MF_outputs = pickle.load(f)
 
 else:
     print 'Invalid SaveLoad option'

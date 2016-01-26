@@ -6,7 +6,7 @@ def initialize_drive_phase(log_op, vessels, equipments, MF_outputs):
     # save outputs required inside short named variables
     found_db = MF_outputs['foundation']
     driven_db = found_db[found_db['type [-]'] == 'pile foundation']
-    driven_db = driven_db.append(driven_db[found_db['type [-]'] == 'pile anchor'])
+    driven_db = driven_db.append(found_db[found_db['type [-]'] == 'pile anchor'])
 
     # initialize logistic phase
     phase = LogPhase(110, "Installation of driven piles anchors/foundations")
