@@ -179,7 +179,7 @@ def install_port(user_inputs, hydrodynamic_outputs, electrical_outputs, MF_outpu
     site_coords_zone = hydrodynamic_outputs['zone [-]'][index_dev]
     site_coords = [site_coords_x, site_coords_y, site_coords_zone]
     dist_to_port_vec = []
-    for ind_port in range(len(port_data)):
+    for ind_port, row in port_data.iterrows():
         port_coords_x = port_data['UTM x [m]'][ind_port]
         port_coords_y = port_data['UTM y [m]'][ind_port]
         port_coords_zone = port_data['UTM zone [-]'][ind_port]
@@ -198,7 +198,7 @@ def install_port(user_inputs, hydrodynamic_outputs, electrical_outputs, MF_outpu
     port['Selected base port for installation'] = port_data.ix[port_choice_index]
     port['Distance port-site [km]'] = min_dist_to_port
 
-    return port
+    return port, port_data.ix[port_choice_index]
 
 
 

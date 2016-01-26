@@ -13,7 +13,7 @@ BETA VERSION DETAILS: up to date, the functionalities explained previously have
 not been implemented, this module should suffer major changes for the beta version
 """
 
-from ..phases.phase.classes import VE_solutions
+from ..phases.install.classes import VE_solutions
 import itertools
 import numpy
 
