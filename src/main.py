@@ -179,11 +179,11 @@ install_plan = {0: ['Devices'] }
 """
 Select the most appropriate base installation port
 """
-installation_port = select_port.install_port(user_inputs, hydrodynamic_outputs, electrical_outputs, MF_outputs, ports, instal_order)
-
+#install_port = select_port.install_port(user_inputs, hydrodynamic_outputs, electrical_outputs, MF_outputs, ports, instal_order)
+install_port = ports.ix[1]
 # Incremental assessment of all logistic phase forming the the installation process
 install = {'plan': install_plan,
-          'port': installation_port,
+          'port': install_port,
           'requirement': {},
           'eq_select': {},
           've_select': {},
@@ -222,7 +222,7 @@ if install['status'] == "pending":
            # print install['ve_select']
 
            # matching requirements for combinations of port/vessel(s)/equipment
-           install['combi_select'], log_phase = compatibility_ve(install, log_phase, installation_port['Selected base port for installation'])
+           install['combi_select'], log_phase = compatibility_ve(install, log_phase, install_port)
 #           print install['combi_select']
 
            # schedule assessment of the different operation sequence
