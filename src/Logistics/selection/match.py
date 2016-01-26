@@ -13,9 +13,9 @@ BETA VERSION DETAILS: up to date, the functionalities explained previously have
 not been implemented, this module should suffer major changes for the beta version
 """
 
-from ..logistics.phase.classes import VE_solutions
+from ..phases.install.classes import VE_solutions
 import itertools
-import  numpy
+import numpy
 
 def compatibility_ve(install, log_phase, port_chosen_data):
     """This function is currently limited to the selection of the first two
