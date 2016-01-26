@@ -121,7 +121,7 @@ def sched(x, install, log_phase, log_phase_id,
                         elem_area = [0]*nb_dev
                         elem_mass = [0]*nb_dev
                         for dev in range(nb_dev): # loop over the number of devices
-                            # calculate the area and dry mass of all elements
+                            # calculate the area and dry mass of all elements=======
                             elem_area[dev] = user_inputs['device']['length [m]'].ix[0]*user_inputs['device']['width [m]'].ix[0] # [m^2]
                             elem_mass[dev] = user_inputs['device']['dry mass [kg]'].ix[0]/1000 # [ton]
                             

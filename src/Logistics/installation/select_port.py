@@ -81,30 +81,30 @@ def install_port(user_inputs, hydrodynamic_outputs, electrical_outputs, MF_outpu
 
     instal_order_list = list(instal_order)
     for ind_order in range(len(instal_order_list)):
-        if instal_order_list[ind_order] == 1: # electrical
-            # calculate loading and projected area of electrical elements
-            max_electr_loading = 0
-            max_electr_area = 0
-
-            # ?????!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            for ind_electr in range(len(electrical_outputs['collection point'])):
-                load_u = electrical_outputs['collection point']['dry mass [kg]'][ind_electr] / (electrical_outputs['collection point']['length [m]'][ind_electr] * electrical_outputs['collection point']['width [m]'][ind_electr])
-                area_u = electrical_outputs['collection point']['length [m]'][ind_electr] * electrical_outputs['collection point']['width [m]'][ind_electr]
-
-                max_electr_loading = max(max_electr_loading,load_u)
-                max_electr_area = max(max_electr_area,area_u)
-
-            for ind_electr in range(len(electrical_outputs['connectors'])):
-                load_u = electrical_outputs['connectors']['dry mass [kg]'][ind_electr] / (electrical_outputs['connectors']['length [m]'][ind_electr] * electrical_outputs['connectors']['width [m]'][ind_electr])
-                area_u = electrical_outputs['connectors']['length [m]'][ind_electr] * electrical_outputs['connectors']['width [m]'][ind_electr]
-
-                max_electr_loading = max(max_electr_loading,load_u)
-                max_electr_area = max(max_electr_area,area_u)
-
-
-
-            max_total_load = max(max_total_load,max_electr_loading)
-            max_total_area = max(max_total_area,max_electr_area)
+        # if instal_order_list[ind_order] == 1: # electrical
+        #     # calculate loading and projected area of electrical elements
+        #     max_electr_loading = 0
+        #     max_electr_area = 0
+        #
+        #     # ?????!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        #     for ind_electr in range(len(electrical_outputs['collection point'])):
+        #         load_u = electrical_outputs['collection point']['dry mass [kg]'][ind_electr] / (electrical_outputs['collection point']['length [m]'][ind_electr] * electrical_outputs['collection point']['width [m]'][ind_electr])
+        #         area_u = electrical_outputs['collection point']['length [m]'][ind_electr] * electrical_outputs['collection point']['width [m]'][ind_electr]
+        #
+        #         max_electr_loading = max(max_electr_loading,load_u)
+        #         max_electr_area = max(max_electr_area,area_u)
+        #
+        #     for ind_electr in range(len(electrical_outputs['connectors'])):
+        #         load_u = electrical_outputs['connectors']['dry mass [kg]'][ind_electr] / (electrical_outputs['connectors']['length [m]'][ind_electr] * electrical_outputs['connectors']['width [m]'][ind_electr])
+        #         area_u = electrical_outputs['connectors']['length [m]'][ind_electr] * electrical_outputs['connectors']['width [m]'][ind_electr]
+        #
+        #         max_electr_loading = max(max_electr_loading,load_u)
+        #         max_electr_area = max(max_electr_area,area_u)
+        #
+        #
+        #
+        #     max_total_load = max(max_total_load,max_electr_loading)
+        #     max_total_area = max(max_total_area,max_electr_area)
 
 
 
@@ -141,23 +141,11 @@ def install_port(user_inputs, hydrodynamic_outputs, electrical_outputs, MF_outpu
             # check load out strategy
             loadout_methd = user_inputs['device']['load out [-]'].ix[0]
             if loadout_methd == 'float away': # ADD THE NO-FIELD = CONSIDERED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                port_data = port_data[ port_data['Type of terminal [Quay/Dry-dock]'] != 'Quay']
-                port_data = port_data[ port_data['Type of terminal [Quay/Dry-dock]'] != 'Floating quay']
-                port_data = port_data[ port_data['Type of terminal [Quay/Dry-dock]'] != 'Bulk']
-                port_data = port_data[ port_data['Type of terminal [Quay/Dry-dock]'] != 'Dry bulk']
-                port_data = port_data[ port_data['Type of terminal [Quay/Dry-dock]'] != 'Container']
-                port_data = port_data[ port_data['Type of terminal [Quay/Dry-dock]'] != 'Container terminal']
-                port_data = port_data[ port_data['Type of terminal [Quay/Dry-dock]'] != 'General cargo']
-                port_data = port_data[ port_data['Type of terminal [Quay/Dry-dock]'] != 'Industrial port']
-                port_data = port_data[ port_data['Type of terminal [Quay/Dry-dock]'] != 'Storage and distribution']
-                port_data = port_data[ port_data['Type of terminal [Quay/Dry-dock]'] != 'Various businesses']
-                port_data = port_data[ port_data['Type of terminal [Quay/Dry-dock]'] != 'Energy']
-                port_data = port_data[ port_data['Type of terminal [Quay/Dry-dock]'] != 'Yard']
-                # port_data2 = port_data_all[ port_data_all['Type of terminal [Quay/Dry-dock]'] == 'Quay, dry-dock']
-                # port_data3 = port_data_all[ port_data_all['Type of terminal [Quay/Dry-dock]'] == 'Yard, dry-dock']
-                # port_data.append( port_data2 )
-                # port_data.append( port_data3 )
-
+                port_data_all = port_data
+                port_data = port_data_all[ port_data_all['Type of terminal [Quay/Dry-dock]'] == 'Dry-dock']
+                port_data = port_data.append( port_data_all[ port_data_all['Type of terminal [Quay/Dry-dock]'] == 'Quay, dry-dock'] )
+                port_data = port_data.append( port_data_all[ port_data_all['Type of terminal [Quay/Dry-dock]'] == 'Yard, dry-dock'] )
+                # port_data = port_data.append( port_data_all[ math.isnan(port_data_all['Type of terminal [Quay/Dry-dock]'])] ) # ?!?!?!??!?!?!?
 
     # terminal load bearing minimum requirement
     port['Terminal load bearing [t/m^2]'] = max_total_load
@@ -178,6 +166,29 @@ def install_port(user_inputs, hydrodynamic_outputs, electrical_outputs, MF_outpu
     site_coords_y = hydrodynamic_outputs['y coord [m]'][index_dev]
     site_coords_zone = hydrodynamic_outputs['zone [-]'][index_dev]
     site_coords = [site_coords_x, site_coords_y, site_coords_zone]
+
+    # # Identify the n=num_ports_consider closest ports:
+    # num_ports_consider = 10
+    # dist_to_port_vec = []
+    # for ind_port in range(len(port_data)):
+    #     port_coords_x = port_data['UTM x [m]'][ind_port]
+    #     port_coords_y = port_data['UTM y [m]'][ind_port]
+    #     port_coords_zone = port_data['UTM zone [-]'][ind_port]
+    #     port_coords = [port_coords_x, port_coords_y, port_coords_zone]
+    #
+    #     if math.isnan(port_coords_x):
+    #         continue
+    #     # dist_to_port_i = transit_algorithm(site_coords, port_coords)
+    #     dist_to_port_i = distance(site_coords, port_coords)  # simplification just for testing
+    #     dist_to_port_vec.append(dist_to_port_i)
+    #     # min_dist_to_port = min(dist_to_port_vec)
+    #     # if min_dist_to_port == dist_to_port_i:
+    #     #     port_choice_index = ind_port
+    # closest_ports_all = dist_to_port_vec.sort()
+    ## furthest_ports_all = closest_ports_all.reverse()
+    # closest_ports_n = closest_ports_all[:num_ports_consider]
+
+    # for ind_port in range(len(port_data)):
     dist_to_port_vec = []
     for ind_port, row in port_data.iterrows():
         port_coords_x = port_data['UTM x [m]'][ind_port]
@@ -193,6 +204,8 @@ def install_port(user_inputs, hydrodynamic_outputs, electrical_outputs, MF_outpu
         min_dist_to_port = min(dist_to_port_vec)
         if min_dist_to_port == dist_to_port_i:
             port_choice_index = ind_port
+
+
 
     # Nearest port selection to be modified by making use of port['Distance port-site'] will be implemented
     port['Selected base port for installation'] = port_data.ix[port_choice_index]
