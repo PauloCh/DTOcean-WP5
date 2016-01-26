@@ -7,7 +7,7 @@ def initialize_LpM1_phase(log_op, vessels, equipments, OM_outputs):
 
 
     # initialize logistic phase
-    phase = LogPhase(920, "Inspection of On-site Maintenance of topside elements")
+    phase = LogPhase(920, "Inspection or on-site maintenance of topside elements")
 
     ''' Inspection or On-site maintenance strategy'''
 
@@ -33,15 +33,10 @@ def initialize_LpM1_phase(log_op, vessels, equipments, OM_outputs):
     i = 0 #initialize the number of sea operations within this logistic phase
     for index, row in OM_outputs.iterrows():
 
-        if index == 'Insp1' or index == 'MoS1':
+        if index == 'Insp1' or index == 'MoS1' or index == 'Insp2' or index == 'MoS2':
 
             phase.op_ve[0].op_seq_sea[i] = [ log_op["Access"],
-                                             log_op["InspTopSide"] ]
-
-        elif index == 'Insp2' or index == 'MoS2':
-
-            phase.op_ve[0].op_seq_sea[i] = [ log_op["Access"],
-                                             log_op["InspTopSide"] ]
+                                             log_op["Maintenance"] ]
 
         i = i+1
 
