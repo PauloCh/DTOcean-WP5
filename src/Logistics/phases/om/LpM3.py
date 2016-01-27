@@ -1,7 +1,7 @@
 from .classes import DefPhase, LogPhase
 
 
-def initialize_LpM2_phase(log_op, vessels, equipments, OM_outputs):
+def initialize_LpM3_phase(log_op, vessels, equipments, OM_outputs):
 
     # save outputs required inside short named variables
 
