@@ -67,18 +67,16 @@ def initialize_devices_phase(log_op, vessels, equipments, user_inputs, hydrodyna
     # each element is associated with a customized operation sequence depending on it's characteristics,.
     for index, row in hydro_db.iterrows():
 
-        device_id = hydro_db['device [-]'].ix[index] #saves the device id, to be used in the op_seq_sea
-
         # initialize an empty operation sequence list for the 'index' element
-        phase.op_ve[0].op_seq_sea[device_id] = []
+        phase.op_ve[0].op_seq_sea[index] = []
 
         if dev_type == 'float WEC' or dev_type == 'float TEC':
 
-            phase.op_ve[0].op_seq_sea[device_id].extend([log_op["PosFLTdev"]])
+            phase.op_ve[0].op_seq_sea[index].extend([log_op["PosFLTdev"]])
 
         elif dev_type == 'fixed WEC' or dev_type == 'fixed TEC':
 
-             phase.op_ve[0].op_seq_sea[device_id].extend([log_op["PosBFdev"]])
+             phase.op_ve[0].op_seq_sea[index].extend([log_op["PosBFdev"]])
 
         else:
             print 'device: Wrong Inputs'
@@ -128,16 +126,14 @@ def initialize_devices_phase(log_op, vessels, equipments, user_inputs, hydrodyna
     # each element is associated with a customized operation sequence depending on it's characteristics,.
     for index, row in hydro_db.iterrows():
 
-        device_id = hydro_db['device [-]'].ix[index] #saves the device id, to be used in the op_seq_sea
-
         # initialize an empty operation sequence list for the 'index' element
-        phase.op_ve[1].op_seq_sea[device_id] = []
+        phase.op_ve[1].op_seq_sea[index] = []
 
         if dev_type == 'float WEC' or dev_type == 'float TEC':
-            phase.op_ve[1].op_seq_sea[device_id].extend([log_op["PosFLTdev"]])
+            phase.op_ve[1].op_seq_sea[index].extend([log_op["PosFLTdev"]])
 
         elif dev_type == 'fixed WEC' or dev_type == 'fixed TEC':
-             phase.op_ve[1].op_seq_sea[device_id].extend([log_op["PosBFdev"]])
+             phase.op_ve[1].op_seq_sea[index].extend([log_op["PosBFdev"]])
 
         else:
             print 'device: Wrong Inputs'

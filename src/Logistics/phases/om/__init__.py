@@ -16,6 +16,8 @@ related to Operation and Maintenance: Offshore Inspection.
 from .LpM1 import initialize_LpM1_phase
 from .LpM2 import initialize_LpM2_phase
 from .LpM3 import initialize_LpM3_phase
+from .LpM4 import initialize_LpM4_phase
+from .LpM5 import initialize_LpM5_phase
 
 def logPhase_om_init(log_op, vessels, equipments, user_inputs, OM_outputs):
     """This function initializes and characterizes all logistic phases associated
@@ -54,9 +56,9 @@ def logPhase_om_init(log_op, vessels, equipments, user_inputs, OM_outputs):
     logPhase_om = {
                     'LpM1': initialize_LpM1_phase(log_op, vessels, equipments, OM_outputs),
                     'LpM2': initialize_LpM2_phase(log_op, vessels, equipments, OM_outputs),
-                    'LpM3': initialize_e_dynamic_phase(log_op, vessels, equipments, OM_outputs),
-#                    'LpM4': initialize_e_cp_seabed_phase(log_op, vessels, equipments, OM_outputs),
-#                    'LpM5': initialize_drive_phase(log_op, vessels, equipments, OM_outputs),
+                    'LpM3': initialize_LpM3_phase(log_op, vessels, equipments, OM_outputs),
+                    'LpM4': initialize_LpM4_phase(log_op, vessels, equipments, OM_outputs),
+                    'LpM5': initialize_LpM5_phase(log_op, vessels, equipments, OM_outputs),
 #                    'LpM6': initialize_gravity_phase(log_op, vessels, equipments, OM_outputs),
 #                    'LpM7': initialize_m_drag_phase(log_op, vessels, equipments, OM_outputs),
 #                    'LpM8': initialize_m_direct_phase(log_op, vessels, equipments, OM_outputs),
