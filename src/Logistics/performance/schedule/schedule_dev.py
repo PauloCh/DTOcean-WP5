@@ -18,10 +18,12 @@ installation sequences) will be updated.
 import numpy
 from transit_algorithm import transit_algorithm
 from Logistics.installation.select_port import distance
-from Logistics.schedule.schedule import indices
+#from Logistics.ancillaries.dist import distance
+from Logistics.ancillaries.find import indices
 
-def sched_dev(seq, ind_sol, log_phase, user_inputs, hydrodynamic_outputs,
-              sched_sol):
+
+def sched_dev(seq, ind_sol, install, log_phase, user_inputs,
+              hydrodynamic_outputs, sched_sol):
     """sched_dev determines the duration of each individual logistic operations
     for the installtion of ocean energy devices following a common methodology:
         - the time value duration can be extracted from a direct average
@@ -124,36 +126,7 @@ def sched_dev(seq, ind_sol, log_phase, user_inputs, hydrodynamic_outputs,
                         op_dur_prep.append(log_op_prep.time_value)
                     elif log_op_prep.time_function: # function
                         # type of function
-                        if log_op_prep.time_function == "transit_algorithm":
-                            port_pd = log_phase.op_ve[seq].sol[ind_sol]['port']
-                            UTM_port = [port_pd.ix['UTM x [m]'],
-                                        port_pd.ix['UTM y [m]'],
-                                        port_pd.ix['UTM zone [-]']]
-                            site = user_inputs['site']
-                            UTM_site = [site['x coord [m]'].ix[0],
-                                        site['y coord [m]'].ix[0],
-                                        site['zone [-]'].ix[0]]
-                            port_2_site_dist = transit_algorithm(UTM_port, UTM_site)
-                            nb_ves_type = range(len(log_phase.op_ve[seq].sol[ind_sol]['VEs']))
-                            # loop over the nb of vessel types                                        
-                            for vt in nb_ves_type:
-                                ves_speed[vt] = log_phase.op_ve[seq].sol[ind_sol]['VEs'][vt][2].ix['Transit speed [m/s]']
-                            ves_slow = 3.6*min(ves_speed) # [km/h]
-                            port_2_site_time = port_2_site_dist/ves_slow
-                            # append transit time to the preparation time
-                            op_dur_prep.append(port_2_site_time)
-                        elif log_op_prep.time_function == "distance":
-                            dist_tot = 0
-                            dist_el = []
-                            for el in range(nb_el_journey[jour]):
-                                UTM_el_i = [hydrodynamic_outputs['x coord [m]'].ix[el],
-                                            hydrodynamic_outputs['y coord [m]'].ix[el],
-                                            hydrodynamic_outputs['zone [-]'].ix[el]]
-                                UTM_el_f = [hydrodynamic_outputs['x coord [m]'].ix[el+1],
-                                            hydrodynamic_outputs['y coord [m]'].ix[el+1],
-                                            hydrodynamic_outputs['zone [-]'].ix[el+1]]
-                                dist_el[el] = distance(UTM_el_i,UTM_el_f)
-                                dist_tot = dist_tot + dist_el[el]  
+                         print 'no functions are currently handled for onshore operations' 
                             
                     elif log_op_prep.time_other:
                         if log_op_prep.time_other == "vesselDB['Mob time [h]']":
@@ -162,20 +135,16 @@ def sched_dev(seq, ind_sol, log_phase, user_inputs, hydrodynamic_outputs,
                         elif log_op_prep.time_other == "device['assembly duration [h]']":
                             assemb_time = 0
                             op_dur_prep.append(assemb_time)  
-                        elif log_op_prep.time_other == "device['connect duration [h]']":
-                            dev_connect_time = 0
-                            op_dur_prep.append(dev_connect_time)  
-                        elif log_op_prep.time_other == "device['disconnect duration [h]']":
-                            dev_disconnect_time = 0
-                            op_dur_prep.append(dev_disconnect_time)
+                        else:
+                            print 'unknown "other" method for time value duration assessment of this onshope operation'
                     
                 # number of operation sequence in the sea-work phase
                 nb_op_sea = len(log_phase.op_ve[seq].op_seq_sea)                            
                 # determine the duration of the logistic phase sea-work
-                for op_prep in range(nb_op_prep): # loop over the nb of onshore logistic operations
-                    log_op_prep = log_phase.op_ve[seq].op_seq_prep[op_prep]
+                for op_sea in range(nb_op_sea): # loop over the nb of onshore logistic operations
+                    log_op_sea = log_phase.op_ve[seq].op_seq_sea[op_sea]
                     # discriminate between the time assessment methods
-                    if log_op_prep.time_value: # default value
+                    if log_op_sea.time_value: # default value
                         op_dur_sea.append(log_op_prep.time_value)
                     elif log_op_prep.time_function: # function
                         # type of function
@@ -210,6 +179,19 @@ def sched_dev(seq, ind_sol, log_phase, user_inputs, hydrodynamic_outputs,
                                             hydrodynamic_outputs['zone [-]'].ix[el+1]]
                                 dist_el[el] = distance(UTM_el_i,UTM_el_f)
                                 dist_tot = dist_tot + dist_el[el]
+                        elif log_op_prep.time_other:
+                            if log_op_prep.time_other == "vesselDB['Mob time [h]']":
+                                mob_time = 0
+                                op_dur_prep.append(mob_time)  
+                            elif log_op_prep.time_other == "device['assembly duration [h]']":
+                                assemb_time = 0
+                                op_dur_prep.append(assemb_time)  
+                            elif log_op_prep.time_other == "device['connect duration [h]']":
+                                dev_connect_time = 0
+                                op_dur_prep.append(dev_connect_time)  
+                            elif log_op_prep.time_other == "device['disconnect duration [h]']":
+                                dev_disconnect_time = 0
+                                op_dur_prep.append(dev_disconnect_time)
                 ind_el = ind_el + nb_el_journey[jour]
                 # determine the sea duration
                 
