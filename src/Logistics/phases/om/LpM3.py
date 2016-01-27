@@ -7,19 +7,19 @@ def initialize_LpM3_phase(log_op, vessels, equipments, OM_outputs):
 
 
     # initialize logistic phase
-    phase = LogPhase(920, "Underwater inspection or on-site maintenance <30m")
+    phase = LogPhase(920, "Underwater inspection or on-site maintenance using ROV")
 
-    ''' Underwater inspection or on-site maintenance strategy for water depths <30m '''
+    ''' Underwater inspection or on-site maintenance strategy using ROVs '''
 
     # initialize strategy
-    phase.op_ve[0] = DefPhase(1, 'Inspection / On-site maintenance')
+    phase.op_ve[0] = DefPhase(1, 'Inspection / On-site maintenance using ROV')
 
     # define vessel and equipment combinations suited for this strategy
     phase.op_ve[0].ve_combination[0] = {'vessel': [(1, vessels['Multicat'])],
-                                        'equipment': [ (1, equipments['divers'], 0) ] }
+                                        'equipment': [ (1, equipments['rov'], 0) ] }
 
     phase.op_ve[0].ve_combination[1] = {'vessel': [(1, vessels['CTV'])],
-                                        'equipment': [ (1, equipments['divers'], 0) ] }
+                                        'equipment': [ (1, equipments['rov'], 0) ] }
 
 
     # define initial mobilization and onshore preparation tasks
@@ -31,7 +31,7 @@ def initialize_LpM3_phase(log_op, vessels, equipments, OM_outputs):
     i = 0 #initialize the number of sea operations within this logistic phase
     for index, row in OM_outputs.iterrows():
 
-        if index == 'Insp3' or index == 'MoS3':
+        if index == 'Insp4' or index == 'Insp4' or index == 'MoS3':
 
             phase.op_ve[0].op_seq_sea[i] = [ log_op["Access"],
                                              log_op["Maintenance"] ]
