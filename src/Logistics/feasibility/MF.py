@@ -89,13 +89,13 @@ def MF_feas(log_phase, log_phase_id, hydrodynamic_outputs, MF_outputs):
         moo_line_len_u[len(moo_line_len_u):] = [max(moo_line_len_u_f)]
         moo_mass_u[len(moo_mass_u):] = [max(moo_mass_u_f)]
 
-    deck_loading = max(load_u)
-    deck_cargo = max(cargo_u)
-    deck_area = max(area_u)
-    sleeve_diam = max(diam_u)
-    max_depth = max(depth_u)
-    max_linelength = max(moo_line_len_u)
-    max_moomass = max(moo_mass_u)
+    deck_loading = max(load_u)/1000  # t/m^2!
+    deck_cargo = max(cargo_u)/1000  # t!
+    deck_area = max(area_u)  # m^2
+    sleeve_diam = max(diam_u)  # m
+    max_depth = max(depth_u)  # m
+    max_linelength = max(moo_line_len_u)  # m
+    max_moomass = max(moo_mass_u)/1000  # t!
 
 
     # ***********************************************************************************************************************
@@ -107,8 +107,8 @@ def MF_feas(log_phase, log_phase_id, hydrodynamic_outputs, MF_outputs):
 
         feas_v = {'Crane Barge': [['Deck loading [t/m^2]', 'sup', deck_loading],
                            ['Max. cargo [t]', 'sup', deck_cargo],
-                           ['AH winch rated pull [t]', 'sup', max_linelength],
-                           ['AH drum capacity [m]', 'sup', max_moomass],
+                           ['AH winch rated pull [t]', 'sup', max_moomass],
+                           ['AH drum capacity [m]', 'sup', max_linelength],
                            ['Crane capacity [t]', 'sup', deck_cargo],
                            ['AH drum capacity [m]', 'sup', max_depth],
                            ['Deck space [m^2]', 'sup', deck_area],
@@ -117,8 +117,8 @@ def MF_feas(log_phase, log_phase_id, hydrodynamic_outputs, MF_outputs):
                                   ],
                   'Crane Vessel': [['Deck loading [t/m^2]', 'sup', deck_loading],
                            ['Max. cargo [t]', 'sup', deck_cargo],
-                           ['AH winch rated pull [t]', 'sup', max_linelength],
-                           ['AH drum capacity [m]', 'sup', max_moomass],
+                           ['AH winch rated pull [t]', 'sup', max_moomass],
+                           ['AH drum capacity [m]', 'sup', max_linelength],
                            ['Crane capacity [t]', 'sup', deck_cargo],
                            ['AH drum capacity [m]', 'sup', max_depth],
                            ['Deck space [m^2]', 'sup', deck_area],
@@ -127,8 +127,8 @@ def MF_feas(log_phase, log_phase_id, hydrodynamic_outputs, MF_outputs):
                                    ],
                   'Multicat': [['Deck loading [t/m^2]', 'sup', deck_loading],
                            ['Max. cargo [t]', 'sup', deck_cargo],
-                           ['AH winch rated pull [t]', 'sup', max_linelength],
-                           ['AH drum capacity [m]', 'sup', max_moomass],
+                           ['AH winch rated pull [t]', 'sup', max_moomass],
+                           ['AH drum capacity [m]', 'sup', max_linelength],
                            ['Crane capacity [t]', 'sup', deck_cargo],
                            ['AH drum capacity [m]', 'sup', max_depth],
                            ['Deck space [m^2]', 'sup', deck_area],
@@ -137,24 +137,24 @@ def MF_feas(log_phase, log_phase_id, hydrodynamic_outputs, MF_outputs):
                                ],
                   'JUP Barge': [['Deck loading [t/m^2]', 'sup', deck_loading],
                            ['Max. cargo [t]', 'sup', deck_cargo],
-                           ['AH winch rated pull [t]', 'sup', max_linelength],
-                           ['AH drum capacity [m]', 'sup', max_moomass],
+                           ['AH winch rated pull [t]', 'sup', max_moomass],
+                           ['AH drum capacity [m]', 'sup', max_linelength],
                            ['Deck space [m^2]', 'sup', deck_area],
                            # ['ROV inspection [yes/no]', 'equal', 'yes'],
                            # ['ROV workclass [yes/no]', 'equal', 'yes']
                                 ],
                   'JUP Vessel': [['Deck loading [t/m^2]', 'sup', deck_loading],
                            ['Max. cargo [t]', 'sup', deck_cargo],
-                           ['AH winch rated pull [t]', 'sup', max_linelength],
-                           ['AH drum capacity [m]', 'sup', max_moomass],
+                           ['AH winch rated pull [t]', 'sup', max_moomass],
+                           ['AH drum capacity [m]', 'sup', max_linelength],
                            ['Deck space [m^2]', 'sup', deck_area],
                            # ['ROV inspection [yes/no]', 'equal', 'yes'],
                            # ['ROV workclass [yes/no]', 'equal', 'yes']
                                  ],
                   'AHTS': [['Deck loading [t/m^2]', 'sup', deck_loading],
                            ['Max. cargo [t]', 'sup', deck_cargo],
-                           ['AH winch rated pull [t]', 'sup', max_linelength],
-                           ['AH drum capacity [m]', 'sup', max_moomass],
+                           ['AH winch rated pull [t]', 'sup', max_moomass],
+                           ['AH drum capacity [m]', 'sup', max_linelength],
                            ['Deck space [m^2]', 'sup', deck_area],
                            # ['ROV inspection [yes/no]', 'equal', 'yes'],
                            # ['ROV workclass [yes/no]', 'equal', 'yes']

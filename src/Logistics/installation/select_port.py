@@ -145,7 +145,7 @@ def install_port(user_inputs, hydrodynamic_outputs, electrical_outputs, MF_outpu
                 port_data = port_data_all[ port_data_all['Type of terminal [Quay/Dry-dock]'] == 'Dry-dock']
                 port_data = port_data.append( port_data_all[ port_data_all['Type of terminal [Quay/Dry-dock]'] == 'Quay, dry-dock'] )
                 port_data = port_data.append( port_data_all[ port_data_all['Type of terminal [Quay/Dry-dock]'] == 'Yard, dry-dock'] )
-                # port_data = port_data.append( port_data_all[ math.isnan(port_data_all['Type of terminal [Quay/Dry-dock]'])] ) # ?!?!?!??!?!?!?
+                port_data = port_data.append( port_data_all[ port_data_all['Type of terminal [Quay/Dry-dock]'].isnull()] )
 
     # terminal load bearing minimum requirement
     port['Terminal load bearing [t/m^2]'] = max_total_load/1000 # in t/m^2
@@ -178,18 +178,19 @@ def install_port(user_inputs, hydrodynamic_outputs, electrical_outputs, MF_outpu
         if math.isnan(port_coords_x):
             continue
         dist_to_port_i = distance(site_coords, port_coords)   # closest ports by geo distance!
-        dist_to_port_vec.append( [dist_to_port_i, ind_port] )
+        dist_to_port_vec.append( [dist_to_port_i, ind_port, port_data['Name [-]'][ind_port]] )
     closest_ports_all=sorted(dist_to_port_vec)
     # furthest_ports_all = closest_ports_all.reverse()
 
-    # check is repeted port (by terminal)
+    # check if repeted port (by terminal)
     LEN_clst = len(closest_ports_all)-1
     ind_clst=0
     while ind_clst < LEN_clst:
-        if closest_ports_all[ind_clst+1][0] == closest_ports_all[ind_clst][0] and abs(closest_ports_all[ind_clst+1][1] - closest_ports_all[ind_clst][1]<=1):
+        if closest_ports_all[ind_clst+1][2] == closest_ports_all[ind_clst][2]:
             del closest_ports_all[ind_clst+1]
             LEN_clst = LEN_clst-1
-        ind_clst = ind_clst+1
+        else:
+            ind_clst = ind_clst+1
 
 
     # Identify the n=num_ports_consider closest ports:
@@ -230,22 +231,19 @@ def install_port(user_inputs, hydrodynamic_outputs, electrical_outputs, MF_outpu
 def OM_port(wp6_outputs, port_data):
     """OM_port function selects the home port used by all logistic phases
     required by the O&M module, depending if is inspection or actual maintenance.
-    For the case of inspection the closest port is chosen. The ID in the input should be INS_PORT.
+    For the case of inspection the closest port is chosen and the ID in the input should be INS_PORT.
     For the case of the other logistic phases the selection is based on a 2 step process:
         1 - the port feasibility functions from all logistic phases are taken
         into account, and the unfeasible ports are erased from the panda dataframes.  
         2 - the closest port to the project site is choosen from the feasbile
         list of ports.
-    In the case, the ID in the input should be OM_PORT.
+    In this case, the ID in the input should be OM_PORT.
 
     Parameters
     ----------
-    user_inputs : dict
-     dictionnary containing all required inputs to WP5 coming from WP1/end-user
-    electrical_outputs : dict
-     dictionnary containing all required inputs to WP5 coming from WP3
-    MF_outputs : DataFrame
-     panda table containing all required inputs to WP5 coming from WP4
+    wp6_outputs : dict
+     dictionnary containing all required inputs to WP5 coming from WP6/end-user stating the biggest of all the sp dimensions and weight for either
+     inspection or actual maintenance
     port_data : DataFrame
      panda table containing the ports database     
 

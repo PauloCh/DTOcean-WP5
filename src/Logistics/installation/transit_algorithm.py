@@ -168,7 +168,7 @@ def transit_algorithm(point_INI, point_FIN):
     # european sea points:
     plt.plot(long_i,lat_i, 'ro')
 
-    # ports:
+    # origin and destination points:
     plt.plot(LONG_ini,LAT_ini, 'yo')
     plt.plot(LONG_fin,LAT_fin, 'yo')
 
