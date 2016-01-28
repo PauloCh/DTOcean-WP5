@@ -15,13 +15,24 @@ import numpy
 
 
 def cost(install, log_phase):
-    for seq in range(len(log_phase.op_ve)):
+    for seq in range(len(log_phase.op_ve)): # loop over the number of operation
+    # sequencing options
 
-        for sol in range(len(log_phase.op_ve[seq].sol)):
-            sched = log_phase.op_ve[seq].sol[sol].schedule
+        for ind_sol in range(len(log_phase.op_ve[seq].sol)): # loop over the
+        # number of solutions, i.e feasible combinations of
+        # port/vessel(s)/equipment(s)
+#    for seq in range(len(log_phase.op_ve)):
+#
+#        for sol in range(len(log_phase.op_ve[seq].sol)):
+#            sched = log_phase.op_ve[seq].sol[sol].schedule
             dur_sea_wait = sched['sea time'] + sched['waiting time']
-            op_cost_max = log_phase.op_ve[seq].sol[sol].sol_ves[0]['Op max Day Rate']
-            op_cost_min = log_phase.op_ve[seq].sol[sol].sol_ves[0]['Op min Day Rate']
+            nb_ves_type = range(len(log_phase.op_ve[seq].sol[ind_sol]['VEs']))
+            # qty_vt = log_phase.op_ve[0].sol[0]['VEs'][vt][1] 
+            # loop over the nb of vessel types  
+            ves_speed = []                                      
+            for vt in nb_ves_type:
+            op_cost_max = log_phase.op_ve[seq].sol[ind_sol].sol_ves[0]['Op max Day Rate']
+            op_cost_min = log_phase.op_ve[seq].sol[ind_sol].sol_ves[0]['Op min Day Rate']
             vessel_cost = numpy.mean([op_cost_max, op_cost_min]) / 24  # [€/hour]
             log_phase.op_ve[seq].sol[sol].cost = {'vessel': vessel_cost * dur_sea_wait,
                                                   'equipment': 0,

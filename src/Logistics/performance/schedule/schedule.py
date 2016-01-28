@@ -23,7 +23,7 @@ from schedule_dev import sched_dev
 
 def indices(a, func):
     """
-    indices returns the indices of a vector "a" that satisfy the
+    indices returns the indices of a list "a" that satisfy the
     conditional function "func"
     """
     return [i for (i, val) in enumerate(a) if func(val)]

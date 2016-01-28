@@ -1,42 +1,41 @@
 from .classes import DefPhase, LogPhase
 
-
-def initialize_m_drag_phase(log_op, vessels, equipments, MF_outputs):
+def initialize_LpM4_phase(log_op, vessels, equipments, OM_outputs):
 
     # save outputs required inside short named variables
-    found_db = MF_outputs['foundation']
-    drag_db = found_db[found_db['type [-]'] == 'drag-embedment anchor']
+
 
     # initialize logistic phase
-    phase = LogPhase(113, "Installation of mooring systems with drag-embedment anchors")
+    phase = LogPhase(920, "On-site maintenance of mooring systems")
 
-    ''' Deploy drag-embedment anchor installation strategy'''
+    ''' On-site maintenance of mooring systems strategy '''
 
     # initialize strategy
-    phase.op_ve[0] = DefPhase(1, 'Deploy drag-embedment anchor')
+    phase.op_ve[0] = DefPhase(1, 'On-site maintenance of mooring systems')
 
     # define vessel and equipment combinations suited for this strategy
     phase.op_ve[0].ve_combination[0] = {'vessel': [(1, vessels['AHTS'])],
-                                        'equipment': [(1, equipments['rov'], 0)]}
+                                        'equipment': [ (1, equipments['rov'], 0) ] }
 
     phase.op_ve[0].ve_combination[1] = {'vessel': [(1, vessels['Multicat'])],
-                                        'equipment': [(1, equipments['rov'], 0)]}
+                                        'equipment': [ (1, equipments['rov'], 0) ] }
+
 
     # define initial mobilization and onshore preparation tasks
-    phase.op_ve[0].op_seq_prep = [log_op["Mob"],
-                                  log_op["AssPort"],
-                                  log_op["VessPrep"]]
+    phase.op_ve[0].op_seq_prep = [ log_op["Mob"],
+                                   log_op["VessPrep"] ]
 
-    # iterate over the list of elements to be installed.
-    # each element is associated with a customized operation sequence depending on it's characteristics
-    for index, row in drag_db.iterrows():
+    # define sea operations
 
-        # initialize an empty operation sequence list for the 'index' element
-        phase.op_ve[0].op_seq_sea[index] = []
+    i = 0 #initialize the number of sea operations within this logistic phase
+    for index, row in OM_outputs.iterrows():
 
-        phase.op_ve[0].op_seq_sea[index].extend([ log_op["SeafloorEquipPrep"],
-                                                  log_op["DragEmbed"],
-                                                  log_op["PreLay"] ])
+        if index == 'MoS5' or index == 'MoS6':
+
+            phase.op_ve[0].op_seq_sea[i] = [ log_op["Access"],
+                                             log_op["Maintenance"] ]
+
+        i = i+1
 
     # define final demobilization tasks
     phase.op_ve[0].op_seq_demob = [log_op["Demob"]]
