@@ -97,11 +97,12 @@ def sched(x, install, log_phase, log_phase_id,
         # port/vessel(s)/equipment(s)
         
             sched_sol = {'olc': [],
-                     'log_op_dur_all': [],
-                     'preparation': [],
-                     'sea time': [],
-                     'weather windows': [],
-                     'waiting time': []}
+                         'log_op_dur_all': [],
+                         'preparation': [],
+                         'sea time': [],
+                         'weather windows': [],
+                         'waiting time': []
+                         }
 
             # check the nature of the logistic phase
             if log_phase_id == 'Devices':
@@ -150,7 +151,7 @@ def sched(x, install, log_phase, log_phase_id,
                                       sched_sol)
             else:
                 print 'unknown logistic phase ID'
-
+            print 
 #
 #            if olc_sea_Hs:
 #                olc['maxHs'] = min(olc_sea_Hs)
