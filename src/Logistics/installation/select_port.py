@@ -210,8 +210,10 @@ def install_port(user_inputs, hydrodynamic_outputs, electrical_outputs, MF_outpu
 
         if math.isnan(port_coords_x):
             continue
+
         # dist_to_port_i = transit_algorithm(site_coords, port_coords)
-        dist_to_port_i = distance(site_coords, port_coords)  # simplification just for testing
+        dist_to_port_i = distance(site_coords, port_coords)  # TO BE CHANGED, simplification just for testing!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
         dist_to_clost_port_vec.append(dist_to_port_i)
         min_dist_to_clst_port = min(dist_to_clost_port_vec)
         if min_dist_to_clst_port == dist_to_port_i:
@@ -290,12 +292,16 @@ def OM_port(hydrodynamic_outputs, wp6_outputs, port_data):
 
 
     # Nearest port selection:
-    elem_coords_x = wp6_outputs['x coord [m]'].ix[0]
-    elem_coords_y = wp6_outputs['y coord [m]'].ix[0]
-    elem_coords_zone = wp6_outputs['zone [-]'].ix[0]
-    elem_coords = [elem_coords_x, elem_coords_y, elem_coords_zone]
-
-    site_coords = elem_coords # ???????????????????????????????????????????????????????????????????????????????????????!!!!!!!!
+     # elem_coords_x = wp6_outputs['x coord [m]'].ix[0]
+     # elem_coords_y = wp6_outputs['y coord [m]'].ix[0]
+     # elem_coords_zone = wp6_outputs['zone [-]'].ix[0]
+     # elem_coords = [elem_coords_x, elem_coords_y, elem_coords_zone]
+     # site_coords = elem_coords # ?!
+    index_dev = 0  # USING POSITION OF FIRST DEVICE!!!
+    site_coords_x = hydrodynamic_outputs['x coord [m]'][index_dev]
+    site_coords_y = hydrodynamic_outputs['y coord [m]'][index_dev]
+    site_coords_zone = hydrodynamic_outputs['zone [-]'][index_dev]
+    site_coords = [site_coords_x, site_coords_y, site_coords_zone]
 
     dist_to_port_vec = []
     for ind_port, row in port_data.iterrows():

@@ -284,6 +284,7 @@ def compatibility_ve(install, log_phase, port_chosen_data):
 
 
     # Shape solution for performance:
+    final_sol = {}
     for seq in range(len(sols_ve_indxs_combs_inseq)):
         sol = {}
         sols_iter = 0
@@ -313,8 +314,8 @@ def compatibility_ve(install, log_phase, port_chosen_data):
 
         log_phase.op_ve[seq].sol = sol
 
+        final_sol[seq] = log_phase.op_ve[seq].sol
 
-    final_sol = log_phase.op_ve[seq].sol
 
     return final_sol, log_phase
 

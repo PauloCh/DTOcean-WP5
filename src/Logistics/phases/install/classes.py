@@ -10,9 +10,9 @@ class LogPhase(object):
 #        self.feasibility = feasiblity
 #        self.matching = matching
 #        self.v&e&p_selected = {}
-#        self.schedule = {}
+#         self.schedule = {}
 #        self.time = {}
-#        self.cost = {}
+#         self.cost = {}
 #        self.environmental = environment
 #        self.risk = risk
 
@@ -29,7 +29,7 @@ class DefPhase(object):
 #        self.op_sequence = {}
         self.ve_combination = {}
         self.sol = {}
-        # self.sol_combi = {}
+        self.sol_cost = {}
 #        self.sol_combi_combinations = {}
 #        self.sol_combi_ves = {}
 #        self.sol_combi_eq = {}

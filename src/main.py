@@ -98,7 +98,7 @@ from Logistics.feasibility.glob import glob_feas
 from Logistics.selection.select_ve import select_e, select_v
 from Logistics.selection.match import compatibility_ve
 from Logistics.performance.schedule.schedule import sched
-# from Logistics.performance.economic.eco import cost
+from Logistics.performance.economic.eco import cost
 
 # # Set directory paths for loading inputs (@Tecnalia)
 mod_path = path.dirname(path.realpath(__file__))
@@ -226,13 +226,6 @@ if install['status'] == "pending":
                                                   MF_outputs)
 
 #           # cost assessment of the different operation sequenc
-#            install['cost'], log_phase = cost(install, log_phase)
+           install['cost'], log_phase = cost(install, log_phase)
 
-           # TO DO
-               # -> finish Matching
-               # -> Ship Routing Algorithm
-               # -> Port Choice
-               # -> Planning
-               # -> Weather Window
-               # -> Performance Evaluation
-               # -> Risk Analysis
+

@@ -19,7 +19,7 @@ from transit_algorithm import transit_algorithm
 #import itertools
 from Logistics.installation.select_port import distance
 from schedule_dev import sched_dev
-
+import math
 
 def indices(a, func):
     """
@@ -47,7 +47,7 @@ def weatherWindow(user_inputs, olc):
     ww = {'start': 0,
           'duration': 0}
     # Operational limit conditions (consdiered static over the entire duration of the marine operation fro the moment)
-    timeStep = met_ocean['hour [-]'].ix[1] - met_ocean['hour [-]'].ix[0]
+    timeStep = met_ocean['hour [-]'].ix[2] - met_ocean['hour [-]'].ix[1]
     # resourceDataPointNb = len(met_ocean.waveHs)
     # Build the binary weather windows: 1=authorized access, 0=denied access
     Hs_bin = map(float, met_ocean['Hs [m]'] > olc['maxHs'])
@@ -97,11 +97,13 @@ def sched(x, install, log_phase, log_phase_id,
         # port/vessel(s)/equipment(s)
         
             sched_sol = {'olc': [],
-                     'log_op_dur_all': [],
-                     'preparation': [],
-                     'sea time': [],
-                     'weather windows': [],
-                     'waiting time': []}
+                         'log_op_dur_all': [],
+                         'preparation': [],
+                         'sea time': [],
+                         'weather windows': [],
+                         'waiting time': [],
+                         'detail': {}
+                         }
 
             # check the nature of the logistic phase
             if log_phase_id == 'Devices':
@@ -150,38 +152,44 @@ def sched(x, install, log_phase, log_phase_id,
                                       sched_sol)
             else:
                 print 'unknown logistic phase ID'
+            
+            olc = {'maxHs':[],
+                   'maxTp':[],
+                   'maxWs':[],
+                   'maxCs':[]}
+            # change panda series into float values
+            sched_sol['olc'][0] = float(sched_sol['olc'][0])
+            sched_sol['olc'][1] = float(sched_sol['olc'][1])
+            sched_sol['olc'][2] = float(sched_sol['olc'][2])
+            sched_sol['olc'][3] = float(sched_sol['olc'][3])
+            sched_sol['sea time'] = float(sched_sol['sea time'])
+            if sched_sol['olc'][0]>0 and not math.isnan(sched_sol['olc'][0]):
+                olc['maxHs'] = sched_sol['olc'][0]
+            if sched_sol['olc'][1]>0 and not math.isnan(sched_sol['olc'][1]):
+                olc['maxTp'] = sched_sol['olc'][1]
+            if sched_sol['olc'][2]>0 and not math.isnan(sched_sol['olc'][2]):
+                olc['maxWs'] = sched_sol['olc'][2]
+            if sched_sol['olc'][3]>0 and not math.isnan(sched_sol['olc'][3]):
+                olc['maxCs'] = sched_sol['olc'][3]
 
-#
-#            if olc_sea_Hs:
-#                olc['maxHs'] = min(olc_sea_Hs)
-#            if olc_sea_Tp:
-#                olc['maxTp'] = min(olc_sea_Tp)
-#            if olc_sea_Ws:
-#                olc['maxWs'] = min(olc_sea_Ws)
-#            if olc_sea_Cs:
-#                olc['maxCs'] = min(olc_sea_Cs)
-#
-#            weather_wind = weatherWindow(user_inputs, olc)
-#
-#            dur_total_sea = sum(op_dur_sea)
-#            if x == 0:  # find layer of installation plan
-#                start_proj = user_inputs['device']['Project starting date [-]'].ix[0]
-#                starting_time = start_proj + sum(op_dur_prep)
-#            elif x > 0:  # to be implemented (dummy not functional at the moment)
-#                last_end_time = max(install['schedule'][end_time])
-#                starting_time = last_end_time + sum(op_dur_prep)
-#
-#            index_ww_start = indices(weather_wind['start'], lambda x: x > starting_time)
-#            # and weatherWind['duration'] >= duration_total)/
-#            index_ww_dur = indices(weather_wind['duration'], lambda x: x >= dur_total_sea)
-#            index_ww = index_ww_start or index_ww_dur
-#            waiting_time = weather_wind['start'][index_ww[0]] - starting_time
-#            log_phase.op_ve[seq].sol[ind_sol].schedule = {'olc': olc,
-#                                                      'log_op_dur_all': op_dur_prep + op_dur_sea,
-#                                                      'preparation': sum(op_dur_prep),
-#                                                      'sea time': dur_total_sea,
-#                                                      'weather windows': weather_wind,
-#                                                      'waiting time': waiting_time}
+
+            weather_wind = weatherWindow(user_inputs, olc)
+            
+            if x == 0:  # find layer of installation plan
+                start_proj = user_inputs['device']['Project start date [-]'].ix[0]
+                starting_time = start_proj + sched_sol['preparation']
+            elif x > 0:  # to be implemented (dummy not functional at the moment)
+                last_end_time = max(install['schedule'][end_time])
+                starting_time = last_end_time + sched_sol['preparation']
+
+            index_ww_start = indices(weather_wind['start'], lambda x: x > starting_time)
+            # and weatherWind['duration'] >= duration_total)/
+            index_ww_dur = indices(weather_wind['duration'], lambda x: x >= sched_sol['sea time'])
+            index_ww = index_ww_start or index_ww_dur
+            waiting_time = weather_wind['start'][index_ww[0]] - starting_time
+            sched_sol['waiting time'] = waiting_time
+            sched_sol['weather windows'] = weather_wind
+            log_phase.op_ve[seq].sol[ind_sol]['schedule'] = sched_sol
 
     sol = {}
 #    sol[0] = log_phase.op_ve[1].sol[0].schedule

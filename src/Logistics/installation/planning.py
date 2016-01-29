@@ -65,6 +65,57 @@ def install_plan(file_path, user_inputs, electrical_outputs, MF_outputs):
             instal_order[instal_order_i] = operation[ind_instal]
 
 
+    # list_of_phases = {}
+    # for ind_instl_order in range(1,len(instal_order)+1):
+    #
+    #     phase_group = instal_order[ind_instl_order][0]
+    #     list_of_phases.update ({phase_group: {}})
+    #
+    #     if phase_group == 'Moorings':
+    #         foundations_type = MF_outputs['foundation']['type [-]']
+    #
+    #         if any(foundations_type == 'pile foundation') or any(foundations_type == 'pile anchor'):
+    #             list_of_phases[phase_group] = 'Driven'
+    #
+    #         if any(foundations_type == 'gravity foundation') or any(foundations_type == 'gravity anchor') or any(foundations_type == 'shallow foundation') or any(foundations_type == 'shallow anchor'):
+    #             list_of_phases[phase_group] = 'Gravity'
+    #
+    #         if any(foundations_type == 'drag-embedment anchor'):
+    #             list_of_phases[phase_group] = 'M_Drag'
+    #
+    #         if any(foundations_type == 'direct embedment'):
+    #             list_of_phases[phase_group] = 'M_Direct'
+    #
+    #         if any(foundations_type == 'suction caisson anchor'):
+    #             list_of_phases[phase_group] = 'M_Suction'
+    #
+    #         if any(foundations_type == 'pile anchor'):
+    #             list_of_phases[phase_group] = 'M_Pile'
+
+        # if phase_group == 'Electrical':
+        #     foundations_type = MF_outputs['foundation']['type [-]']
+        #
+        #     if any(foundations_type == 'pile foundation') or any(foundations_type == 'pile anchor'):
+        #         list_of_phases[phase_group] = 'Driven'
+        #
+        #     if any(foundations_type == 'gravity foundation') or any(foundations_type == 'gravity anchor') or any(foundations_type == 'shallow foundation') or any(foundations_type == 'shallow anchor'):
+        #         list_of_phases[phase_group] = 'Gravity'
+        #
+        #     if any(foundations_type == 'drag-embedment anchor'):
+        #         list_of_phases[phase_group] = 'M_Drag'
+        #
+        #     if any(foundations_type == 'direct embedment'):
+        #         list_of_phases[phase_group] = 'M_Direct'
+        #
+        #     if any(foundations_type == 'suction caisson anchor'):
+        #         list_of_phases[phase_group] = 'M_Suction'
+        #
+        #     if any(foundations_type == 'pile anchor'):
+        #         list_of_phases[phase_group] = 'M_Pile'
+
+
+
+
     install_seq = {}
 
     if user_inputs['device']['type [-]'].ix[0] == "seabed fixed":
